@@ -47,19 +47,19 @@ fun subTextColor() =
 @Composable
 fun mainGradient0() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFF965149),
-        lightModeColor = Color(0xFFEFA094)
-    )
-
-@Composable
-fun mainGradient1() =
-    onDarkModeOrNot(
         darkModeColor = Color(0xFFA75A52),
         lightModeColor = Color(0xFFFDACA0)
     )
 
 @Composable
-fun MainColor() =
+fun mainGradient1() =
+    onDarkModeOrNot(
+        darkModeColor = Color(0xFF965149),
+        lightModeColor = Color(0xFFEFA094)
+    )
+
+@Composable
+fun mainColor() =
     onDarkModeOrNot(
         darkModeColor = Color(0xFFBA7972),
         lightModeColor = Color(0xFFFEC2B9)
