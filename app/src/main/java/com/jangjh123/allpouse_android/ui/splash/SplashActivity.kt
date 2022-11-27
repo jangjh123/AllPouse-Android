@@ -55,18 +55,22 @@ private fun SplashActivityContent() {
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFF50312D),
-                        Color(0xFF603A36),
-                        Color(0xFF70443F),
-                        Color(0xFF804E48),
-                        Color(0xFF905851),
-                        Color(0xFFA0625B),
-                        Color(0xFFA0625B),
-                        Color(0xFF905851),
-                        Color(0xFF804E48),
-                        Color(0xFF70443F),
-                        Color(0xFF603A36),
-                        Color(0xFF50312D)
+                        Color(0xFF0F0806),
+                        Color(0xFF1E100c),
+                        Color(0xFF2d1812),
+                        Color(0xFF3C2018),
+                        Color(0xFF4C281E),
+                        Color(0xFF5B3024),
+                        Color(0xFF6A382A),
+                        Color(0xFF794030),
+                        Color(0xFF794030),
+                        Color(0xFF6A382A),
+                        Color(0xFF5B3024),
+                        Color(0xFF4C281E),
+                        Color(0xFF3C2018),
+                        Color(0xFF2d1812),
+                        Color(0xFF1E100c),
+                        Color(0xFF0F0806)
                     )
                 )
             )
