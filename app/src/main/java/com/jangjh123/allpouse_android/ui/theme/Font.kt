@@ -26,6 +26,6 @@ val cinzelBold = FontFamily(
     Font(R.font.cinzel_bold, FontWeight.Normal, FontStyle.Normal)
 )
 
-val cintzelExtraBold = FontFamily(
+val cinzelExtraBold = FontFamily(
     Font(R.font.cinzel_extra_bold, FontWeight.Normal, FontStyle.Normal)
 )

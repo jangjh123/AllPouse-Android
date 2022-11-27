@@ -34,7 +34,7 @@ import com.jangjh123.allpouse_android.ui.component.ComposableFunctions.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.HorizontalScrollConsumer
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
-import com.jangjh123.allpouse_android.ui.theme.cintzelExtraBold
+import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
 import kotlinx.coroutines.launch
 
@@ -147,7 +147,7 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                 text = stringResource(id = R.string.app),
                 color = Color.White,
                 fontSize = 12.sp,
-                fontFamily = cintzelExtraBold
+                fontFamily = cinzelExtraBold
             )
 
             APText(
