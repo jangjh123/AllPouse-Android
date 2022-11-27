@@ -19,15 +19,15 @@ fun background() =
 @Composable
 fun subBackground() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFF463232),
-        lightModeColor = Color(0xFFFbFbFb)
+        darkModeColor = Color(0xFF473D3C),
+        lightModeColor = Color(0xFFFAF9F9)
     )
 
 @Composable
 fun contentBackground() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFF553C3C),
-        lightModeColor = Color(0xFFF2F2F2)
+        darkModeColor = Color(0xFF7A6866),
+        lightModeColor = Color(0xFFF0EDEC)
     )
 
 @Composable
@@ -45,25 +45,13 @@ fun subTextColor() =
     )
 
 @Composable
-fun mainGradient0() =
-    onDarkModeOrNot(
-        darkModeColor = Color(0xFFA75A52),
-        lightModeColor = Color(0xFFFDACA0)
-    )
+fun mainGradient0() = Color(0xFFA75A52)
 
 @Composable
-fun mainGradient1() =
-    onDarkModeOrNot(
-        darkModeColor = Color(0xFF965149),
-        lightModeColor = Color(0xFFEFA094)
-    )
+fun mainGradient1() = Color(0xFFBA7972)
 
 @Composable
-fun mainColor() =
-    onDarkModeOrNot(
-        darkModeColor = Color(0xFFBA7972),
-        lightModeColor = Color(0xFFFEC2B9)
-    )
+fun mainColor() = Color(0xFF965149)
 
 @Composable
 fun onDarkModeOrNot(darkModeColor: Color, lightModeColor: Color): Color {
