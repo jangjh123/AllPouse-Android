@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">AllPouse-Android</string>
+    <string name="app">AllPouse</string>
+    <!--    Common-->
+    <string name="next">다음</string>
+    <string name="start">시작하기</string>
+
+    <!--    OnboardingActivity-->
+    <string name="center_text_page_0">나를 위한 향수.</string>
+    <string name="desc_page_0">알고리즘을 활용하여\n당신만을 위한 향수를 추천합니다.</string>
+    <string name="center_text_page_1">내가 만드는 향수.</string>
+    <string name="desc_page_1">조향에 관심이 있으신가요?\n조향사들의 도움을 받아 당신만의 특별한 향수를 만들어봐요.</string>
+    <string name="center_text_page_2">내가 고르는 향수.</string>
+    <string name="desc_page_2">수많은 향수들, 너무 복잡하지는 않았나요?\n세분화된 리뷰를 통해 당신에게 어울릴 더 향기로운 향수를 찾아봅니다.</string>
+    <!--    OnboardingActivity-->
 </resources>

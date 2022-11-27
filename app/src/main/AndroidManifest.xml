@@ -14,9 +14,15 @@
         android:theme="@style/Theme.AllPouseAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".ui.on_boarding.OnBoardingActivity"
+            android:exported="false"
+            android:noHistory="true"
+            android:theme="@style/Theme.AllPouseAndroid" />
+        <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:noHistory="true"
             android:theme="@style/Theme.AllPouseAndroid">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
