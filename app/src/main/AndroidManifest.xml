@@ -16,7 +16,6 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
-            android:noHistory="true"
             android:theme="@style/Theme.AllPouseAndroid" />
         <activity
             android:name=".ui.on_boarding.OnBoardingActivity"

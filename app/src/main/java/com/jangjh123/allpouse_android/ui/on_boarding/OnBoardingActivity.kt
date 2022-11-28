@@ -31,7 +31,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.ComposableFunctions.APText
+import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.HorizontalScrollConsumer
 import com.jangjh123.allpouse_android.ui.login.LoginActivity

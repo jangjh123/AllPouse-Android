@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.ComposableFunctions.APText
+import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.on_boarding.OnBoardingActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
