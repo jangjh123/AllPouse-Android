@@ -183,14 +183,11 @@ private fun LoginButton(
             contentScale = ContentScale.FillBounds
         )
 
-        Text(
+        APText(
+            modifier = Modifier.align(Center).padding(start = 16.dp),
             text = stringResource(id = textId),
-            fontSize = 15.sp,
-            letterSpacing = (-0.5).sp,
-            color = Color.Black,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(start = 16.dp)
+            fontSize = 14.sp,
+            fontColor = Color.Black
         )
     }
 }
