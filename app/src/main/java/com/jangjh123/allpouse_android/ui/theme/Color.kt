@@ -12,22 +12,22 @@ val Teal200 = Color(0xFF03DAC5)
 @Composable
 fun background() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFF372727),
-        lightModeColor = Color(0xFFFFFFFF)
+        darkModeColor = Color(0xFF170F0D),
+        lightModeColor = Color(0xFFF3E5E1)
     )
 
 @Composable
 fun subBackground() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFF473D3C),
-        lightModeColor = Color(0xFFFAF9F9)
+        darkModeColor = Color(0xFF281510),
+        lightModeColor = Color(0xFFEDD9D3)
     )
 
 @Composable
 fun contentBackground() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFF7A6866),
-        lightModeColor = Color(0xFFF0EDEC)
+        darkModeColor = Color(0xFF361D16),
+        lightModeColor = Color(0xFFE8CDC5)
     )
 
 @Composable
