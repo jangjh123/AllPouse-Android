@@ -99,7 +99,7 @@ private fun LoginActivityContent(
             }
             Column(
                 modifier = Modifier
-                    .clip(shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                    .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
                     .weight(0.4f)
                     .fillMaxWidth()
                     .background(color = Color(0x55000000))
