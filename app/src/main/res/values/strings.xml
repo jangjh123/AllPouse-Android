@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">AllPouse-Android</string>
-    <string name="app">All Pouse.</string>
-    <string name="desc_app" tools:ignore="ExtraTranslation">당신을 위한 향수 추천 앱.</string>
+    <string name="app">All Pouse</string>
+    <string name="desc_app" tools:ignore="ExtraTranslation">당신을 위한 향수 추천 앱</string>
 
     <!--    Common-->
     <string name="next">다음</string>
@@ -21,13 +21,14 @@
     <string name="google_login">Google 계정으로 로그인</string>
     <string name="kakao_login">카카오 계정으로 로그인</string>
     <string name="title_activity_sign_in">SignInActivity</string>]
-    <!--    SignUpScreen-->
-    <string name="nickName">닉네임</string>
-    <string name="gender">성별</string>
-    <string name="male">남성</string>
-    <string name="female">여성</string>
-    <string name="age">연령</string>
-    <!--    SignUpScreen-->
+        <!--    SignUpScreen-->
+        <string name="nickName">닉네임</string>
+        <string name="gender">성별</string>
+        <string name="male">남성</string>
+        <string name="female">여성</string>
+        <string name="age">연령</string>
+        <string name="title_activity_main">MainActivity</string>
+        <!--    SignUpScreen-->
     <!--    LoginActivity-->
 
 
