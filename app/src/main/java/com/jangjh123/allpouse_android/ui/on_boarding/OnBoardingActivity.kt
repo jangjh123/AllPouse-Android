@@ -1,5 +1,6 @@
 package com.jangjh123.allpouse_android.ui.on_boarding
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,6 +34,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.ComposableFunctions.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.HorizontalScrollConsumer
+import com.jangjh123.allpouse_android.ui.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
@@ -44,7 +46,7 @@ class OnBoardingActivity : ComponentActivity() {
         setContent {
             AllPouseAndroidTheme {
                 OnBoardingActivityContent(onClickStart = {
-//                    startActivity(Intent(this, ))
+                    startActivity(Intent(this@OnBoardingActivity, LoginActivity::class.java))
                 })
             }
         }
