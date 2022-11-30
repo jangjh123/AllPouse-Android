@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -90,6 +91,55 @@ fun APText(
         } ?: mainTextColor()
     )
 }
+
+@Composable
+fun APAppendedText(
+    modifier: Modifier? = Modifier,
+    annotatedString: AnnotatedString,
+    fontSize: TextUnit? = null,
+    fontType: FontType? = null,
+    textAlign: TextAlign? = null,
+    letterSpacing: TextUnit? = null,
+    fontColor: Color? = null
+) {
+    Text(
+        modifier = modifier.let {
+            modifier?.wrapContentSize()
+        } ?: Modifier.wrapContentSize(),
+        text = annotatedString,
+        fontSize = fontSize.let {
+            fontSize
+        } ?: 14.sp,
+        fontFamily =
+        when (fontType) {
+            FontType.Light -> {
+                notoSansLight
+            }
+            FontType.Medium -> {
+                notoSansMedium
+            }
+            FontType.Bold -> {
+                notoSansBold
+            }
+            null -> {
+                notoSansMedium
+            }
+        },
+        style = TextStyle(
+            platformStyle = PlatformTextStyle(includeFontPadding = false)
+        ),
+        textAlign = textAlign.let {
+            textAlign
+        } ?: TextAlign.Start,
+        letterSpacing = letterSpacing.let {
+            letterSpacing
+        } ?: (-0.5).sp,
+        color = fontColor.let {
+            fontColor
+        } ?: mainTextColor()
+    )
+}
+
 
 @Composable
 fun GradientButton(

@@ -204,7 +204,7 @@ private fun MainActivityContent(windowManager: WindowManager) {
         }
     ) {
         NavHost(navController = navController, startDestination = Home.route) {
-            composable(Home.route) { HomeScreen(windowManager) }
+            composable(Home.route) { HomeScreen() }
             composable(Shop.route) { }
             composable(Review.route) { }
             composable(MyInfo.route) { }

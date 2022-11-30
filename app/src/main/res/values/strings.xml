@@ -21,15 +21,22 @@
     <string name="google_login">Google 계정으로 로그인</string>
     <string name="kakao_login">카카오 계정으로 로그인</string>
     <string name="title_activity_sign_in">SignInActivity</string>]
-        <!--    SignUpScreen-->
-        <string name="nickName">닉네임</string>
-        <string name="gender">성별</string>
-        <string name="male">남성</string>
-        <string name="female">여성</string>
-        <string name="age">연령</string>
-        <string name="title_activity_main">MainActivity</string>
-        <!--    SignUpScreen-->
+    <!--    SignUpScreen-->
+    <string name="nickName">닉네임</string>
+    <string name="gender">성별</string>
+    <string name="male">남성</string>
+    <string name="female">여성</string>
+    <string name="age">연령</string>
+    <!--    SignUpScreen-->
     <!--    LoginActivity-->
 
+    <!--    MainScreen-->
+    <string name="perfumes_for_you">님을 위한 향수</string>
+    <string name="popular_perfumes">요즘 뜨는 향수</string>
+    <string name="popular_review"></string>
+    <string name="order_by_hit">조회 순</string>
+    <string name="order_by_recommend">추천 순</string>
+
+    <!--    MainScreen-->
 
 </resources>
