@@ -5,15 +5,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -70,36 +74,7 @@ val dummyPerfumesForYou = listOf(
         "Test2",
         "in all browsers."
     ),
-    Triple(
-        R.drawable.perfume_test_0,
-        "Test0",
-        "Hexadecimal"
-    ),
-    Triple(
-        R.drawable.perfume_test_1,
-        "Test1",
-        "are also"
-    ),
-    Triple(
-        R.drawable.perfume_test_2,
-        "Test2",
-        "Hexadecimal"
-    ),
-    Triple(
-        R.drawable.perfume_test_0,
-        "Test0",
-        "browsers."
-    ),
-    Triple(
-        R.drawable.perfume_test_1,
-        "Test1",
-        "supported"
-    ),
-    Triple(
-        R.drawable.perfume_test_2,
-        "Test2",
-        "in all browsers."
-    )
+    Unit
 )
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
@@ -155,7 +130,7 @@ fun HomeScreen() {
         }
 
         APAppendedText(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
             annotatedString = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = mainTextColor())) {
                     append("지호")
@@ -170,50 +145,106 @@ fun HomeScreen() {
         )
 
         CompositionLocalProvider(LocalOverscrollConfiguration.provides(null)) {
+            val localDensity = LocalDensity.current
+            val itemHeight = remember { mutableStateOf(0.dp) }
+
             LazyRow(
                 modifier = Modifier
                     .wrapContentSize()
+                    .padding(horizontal = 10.dp)
             ) {
                 items(dummyPerfumesForYou) { perfume ->
-                    Card(
-                        modifier = Modifier
-                            .wrapContentHeight()
-                            .width(136.dp)
-                            .padding(horizontal = 12.dp),
-                        elevation = 4.dp,
-                        shape = RoundedCornerShape(12.dp),
-                        backgroundColor = subBackground()
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Image(
+                    when (perfume) {
+                        is Triple<*, *, *> -> {
+                            Box(
                                 modifier = Modifier
-                                    .padding(8.dp)
-                                    .size(120.dp)
-                                    .clip(shape = RoundedCornerShape(12.dp))
-                                    .background(contentBackground()),
-                                painter = painterResource(id = perfume.first),
-                                contentDescription = "perfumeImage",
-                                contentScale = ContentScale.FillBounds
-                            )
-                            APText(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                text = perfume.second,
-                                fontColor = mainTextColor(),
-                                fontSize = 14.sp
-                            )
-                            APText(
+                                    .wrapContentHeight()
+                                    .width(136.dp)
+                                    .padding(horizontal = 4.dp)
+                                    .clip(RoundedCornerShape(2.dp))
+                                    .background(color = subBackground())
+                                    .onGloballyPositioned { coordinates ->
+                                        itemHeight.value = with(localDensity) {
+                                            coordinates.size.height.toDp()
+                                        }
+                                    }
+                            ) {
+                                Column(modifier = Modifier.fillMaxSize()) {
+                                    Image(
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 8.dp,
+                                                start = 8.dp,
+                                                end = 8.dp
+                                            )
+                                            .size(120.dp)
+                                            .clip(shape = RoundedCornerShape(2.dp))
+                                            .background(contentBackground())
+                                            .padding(10.dp),
+                                        painter = painterResource(id = perfume.first as Int),
+                                        contentDescription = "perfumeImage",
+                                        contentScale = ContentScale.FillBounds
+                                    )
+                                    APText(
+                                        modifier = Modifier.padding(
+                                            top = 4.dp,
+                                            start = 8.dp,
+                                            end = 8.dp
+                                        ),
+                                        text = perfume.second as String,
+                                        fontColor = mainTextColor(),
+                                        fontSize = 14.sp
+                                    )
+                                    APText(
+                                        modifier = Modifier
+                                            .padding(horizontal = 8.dp)
+                                            .padding(bottom = 8.dp),
+                                        text = perfume.third as String,
+                                        fontColor = subTextColor(),
+                                        fontSize = 12.sp
+                                    )
+                                }
+                            }
+                        }
+                        is Unit -> {
+                            Box(
                                 modifier = Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .padding(bottom = 8.dp),
-                                text = perfume.third,
-                                fontColor = subTextColor(),
-                                fontSize = 12.sp
-                            )
+                                    .width(136.dp)
+                                    .height(itemHeight.value)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .wrapContentSize()
+                                ) {
+                                    Image(
+                                        modifier = Modifier
+                                            .size(36.dp)
+                                            .align(Alignment.CenterHorizontally),
+                                        painter = painterResource(id = R.drawable.ic_arrow_foward),
+                                        colorFilter = ColorFilter.tint(color = subTextColor()),
+                                        contentDescription = null
+                                    )
+
+                                    APText(
+                                        modifier = Modifier.padding(4.dp),
+                                        text = stringResource(id = R.string.show_more),
+                                        fontColor = subTextColor()
+                                    )
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+
+        APText(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
+            text = stringResource(id = R.string.popular_perfumes),
+            fontSize = 20.sp,
+            fontType = FontType.Bold
+        )
     }
 }
 

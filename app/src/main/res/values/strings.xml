@@ -6,6 +6,7 @@
     <!--    Common-->
     <string name="next">다음</string>
     <string name="start">시작하기</string>
+    <string name="show_more">더 보기</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -33,7 +34,7 @@
     <!--    MainScreen-->
     <string name="perfumes_for_you">님을 위한 향수</string>
     <string name="popular_perfumes">요즘 뜨는 향수</string>
-    <string name="popular_review"></string>
+    <string name="popular_reviews">주목받는 리뷰</string>
     <string name="order_by_hit">조회 순</string>
     <string name="order_by_recommend">추천 순</string>
 

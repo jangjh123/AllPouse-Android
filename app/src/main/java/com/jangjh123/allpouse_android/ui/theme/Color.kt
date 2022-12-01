@@ -20,21 +20,21 @@ fun background() =
 fun subBackground() =
     onDarkModeOrNot(
         darkModeColor = Color(0xFF1D1D1D),
-        lightModeColor = Color(0xFFFAFAFA)
+        lightModeColor = Color(0xFFF8F8F8)
     )
 
 @Composable
 fun contentBackground() =
     onDarkModeOrNot(
         darkModeColor = Color(0xFF232323),
-        lightModeColor = Color(0xFFF5F5F5)
+        lightModeColor = Color(0xFFF2F2F2)
     )
 
 @Composable
 fun mainTextColor() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFFE5E5E5),
-        lightModeColor = Color(0xFF494949)
+        darkModeColor = Color(0xFFEFEFEF),
+        lightModeColor = Color(0xFF010101)
     )
 
 @Composable
