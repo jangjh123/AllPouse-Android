@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.BottomEnd
@@ -34,6 +36,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.HorizontalScrollConsumer
+import com.jangjh123.allpouse_android.ui.component.OverScrollDisabledScope
 import com.jangjh123.allpouse_android.ui.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
@@ -78,7 +81,7 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        CompositionLocalProvider(LocalOverscrollConfiguration.provides(null)) {
+        OverScrollDisabledScope {
             HorizontalPager(
                 state = pagerState,
                 count = 3,

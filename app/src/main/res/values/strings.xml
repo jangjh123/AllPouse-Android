@@ -7,6 +7,7 @@
     <string name="next">다음</string>
     <string name="start">시작하기</string>
     <string name="show_more">더 보기</string>
+    <string name="edit">수정하기</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -21,7 +22,7 @@
     <string name="social_login">소셜 로그인으로 간편하게 시작해요</string>
     <string name="google_login">Google 계정으로 로그인</string>
     <string name="kakao_login">카카오 계정으로 로그인</string>
-    <string name="title_activity_sign_in">SignInActivity</string>]
+    <string name="title_activity_sign_in">SignInActivity</string>
     <!--    SignUpScreen-->
     <string name="nickName">닉네임</string>
     <string name="gender">성별</string>
@@ -32,11 +33,13 @@
     <!--    LoginActivity-->
 
     <!--    MainScreen-->
-    <string name="perfumes_for_you">님을 위한 향수</string>
+    <string name="taste_keyword">나의 취향 키워드</string>
+    <string name="perfumes_recommended">님을 위한 향수</string>
     <string name="popular_perfumes">요즘 뜨는 향수</string>
     <string name="popular_reviews">주목받는 리뷰</string>
     <string name="order_by_hit">조회 순</string>
     <string name="order_by_recommend">추천 순</string>
+    <string name="go_for_more_reviews"> 더 많은 리뷰 보기</string>
 
     <!--    MainScreen-->
 
