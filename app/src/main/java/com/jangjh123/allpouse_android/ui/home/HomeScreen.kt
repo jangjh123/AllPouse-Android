@@ -53,31 +53,43 @@ val dummyTasteKeyword = listOf(
     "대용량"
 )
 
+data class DummyRecommended(
+    val image: Int,
+    val perfumeName: String,
+    val brandName: String,
+    val keywordCount: Int,
+)
+
 val dummyPerfumesForYou = listOf(
-    Triple(
+    DummyRecommended(
         R.drawable.perfume_test_0,
         "Test0",
-        "Hexadecimal"
+        "Hexadecimal",
+        5
     ),
-    Triple(
+    DummyRecommended(
         R.drawable.perfume_test_1,
         "Test1",
-        "color values"
+        "color values",
+        5
     ),
-    Triple(
+    DummyRecommended(
         R.drawable.perfume_test_2,
         "Test2",
-        "supported in"
+        "supported in",
+        4
     ),
-    Triple(
+    DummyRecommended(
         R.drawable.perfume_test_0,
         "Test0",
-        "all browsers."
+        "all browsers.",
+        4
     ),
-    Triple(
+    DummyRecommended(
         R.drawable.perfume_test_1,
         "Test1",
-        "Hexadecimal"
+        "Hexadecimal",
+        3
     )
 )
 
@@ -201,7 +213,7 @@ fun HomeScreen() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             APAppendedText(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
@@ -232,7 +244,7 @@ fun HomeScreen() {
                                 .wrapContentHeight()
                                 .width(160.dp)
                                 .padding(horizontal = 4.dp)
-                                .clip(RoundedCornerShape(2.dp))
+                                .clip(RoundedCornerShape(12.dp))
                                 .background(color = subBackground())
                                 .onGloballyPositioned { coordinates ->
                                     itemHeight.value = with(localDensity) {
@@ -249,31 +261,51 @@ fun HomeScreen() {
                                             end = 8.dp
                                         )
                                         .size(160.dp)
-                                        .clip(shape = RoundedCornerShape(2.dp))
+                                        .clip(shape = RoundedCornerShape(12.dp))
                                         .background(contentBackground())
                                         .padding(10.dp),
-                                    painter = painterResource(id = perfume.first),
+                                    painter = painterResource(id = perfume.image),
                                     contentDescription = "perfumeImage",
                                     contentScale = ContentScale.FillBounds
                                 )
                                 APText(
                                     modifier = Modifier.padding(
                                         top = 4.dp,
-                                        start = 8.dp,
-                                        end = 8.dp
+                                        start = 10.dp,
+                                        end = 10.dp
                                     ),
-                                    text = perfume.second,
+                                    text = perfume.perfumeName,
                                     fontColor = mainTextColor(),
                                     fontSize = 14.sp
                                 )
                                 APText(
                                     modifier = Modifier
-                                        .padding(horizontal = 8.dp)
-                                        .padding(bottom = 8.dp),
-                                    text = perfume.third,
+                                        .padding(horizontal = 10.dp),
+                                    text = perfume.brandName,
                                     fontColor = subTextColor(),
                                     fontSize = 12.sp
                                 )
+                                APAppendedText(modifier = Modifier
+                                    .padding(horizontal = 10.dp)
+                                    .padding(bottom = 8.dp),
+                                    annotatedString = buildAnnotatedString {
+                                        withStyle(style = SpanStyle(color = subTextColor(),
+                                            fontSize = 12.sp)) {
+                                            append("5개 중")
+                                            append(" ")
+                                        }
+                                        withStyle(style = SpanStyle(color = mainColor(),
+                                            fontSize = 12.sp)) {
+                                            append("${perfume.keywordCount}")
+                                        }
+                                        withStyle(style = SpanStyle(color = subTextColor(),
+                                            fontSize = 12.sp)) {
+                                            append(" ")
+                                            append("개")
+                                            append(" ")
+                                            append("일치")
+                                        }
+                                    })
                             }
                         }
                     }
@@ -309,7 +341,7 @@ fun HomeScreen() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             APText(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
@@ -364,7 +396,7 @@ fun HomeScreen() {
                     fontSize = 14.sp)
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             APText(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
