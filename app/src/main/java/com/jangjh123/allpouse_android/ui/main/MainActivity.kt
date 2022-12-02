@@ -1,12 +1,8 @@
 package com.jangjh123.allpouse_android.ui.main
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -44,15 +40,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AllPouseAndroidTheme {
-                MainActivityContent(windowManager)
+                MainActivityContent()
             }
         }
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-private fun MainActivityContent(windowManager: WindowManager) {
+private fun MainActivityContent() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = navBackStackEntry?.destination
@@ -202,8 +197,10 @@ private fun MainActivityContent(windowManager: WindowManager) {
                 )
             }
         }
-    ) {
-        NavHost(navController = navController, startDestination = Home.route) {
+    ) { scaffoldPadding ->
+        NavHost(modifier = Modifier.padding(scaffoldPadding),
+            navController = navController,
+            startDestination = Home.route) {
             composable(Home.route) { HomeScreen() }
             composable(Shop.route) { }
             composable(Review.route) { }
