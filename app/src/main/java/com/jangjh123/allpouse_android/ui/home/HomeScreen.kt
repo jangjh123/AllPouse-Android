@@ -192,7 +192,7 @@ fun HomeScreen() {
                             .padding(horizontal = 4.dp)
                             .clip(RoundedCornerShape(24.dp))
                             .width(100.dp)
-                            .height(40.dp)
+                            .height(36.dp)
                             .background(contentBackground())) {
                             Row(modifier = Modifier.align(Center)) {
                                 Image(
