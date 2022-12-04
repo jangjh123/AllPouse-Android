@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">AllPouse-Android</string>
     <string name="app">All Pouse</string>
+    <string name="app_korean">올파우스</string>
     <string name="desc_app" tools:ignore="ExtraTranslation">당신을 위한 향수 추천 앱</string>
 
     <!--    Common-->
@@ -8,6 +9,8 @@
     <string name="start">시작하기</string>
     <string name="show_more">더 보기</string>
     <string name="edit">수정하기</string>
+    <string name="perfumer_talk">퍼퓨머톡</string>
+    <string name="best_post">인기글</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -37,9 +40,11 @@
     <string name="perfumes_recommended">님을 위한 향수</string>
     <string name="popular_perfumes">요즘 뜨는 향수</string>
     <string name="popular_reviews">주목받는 리뷰</string>
-    <string name="order_by_hit">조회 순</string>
-    <string name="order_by_recommend">추천 순</string>
-    <string name="go_for_more_reviews"> 더 많은 리뷰 보기</string>
+    <string name="age_gender_best">%d대 %s 인기 향수</string>
+    <string name="go_for_more_posts">더 많은 게시물 보기</string>
+    <string name="go_for_more_reviews">더 많은 리뷰 보기</string>
+    <string name="go_for_more_perfumes">더 많은 향수 보기</string>
+
 
     <!--    MainScreen-->
 
