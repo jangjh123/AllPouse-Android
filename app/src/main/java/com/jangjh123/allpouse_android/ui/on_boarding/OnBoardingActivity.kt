@@ -36,7 +36,6 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.HorizontalScrollConsumer
-import com.jangjh123.allpouse_android.ui.component.OverScrollDisabledScope
 import com.jangjh123.allpouse_android.ui.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
@@ -81,99 +80,97 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        OverScrollDisabledScope {
-            HorizontalPager(
-                state = pagerState,
-                count = 3,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .nestedScroll(HorizontalScrollConsumer)
-            ) { page ->
-                val item = screens[page]
-                Box(Modifier.fillMaxSize()) {
-                    Image(
-                        modifier = Modifier.fillMaxSize(),
-                        painter = item.first,
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
-                    )
+        HorizontalPager(
+            state = pagerState,
+            count = 3,
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(HorizontalScrollConsumer)
+        ) { page ->
+            val item = screens[page]
+            Box(Modifier.fillMaxSize()) {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = item.first,
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                )
 
-                    Column(Modifier.fillMaxSize()) {
-                        Box(modifier = Modifier.weight(0.6f))
-                        Box(
+                Column(Modifier.fillMaxSize()) {
+                    Box(modifier = Modifier.weight(0.6f))
+                    Box(
+                        modifier = Modifier
+                            .weight(0.4f)
+                            .fillMaxWidth()
+                            .background(color = Color(0x99000000))
+                    ) {
+                        Column(
                             modifier = Modifier
-                                .weight(0.4f)
-                                .fillMaxWidth()
-                                .background(color = Color(0x99000000))
+                                .fillMaxSize()
+                                .padding(20.dp)
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(20.dp)
-                            ) {
-                                APText(
-                                    modifier = Modifier.align(CenterHorizontally),
-                                    text = item.second,
-                                    fontColor = mainColor(),
-                                    fontSize = 24.sp,
-                                    fontType = FontType.Bold,
-                                )
+                            APText(
+                                modifier = Modifier.align(CenterHorizontally),
+                                text = item.second,
+                                fontColor = mainColor(),
+                                fontSize = 24.sp,
+                                fontType = FontType.Bold,
+                            )
 
-                                APText(
-                                    modifier = Modifier
-                                        .padding(top = 30.dp)
-                                        .align(CenterHorizontally),
-                                    text = item.third,
-                                    fontSize = 14.sp,
-                                    fontColor = Color.LightGray,
-                                    textAlign = TextAlign.Center
-                                )
-                            }
+                            APText(
+                                modifier = Modifier
+                                    .padding(top = 30.dp)
+                                    .align(CenterHorizontally),
+                                text = item.third,
+                                fontSize = 14.sp,
+                                fontColor = Color.LightGray,
+                                textAlign = TextAlign.Center
+                            )
                         }
                     }
                 }
             }
-
-            HorizontalPagerIndicator(
-                pagerState = pagerState,
-                activeColor = mainColor(), inactiveColor = Color.LightGray,
-                modifier = Modifier
-                    .align(BottomStart)
-                    .padding(20.dp)
-            )
-
-            Text(
-                modifier = Modifier
-                    .align(BottomCenter)
-                    .padding(bottom = 15.dp),
-                style = TextStyle(
-                    platformStyle = PlatformTextStyle(includeFontPadding = false)
-                ),
-                text = stringResource(id = R.string.app),
-                color = Color.White,
-                fontSize = 12.sp,
-                fontFamily = cinzelExtraBold
-            )
-
-            APText(
-                modifier = Modifier
-                    .align(BottomEnd)
-                    .padding(end = 20.dp, bottom = 13.dp)
-                    .clickable {
-                        if (pagerState.currentPage == 2) {
-                            onClickStart()
-                        } else {
-                            scope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            }
-                        }
-                    },
-                text = if (pagerState.currentPage == 2) stringResource(id = R.string.start) else stringResource(
-                    id = R.string.next
-                ),
-                fontColor = Color.White
-            )
         }
+
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            activeColor = mainColor(), inactiveColor = Color.LightGray,
+            modifier = Modifier
+                .align(BottomStart)
+                .padding(20.dp)
+        )
+
+        Text(
+            modifier = Modifier
+                .align(BottomCenter)
+                .padding(bottom = 15.dp),
+            style = TextStyle(
+                platformStyle = PlatformTextStyle(includeFontPadding = false)
+            ),
+            text = stringResource(id = R.string.app),
+            color = Color.White,
+            fontSize = 12.sp,
+            fontFamily = cinzelExtraBold
+        )
+
+        APText(
+            modifier = Modifier
+                .align(BottomEnd)
+                .padding(end = 20.dp, bottom = 13.dp)
+                .clickable {
+                    if (pagerState.currentPage == 2) {
+                        onClickStart()
+                    } else {
+                        scope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    }
+                },
+            text = if (pagerState.currentPage == 2) stringResource(id = R.string.start) else stringResource(
+                id = R.string.next
+            ),
+            fontColor = Color.White
+        )
     }
 }
 

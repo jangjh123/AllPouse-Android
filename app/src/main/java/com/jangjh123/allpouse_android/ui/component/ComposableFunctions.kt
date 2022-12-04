@@ -381,14 +381,6 @@ fun ReviewListItem(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun OverScrollDisabledScope(content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalOverscrollConfiguration.provides(null)) {
-        content()
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
