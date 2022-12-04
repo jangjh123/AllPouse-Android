@@ -1,5 +1,6 @@
 package com.jangjh123.allpouse_android.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
+import com.jangjh123.allpouse_android.ui.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -61,7 +63,7 @@ class LoginActivity : ComponentActivity() {
                         }
                     },
                     onClickStartButton = {
-
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     },
                     onClickClose = {
                         scope.launch {

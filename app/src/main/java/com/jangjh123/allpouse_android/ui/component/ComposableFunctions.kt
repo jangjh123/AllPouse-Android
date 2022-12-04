@@ -1,17 +1,14 @@
 package com.jangjh123.allpouse_android.ui.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -19,6 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterEnd
+import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
@@ -27,9 +27,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -51,7 +53,8 @@ fun APText(
     fontType: FontType? = null,
     textAlign: TextAlign? = null,
     letterSpacing: TextUnit? = null,
-    fontColor: Color? = null
+    fontColor: Color? = null,
+    lines: Int? = null,
 ) {
     Text(
         modifier = modifier.let {
@@ -87,16 +90,69 @@ fun APText(
         } ?: (-0.5).sp,
         color = fontColor.let {
             fontColor
-        } ?: mainTextColor()
+        } ?: mainTextColor(),
+        maxLines = lines.let {
+            lines
+        } ?: Int.MAX_VALUE,
+        overflow = TextOverflow.Ellipsis
     )
 }
+
+@Composable
+fun APAppendedText(
+    modifier: Modifier? = Modifier,
+    annotatedString: AnnotatedString,
+    fontSize: TextUnit? = null,
+    fontType: FontType? = null,
+    textAlign: TextAlign? = null,
+    letterSpacing: TextUnit? = null,
+    fontColor: Color? = null,
+) {
+    Text(
+        modifier = modifier.let {
+            modifier?.wrapContentSize()
+        } ?: Modifier.wrapContentSize(),
+        text = annotatedString,
+        fontSize = fontSize.let {
+            fontSize
+        } ?: 14.sp,
+        fontFamily =
+        when (fontType) {
+            FontType.Light -> {
+                notoSansLight
+            }
+            FontType.Medium -> {
+                notoSansMedium
+            }
+            FontType.Bold -> {
+                notoSansBold
+            }
+            null -> {
+                notoSansMedium
+            }
+        },
+        style = TextStyle(
+            platformStyle = PlatformTextStyle(includeFontPadding = false)
+        ),
+        textAlign = textAlign.let {
+            textAlign
+        } ?: TextAlign.Start,
+        letterSpacing = letterSpacing.let {
+            letterSpacing
+        } ?: (-0.5).sp,
+        color = fontColor.let {
+            fontColor
+        } ?: mainTextColor(),
+    )
+}
+
 
 @Composable
 fun GradientButton(
     modifier: Modifier,
     text: String,
     fontSize: TextUnit? = 14.sp,
-    onClickButton: () -> Unit
+    onClickButton: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -129,7 +185,7 @@ fun APTextField(
     textFieldState: MutableState<String>,
     onValueChanged: (String) -> Unit,
     focusManager: FocusManager,
-    keyboardOptions: KeyboardOptions? = null
+    keyboardOptions: KeyboardOptions? = null,
 ) {
     CompositionLocalProvider(LocalTextSelectionColors.provides(textSelectionColor())) {
         TextField(
@@ -174,16 +230,166 @@ fun CloseIcon(modifier: Modifier) {
     )
 }
 
+@Composable
+fun ReviewListItem(
+    modifier: Modifier,
+    score: Float,
+    perfumeName: String,
+    image: Int,
+    title: String,
+    body: String,
+    author: String, // User
+    authorImage: Int,
+    hit: Int,
+    recommend: Int,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = subBackground())
+    ) {
+        Column(
+            Modifier
+                .wrapContentSize()
+                .padding(4.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(4.dp)
+            ) {
+                APText(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .align(CenterStart),
+                    text = title,
+                    fontSize = 14.sp,
+                    lines = 1,
+                    fontType = FontType.Bold
+                )
+
+                Row(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(CenterEnd)
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .clip(shape = CircleShape)
+                            .size(24.dp),
+                        painter = painterResource(id = authorImage),
+                        contentDescription = "reviewAuthorImage",
+                        contentScale = ContentScale.FillBounds
+                    )
+
+                    APText(
+                        modifier = Modifier
+                            .align(CenterVertically),
+                        text = author,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+
+            Row {
+                Image(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .clip(shape = RoundedCornerShape(12.dp))
+                        .size(100.dp)
+                        .background(color = contentBackground()),
+                    painter = painterResource(id = image),
+                    contentDescription = "reviewImage",
+                    contentScale = ContentScale.FillBounds
+                )
+
+                Box(
+                    Modifier
+                        .padding(4.dp)
+                        .height(100.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        APText(
+                            text = perfumeName,
+                            fontSize = 14.sp
+                        )
+                        APText(
+                            text = body,
+                            fontSize = 11.sp,
+                            lines = 2,
+                            fontColor = subTextColor()
+                        )
+                    }
+
+                    APText(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .align(Alignment.BottomStart),
+                        text = "$score", fontSize = 18.sp,
+                        fontColor = mainColor(),
+                        fontType = FontType.Bold
+                    )
+
+                    Row(modifier = Modifier.align(Alignment.BottomEnd)) {
+                        Icon(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .align(CenterVertically),
+                            painter = painterResource(id = R.drawable.ic_viewed),
+                            contentDescription = "viewedIcon",
+                            tint = subTextColor()
+                        )
+
+                        APText(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .align(CenterVertically),
+                            text = "$hit",
+                            fontSize = 10.sp,
+                            fontColor = subTextColor()
+                        )
+
+                        Icon(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .align(CenterVertically),
+                            painter = painterResource(id = R.drawable.ic_filled_heart),
+                            contentDescription = "viewedIcon",
+                            tint = subTextColor()
+                        )
+
+                        APText(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .align(CenterVertically),
+                            text = "$recommend",
+                            fontSize = 10.sp,
+                            fontColor = subTextColor()
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun OverScrollDisabledScope(content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalOverscrollConfiguration.provides(null)) {
+        content()
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    GradientButton(
-        modifier = Modifier
-            .width(300.dp)
-            .height(60.dp),
-        text = "example",
-        onClickButton = {
-
-        }
-    )
 }
