@@ -2,11 +2,13 @@ package com.jangjh123.allpouse_android.ui.component
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -14,6 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterEnd
+import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
@@ -238,43 +243,138 @@ fun ReviewListItem(
     hit: Int,
     recommend: Int,
 ) {
-    Box(modifier = modifier
-        .fillMaxWidth()
-        .height(108.dp)
-        .clip(RoundedCornerShape(12.dp))
-        .background(color = subBackground())
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = subBackground())
     ) {
-        Column(Modifier
-            .wrapContentSize()
-            .padding(4.dp)) {
-            Row {
-                Image(modifier = Modifier
+        Column(
+            Modifier
+                .wrapContentSize()
+                .padding(4.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
                     .padding(4.dp)
-                    .clip(shape = RoundedCornerShape(12.dp))
-                    .size(100.dp)
-                    .background(color = contentBackground()),
+            ) {
+                APText(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .align(CenterStart),
+                    text = title,
+                    fontSize = 14.sp,
+                    lines = 1,
+                    fontType = FontType.Bold
+                )
+
+                Row(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(CenterEnd)
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .clip(shape = CircleShape)
+                            .size(24.dp),
+                        painter = painterResource(id = authorImage),
+                        contentDescription = "reviewAuthorImage",
+                        contentScale = ContentScale.FillBounds
+                    )
+
+                    APText(
+                        modifier = Modifier
+                            .align(CenterVertically),
+                        text = author,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+
+            Row {
+                Image(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .clip(shape = RoundedCornerShape(12.dp))
+                        .size(100.dp)
+                        .background(color = contentBackground()),
                     painter = painterResource(id = image),
                     contentDescription = "reviewImage",
-                    contentScale = ContentScale.FillBounds)
+                    contentScale = ContentScale.FillBounds
+                )
 
-                Column(modifier = Modifier
-                    .wrapContentSize()
-                    .padding(horizontal = 8.dp, vertical = 4.dp)) {
+                Box(
+                    Modifier
+                        .padding(4.dp)
+                        .height(100.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        APText(
+                            text = perfumeName,
+                            fontSize = 14.sp
+                        )
+                        APText(
+                            text = body,
+                            fontSize = 11.sp,
+                            lines = 2,
+                            fontColor = subTextColor()
+                        )
+                    }
+
                     APText(
-                        text = perfumeName,
-                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .align(Alignment.BottomStart),
+                        text = "$score", fontSize = 18.sp,
+                        fontColor = mainColor(),
                         fontType = FontType.Bold
                     )
-                    APText(
-                        modifier = Modifier.padding(top = 4.dp),
-                        text = title,
-                        fontSize = 12.sp,
-                        lines = 1)
-                    APText(
-                        text = body,
-                        fontSize = 11.sp,
-                        lines = 2,
-                        fontColor = subTextColor())
+
+                    Row(modifier = Modifier.align(Alignment.BottomEnd)) {
+                        Icon(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .align(CenterVertically),
+                            painter = painterResource(id = R.drawable.ic_viewed),
+                            contentDescription = "viewedIcon",
+                            tint = subTextColor()
+                        )
+
+                        APText(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .align(CenterVertically),
+                            text = "$hit",
+                            fontSize = 10.sp,
+                            fontColor = subTextColor()
+                        )
+
+                        Icon(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .align(CenterVertically),
+                            painter = painterResource(id = R.drawable.ic_filled_heart),
+                            contentDescription = "viewedIcon",
+                            tint = subTextColor()
+                        )
+
+                        APText(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .align(CenterVertically),
+                            text = "$recommend",
+                            fontSize = 10.sp,
+                            fontColor = subTextColor()
+                        )
+                    }
                 }
             }
         }
@@ -292,14 +392,4 @@ fun OverScrollDisabledScope(content: @Composable () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    ReviewListItem(modifier = Modifier,
-        score = 4.3f,
-        perfumeName = "TestPerfume",
-        image = R.drawable.ad_banner_0,
-        title = "Example Title",
-        body = "사람들의 내 내 봅니다. 까닭이요, 벌레는 나는 듯합니다. 아무 우는 사람들의 잠, 다 별이 이름을 까닭입니다. 소녀들의 새겨지는 않은 하늘에는 버리었습니다. 이름과, 하나의 벌써 토끼, 새겨지는 별이 그리고 것은 없이 있습니다. 했던 위에 아름다운 덮어 밤을 그러나 이름과 까닭이요, 봅니다. 이름자를 어머니, 위에 별 나의 것은 계절이 버리었습니다. 나는 써 하나에 그리고 동경과 가을로 멀듯이, 계십니다. 위에 이네들은 가득 까닭입니다. 못 피어나듯이 아름다운 부끄러운 지나가는 잠, 봅니다. 이름과, 가을 별 아름다운 흙으로 별빛이 봅니다.",
-        author = "Example Author",
-        authorImage = R.drawable.ad_banner_1,
-        hit = 3132,
-        recommend = 47)
 }

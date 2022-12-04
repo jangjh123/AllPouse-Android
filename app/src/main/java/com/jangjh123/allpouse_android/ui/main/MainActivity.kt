@@ -32,7 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.main.Screen.*
-import com.jangjh123.allpouse_android.ui.main.ui.theme.AllPouseAndroidTheme
+import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 
 class MainActivity : ComponentActivity() {
@@ -198,9 +198,11 @@ private fun MainActivityContent() {
             }
         }
     ) { scaffoldPadding ->
-        NavHost(modifier = Modifier.padding(scaffoldPadding),
+        NavHost(
+            modifier = Modifier.padding(scaffoldPadding),
             navController = navController,
-            startDestination = Home.route) {
+            startDestination = Home.route
+        ) {
             composable(Home.route) { HomeScreen() }
             composable(Shop.route) { }
             composable(Review.route) { }
