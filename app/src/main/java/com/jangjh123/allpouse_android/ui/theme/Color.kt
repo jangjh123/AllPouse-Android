@@ -45,13 +45,13 @@ fun subTextColor() =
     )
 
 @Composable
-fun mainGradient0() = Color(0xFFA26250)
+fun mainGradient0() = Color(0xFFB74C4C)
 
 @Composable
-fun mainGradient1() = Color(0xFFAC7363)
+fun mainGradient1() = Color(0xFFC16666)
 
 @Composable
-fun mainColor() = Color(0xFF98513D)
+fun mainColor() = Color(0xFFAD3232)
 
 @Composable
 fun onDarkModeOrNot(darkModeColor: Color, lightModeColor: Color): Color {
