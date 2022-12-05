@@ -4,10 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +16,6 @@ import androidx.compose.ui.Alignment.Companion.BottomStart
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,7 +32,6 @@ import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
-import com.jangjh123.allpouse_android.ui.component.HorizontalScrollConsumer
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
@@ -56,7 +52,7 @@ class OnBoardingActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
     val pagerState = rememberPagerState()
@@ -86,7 +82,6 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
             count = 3,
             modifier = Modifier
                 .fillMaxSize()
-                .nestedScroll(HorizontalScrollConsumer)
         ) { page ->
             val item = screens[page]
             Box(Modifier.fillMaxSize()) {
