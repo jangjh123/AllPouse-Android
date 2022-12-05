@@ -5,22 +5,24 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
@@ -53,26 +55,7 @@ private fun SplashActivityContent() {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color(0xFF0F0806),
-                        Color(0xFF1E100c),
-                        Color(0xFF2d1812),
-                        Color(0xFF3C2018),
-                        Color(0xFF4C281E),
-                        Color(0xFF5B3024),
-                        Color(0xFF6A382A),
-                        Color(0xFF794030),
-                        Color(0xFF794030),
-                        Color(0xFF6A382A),
-                        Color(0xFF5B3024),
-                        Color(0xFF4C281E),
-                        Color(0xFF3C2018),
-                        Color(0xFF2d1812),
-                        Color(0xFF1E100c),
-                        Color(0xFF0F0806)
-                    )
-                )
+                Color.Black
             )
     ) {
         Column(
@@ -80,6 +63,13 @@ private fun SplashActivityContent() {
                 .wrapContentSize()
                 .align(Center)
         ) {
+            Image(
+                modifier = Modifier.size(120.dp).align(CenterHorizontally),
+                painter = painterResource(id = R.drawable.main_icon),
+                contentDescription = "mainIcon",
+                contentScale = ContentScale.FillBounds
+            )
+
             Text(
                 modifier = Modifier.align(CenterHorizontally),
                 text = stringResource(id = R.string.app),
@@ -88,7 +78,7 @@ private fun SplashActivityContent() {
                     platformStyle = PlatformTextStyle(includeFontPadding = false)
                 ),
                 fontFamily = cinzelExtraBold,
-                fontSize = 48.sp,
+                fontSize = 24.sp,
 
                 )
             APText(
@@ -96,7 +86,7 @@ private fun SplashActivityContent() {
                     .align(CenterHorizontally),
                 text = stringResource(id = R.string.desc_app),
                 fontColor = Color.White,
-                fontSize = 13.sp
+                fontSize = 12.sp
             )
         }
 
