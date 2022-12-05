@@ -3,5 +3,6 @@
     <style name="Theme.AllPouseAndroid" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowSplashScreenBackground">@color/black</item>
     </style>
 </resources>
