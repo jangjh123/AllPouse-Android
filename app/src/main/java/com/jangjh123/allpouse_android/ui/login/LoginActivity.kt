@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,7 +20,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -86,12 +84,12 @@ private fun LoginActivityContent(
     onClickStartButton: () -> Unit,
     onClickClose: () -> Unit
 ) {
-    val textFieldFocusManager = LocalFocusManager.current
+    val focusManager = LocalFocusManager.current
 
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetContent = {
-            SignUpModalBottomSheet(textFieldFocusManager, onClickStartButton = {
+            SignUpModalBottomSheet(focusManager, onClickStartButton = {
                 onClickStartButton()
             },
                 onClickClose = {
@@ -101,20 +99,12 @@ private fun LoginActivityContent(
         sheetElevation = 20.dp,
         sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         scrimColor = Color(0x88000000),
-        modifier = Modifier.pointerInput(Unit) {
-            detectTapGestures {
-                textFieldFocusManager.clearFocus()
-            }
-        }
+        modifier = Modifier.addFocusCleaner(focusManager)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectTapGestures(onTap = {
-                        textFieldFocusManager.clearFocus()
-                    })
-                },
+                .addFocusCleaner(focusManager),
         ) {
             Image(
                 modifier = Modifier
