@@ -357,7 +357,7 @@ private fun SignUpModalBottomSheet(
             .padding(top = 24.dp, end = 20.dp)
             .size(24.dp)
             .align(Alignment.TopEnd)
-            .clickable {
+            .clickableWithoutRipple {
                 onClickClose()
             })
     }
@@ -400,7 +400,7 @@ private fun GenderButton(
     Box(
         modifier
             .clip(RoundedCornerShape(8.dp))
-            .clickable { onClickGenderButton() }
+            .clickableWithoutRipple { onClickGenderButton() }
             .width(120.dp)
             .height(40.dp)
             .background(color = buttonColorState.value)

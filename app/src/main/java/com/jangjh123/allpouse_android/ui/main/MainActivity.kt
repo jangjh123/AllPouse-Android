@@ -31,6 +31,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.main.Screen.*
 import com.jangjh123.allpouse_android.ui.main.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.main.search.SearchScreen
@@ -93,7 +94,7 @@ private fun MainActivityContent() {
                         .padding(18.dp)
                         .size(24.dp)
                         .align(Alignment.TopEnd)
-                        .clickable {
+                        .clickableWithoutRipple {
                             navController.navigate(Search.route) {
                                 launchSingleTop = true
                                 restoreState = true

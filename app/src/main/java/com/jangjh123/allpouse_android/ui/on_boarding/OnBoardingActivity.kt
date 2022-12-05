@@ -36,6 +36,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.HorizontalScrollConsumer
+import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
@@ -157,7 +158,7 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
             modifier = Modifier
                 .align(BottomEnd)
                 .padding(end = 20.dp, bottom = 13.dp)
-                .clickable {
+                .clickableWithoutRipple {
                     if (pagerState.currentPage == 2) {
                         onClickStart()
                     } else {
