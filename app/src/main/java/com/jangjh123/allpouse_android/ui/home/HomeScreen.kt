@@ -548,6 +548,8 @@ fun HomeScreen() {
             }
         }
 
+        Spacer(modifier = Modifier.height(12.dp))
+
         APText(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
             text = stringResource(id = R.string.popular_reviews),
