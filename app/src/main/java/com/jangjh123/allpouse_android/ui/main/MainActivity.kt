@@ -3,6 +3,9 @@ package com.jangjh123.allpouse_android.ui.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,15 +28,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.main.Screen.*
+import com.jangjh123.allpouse_android.ui.main.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
+import com.jangjh123.allpouse_android.ui.theme.mainColor
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +50,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun MainActivityContent() {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = navBackStackEntry?.destination
 
@@ -104,18 +109,20 @@ private fun MainActivityContent() {
                     .clip(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                 backgroundColor = Color.Black
             ) {
-                BottomNavigationItem(selected = currentScreen?.hierarchy?.any {
-                    it.route == Home.route
-                } == true, onClick = {
-                    navController.navigate(Home.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                BottomNavigationItem(
+                    selected = currentScreen?.hierarchy?.any {
+                        it.route == Home.route
+                    } == true,
+                    onClick = {
+                        navController.navigate(Home.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                    selectedContentColor = Color.White,
+                    },
+                    selectedContentColor = mainColor(),
                     unselectedContentColor = Color.Gray,
                     icon = {
                         Icon(
@@ -126,20 +133,20 @@ private fun MainActivityContent() {
                     }
                 )
 
-
-
-                BottomNavigationItem(selected = currentScreen?.hierarchy?.any {
-                    it.route == Shop.route
-                } == true, onClick = {
-                    navController.navigate(Shop.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                BottomNavigationItem(
+                    selected = currentScreen?.hierarchy?.any {
+                        it.route == Shop.route
+                    } == true,
+                    onClick = {
+                        navController.navigate(Shop.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                    selectedContentColor = Color.White,
+                    },
+                    selectedContentColor = mainColor(),
                     unselectedContentColor = Color.Gray,
                     icon = {
                         Icon(
@@ -150,18 +157,20 @@ private fun MainActivityContent() {
                     }
                 )
 
-                BottomNavigationItem(selected = currentScreen?.hierarchy?.any {
-                    it.route == Review.route
-                } == true, onClick = {
-                    navController.navigate(Review.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                BottomNavigationItem(
+                    selected = currentScreen?.hierarchy?.any {
+                        it.route == Review.route
+                    } == true,
+                    onClick = {
+                        navController.navigate(Review.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                    selectedContentColor = Color.White,
+                    },
+                    selectedContentColor = mainColor(),
                     unselectedContentColor = Color.Gray,
                     icon = {
                         Icon(
@@ -172,20 +181,20 @@ private fun MainActivityContent() {
                     }
                 )
 
-
-
-                BottomNavigationItem(selected = currentScreen?.hierarchy?.any {
-                    it.route == MyInfo.route
-                } == true, onClick = {
-                    navController.navigate(MyInfo.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                BottomNavigationItem(
+                    selected = currentScreen?.hierarchy?.any {
+                        it.route == MyInfo.route
+                    } == true,
+                    onClick = {
+                        navController.navigate(MyInfo.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                    selectedContentColor = Color.White,
+                    },
+                    selectedContentColor = mainColor(),
                     unselectedContentColor = Color.Gray,
                     icon = {
                         Icon(
@@ -198,10 +207,26 @@ private fun MainActivityContent() {
             }
         }
     ) { scaffoldPadding ->
-        NavHost(
+        AnimatedNavHost(
             modifier = Modifier.padding(scaffoldPadding),
             navController = navController,
-            startDestination = Home.route
+            startDestination = Home.route,
+            enterTransition = {
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(300))
+            },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(300))
+            },
+            popEnterTransition = {
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(300))
+            },
+            popExitTransition = {
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(300))
+            }
         ) {
             composable(Home.route) { HomeScreen() }
             composable(Shop.route) { }
