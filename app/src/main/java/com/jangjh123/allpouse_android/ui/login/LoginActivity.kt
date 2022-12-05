@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
+import com.jangjh123.allpouse_android.ui.login.Gender.*
 import com.jangjh123.allpouse_android.ui.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.launch
@@ -298,7 +299,7 @@ private fun SignUpModalBottomSheet(
                 fontSize = 20.sp
             )
 
-            val genderState = remember { mutableStateOf(0) }
+            val genderState = remember { mutableStateOf<Gender>(None) }
             Row(
                 Modifier
                     .wrapContentSize()
@@ -308,7 +309,7 @@ private fun SignUpModalBottomSheet(
                     modifier = Modifier,
                     gender = stringResource(id = R.string.male),
                     onClickGenderButton = {
-                        genderState.value = 1
+                        genderState.value = Man
                     },
                     genderState
                 )
@@ -316,7 +317,7 @@ private fun SignUpModalBottomSheet(
                     modifier = Modifier.padding(start = 20.dp),
                     gender = stringResource(id = R.string.female),
                     onClickGenderButton = {
-                        genderState.value = 2
+                        genderState.value = Woman
                     },
                     genderState
                 )
@@ -342,7 +343,7 @@ private fun SignUpModalBottomSheet(
 
             val buttonAlphaState = animateFloatAsState(
                 targetValue =
-                if (nicknameState.value.isNotEmpty() && genderState.value != 0 && ageState.value.isNotEmpty()) {
+                if (nicknameState.value.isNotEmpty() && genderState.value != None && ageState.value.isNotEmpty()) {
                     1f
                 } else {
                     0.3f
@@ -372,18 +373,24 @@ private fun SignUpModalBottomSheet(
     }
 }
 
+sealed class Gender {
+    object None : Gender()
+    object Man : Gender()
+    object Woman : Gender()
+}
+
 @Composable
 private fun GenderButton(
     modifier: Modifier,
     gender: String,
     onClickGenderButton: () -> Unit,
-    genderState: MutableState<Int>
+    genderState: MutableState<Gender>
 ) {
     val buttonColorState =
         animateColorAsState(
-            targetValue = if (genderState.value == 1 && gender == stringResource(id = R.string.male)) {
+            targetValue = if (genderState.value == Man && gender == stringResource(id = R.string.male)) {
                 mainColor()
-            } else if (genderState.value == 2 && gender == stringResource(id = R.string.female)) {
+            } else if (genderState.value == Woman && gender == stringResource(id = R.string.female)) {
                 mainColor()
             } else {
                 subBackground()
@@ -392,9 +399,9 @@ private fun GenderButton(
 
     val textColorState =
         animateColorAsState(
-            targetValue = if (genderState.value == 1 && gender == stringResource(id = R.string.male)) {
+            targetValue = if (genderState.value == Man && gender == stringResource(id = R.string.male)) {
                 Color.White
-            } else if (genderState.value == 2 && gender == stringResource(id = R.string.female)) {
+            } else if (genderState.value == Woman && gender == stringResource(id = R.string.female)) {
                 Color.White
             } else {
                 mainTextColor()
