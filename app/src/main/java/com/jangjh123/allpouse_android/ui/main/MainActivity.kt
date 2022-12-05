@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,8 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
@@ -67,15 +64,14 @@ private fun MainActivityContent() {
                         color = Color.Black
                     )
             ) {
-                Image(
+                Icon(
                     modifier = Modifier
                         .padding(18.dp)
                         .size(24.dp)
                         .align(Alignment.TopStart),
                     painter = painterResource(id = R.drawable.ic_notification),
                     contentDescription = "notice",
-                    contentScale = ContentScale.FillBounds,
-                    colorFilter = ColorFilter.tint(color = Color.White)
+                    tint = Color.White
                 )
 
                 Text(
@@ -90,15 +86,14 @@ private fun MainActivityContent() {
                     letterSpacing = (-1).sp
                 )
 
-                Image(
+                Icon(
                     modifier = Modifier
                         .padding(18.dp)
                         .size(24.dp)
                         .align(Alignment.TopEnd),
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = "search",
-                    contentScale = ContentScale.FillBounds,
-                    colorFilter = ColorFilter.tint(color = Color.White)
+                    tint = Color.White
                 )
             }
         },

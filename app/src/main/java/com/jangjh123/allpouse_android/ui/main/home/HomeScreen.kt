@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
@@ -204,13 +203,13 @@ fun HomeScreen() {
                         .background(contentBackground())
                 ) {
                     Row(modifier = Modifier.align(Center)) {
-                        Image(
+                        Icon(
                             modifier = Modifier
                                 .size(16.dp)
                                 .align(CenterVertically),
                             painter = painterResource(id = R.drawable.ic_edit),
                             contentDescription = "editKeyword",
-                            colorFilter = ColorFilter.tint(subTextColor())
+                            tint = subTextColor()
                         )
 
                         APText(
@@ -342,12 +341,12 @@ fun HomeScreen() {
                             .align(Center)
                             .wrapContentSize()
                     ) {
-                        Image(
+                        Icon(
                             modifier = Modifier
                                 .size(36.dp)
                                 .align(Alignment.CenterHorizontally),
                             painter = painterResource(id = R.drawable.ic_arrow_foward),
-                            colorFilter = ColorFilter.tint(color = subTextColor()),
+                            tint = subTextColor(),
                             contentDescription = "goForMorePerfumes"
                         )
 
@@ -529,12 +528,12 @@ fun HomeScreen() {
                             .align(Center)
                             .wrapContentSize()
                     ) {
-                        Image(
+                        Icon(
                             modifier = Modifier
                                 .size(36.dp)
                                 .align(Alignment.CenterHorizontally),
                             painter = painterResource(id = R.drawable.ic_arrow_foward),
-                            colorFilter = ColorFilter.tint(color = subTextColor()),
+                            tint = subTextColor(),
                             contentDescription = "goForMorePerfumes"
                         )
 
@@ -752,7 +751,7 @@ fun PopularPerfume(modifier: Modifier, image: Int, perfumeName: String, brandNam
 fun BestPerfumerTalkPost(
     board: String,
     postName: String,
-    like: Int
+    like: Int,
 ) {
     Box(
         modifier = Modifier

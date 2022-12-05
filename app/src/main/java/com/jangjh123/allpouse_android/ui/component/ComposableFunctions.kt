@@ -1,6 +1,8 @@
 package com.jangjh123.allpouse_android.ui.component
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -221,12 +222,11 @@ fun textFieldColors() = TextFieldDefaults.textFieldColors(
 
 @Composable
 fun CloseIcon(modifier: Modifier) {
-    Image(
+    Icon(
         modifier = modifier,
         painter = painterResource(id = R.drawable.close),
         contentDescription = "close",
-        contentScale = ContentScale.FillBounds,
-        colorFilter = ColorFilter.tint(color = mainTextColor())
+        tint = mainTextColor()
     )
 }
 
