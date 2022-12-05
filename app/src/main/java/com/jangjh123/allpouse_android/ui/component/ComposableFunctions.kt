@@ -8,12 +8,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterEnd
@@ -186,18 +188,20 @@ fun APTextField(
     focusManager: FocusManager,
     keyboardOptions: KeyboardOptions? = null,
 ) {
-    TextField(
-        modifier = modifier,
-        value = textFieldState.value,
-        onValueChange = { onValueChanged(it) },
-        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-        keyboardOptions = keyboardOptions.let {
-            keyboardOptions
-        } ?: KeyboardOptions.Default,
-        shape = RoundedCornerShape(8.dp),
-        singleLine = true,
-        colors = textFieldColors()
-    )
+    CompositionLocalProvider(LocalTextSelectionColors.provides(textSelectionColor())) {
+        TextField(
+            modifier = modifier,
+            value = textFieldState.value,
+            onValueChange = { onValueChanged(it) },
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            keyboardOptions = keyboardOptions.let {
+                keyboardOptions
+            } ?: KeyboardOptions.Default,
+            shape = RoundedCornerShape(8.dp),
+            singleLine = true,
+            colors = textFieldColors()
+        )
+    }
 }
 
 @Composable

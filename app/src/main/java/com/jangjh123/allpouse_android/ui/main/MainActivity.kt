@@ -235,7 +235,7 @@ private fun MainActivityContent() {
             composable(Shop.route) { }
             composable(Review.route) { }
             composable(MyInfo.route) { }
-            composable(Search.route) { SearchScreen() }
+            composable(Search.route) { SearchScreen(navController) }
         }
     }
 }
