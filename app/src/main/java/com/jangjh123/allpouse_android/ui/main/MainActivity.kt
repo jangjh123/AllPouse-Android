@@ -7,6 +7,7 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -32,6 +33,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.main.Screen.*
 import com.jangjh123.allpouse_android.ui.main.home.HomeScreen
+import com.jangjh123.allpouse_android.ui.main.search.SearchScreen
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
@@ -90,7 +92,13 @@ private fun MainActivityContent() {
                     modifier = Modifier
                         .padding(18.dp)
                         .size(24.dp)
-                        .align(Alignment.TopEnd),
+                        .align(Alignment.TopEnd)
+                        .clickable {
+                            navController.navigate(Search.route) {
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = "search",
                     tint = Color.White
@@ -227,6 +235,7 @@ private fun MainActivityContent() {
             composable(Shop.route) { }
             composable(Review.route) { }
             composable(MyInfo.route) { }
+            composable(Search.route) { SearchScreen(navController) }
         }
     }
 }
@@ -244,4 +253,5 @@ sealed class Screen(val route: String) {
     object Shop : Screen("shop")
     object Review : Screen("review")
     object MyInfo : Screen("myInfo")
+    object Search : Screen("search")
 }

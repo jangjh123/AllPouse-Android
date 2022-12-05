@@ -44,8 +44,11 @@
     <string name="go_for_more_posts">더 많은 게시물 보기</string>
     <string name="go_for_more_reviews">더 많은 리뷰 보기</string>
     <string name="go_for_more_perfumes">더 많은 향수 보기</string>
-
-
     <!--    MainScreen-->
+
+    <!--    SearchScreen-->
+    <string name="recent_search_keyword">최근 검색어</string>
+    <string name="popular_search_keyword">인기 검색어</string>
+    <!--    SearchScreen-->
 
 </resources>

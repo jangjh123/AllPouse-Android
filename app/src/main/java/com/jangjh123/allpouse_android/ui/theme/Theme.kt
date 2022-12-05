@@ -34,20 +34,20 @@ private val LightColorPalette = lightColors(
 @Composable
 fun AllPouseAndroidTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
+
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
     }
-
     CompositionLocalProvider(LocalOverscrollConfiguration.provides(null)) {
-        MaterialTheme(
-            colors = colors,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
-        )
+            MaterialTheme(
+                colors = colors,
+                typography = Typography,
+                shapes = Shapes,
+                content = content
+            )
     }
 }
