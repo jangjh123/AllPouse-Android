@@ -2,7 +2,6 @@ package com.jangjh123.allpouse_android.ui.main.search
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -97,7 +96,7 @@ fun SearchScreen(navController: NavController) {
             SearchKeywordTypeButton(
                 modifier = Modifier
                     .weight(0.5f)
-                    .clickable {
+                    .clickableWithoutRipple {
                         typeState.value = Recent
                     },
                 type = stringResource(id = R.string.recent_search_keyword),
@@ -107,7 +106,7 @@ fun SearchScreen(navController: NavController) {
             SearchKeywordTypeButton(
                 modifier = Modifier
                     .weight(0.5f)
-                    .clickable {
+                    .clickableWithoutRipple {
                         typeState.value = Popular
                     },
                 type = stringResource(id = R.string.popular_search_keyword),
