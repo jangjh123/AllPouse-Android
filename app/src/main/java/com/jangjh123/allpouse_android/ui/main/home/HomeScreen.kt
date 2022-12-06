@@ -365,7 +365,7 @@ fun HomeScreen() {
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
             annotatedString = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = mainTextColor())) {
-                    append(stringResource(id = R.string.app_korean))
+                    append(stringResource(id = R.string.app_name))
                 }
 
                 withStyle(style = SpanStyle(color = subTextColor())) {
