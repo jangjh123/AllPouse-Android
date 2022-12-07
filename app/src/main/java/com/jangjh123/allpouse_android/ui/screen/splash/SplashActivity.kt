@@ -46,6 +46,8 @@ class SplashActivity : ComponentActivity() {
                 println("height $SCREEN_HEIGHT_DP")
                 println("width $SCREEN_WIDTH_DP")
                 SplashActivityContent()
+                SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
+                SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
                 lifecycleScope.launch {
                     delay(2000L)
                     startActivity(Intent(this@SplashActivity, OnBoardingActivity::class.java))
