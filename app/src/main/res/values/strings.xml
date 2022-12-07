@@ -35,6 +35,11 @@
     <!--    SignUpScreen-->
     <!--    LoginActivity-->
 
+    <!--    ImageCropActivity-->
+    <string name="cut_image">잘라내기</string>
+    <string name="use_cut_image">이미지 사용</string>
+    <!--    ImageCropActivity-->
+
     <!--    MainScreen-->
     <string name="taste_keyword">나의 취향 키워드</string>
     <string name="perfumes_recommended">님을 위한 향수</string>

@@ -10,13 +10,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
@@ -33,6 +32,9 @@ import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+var SCREEN_WIDTH_DP = 0.dp
+var SCREEN_HEIGHT_DP = 0.dp
+
 class SplashActivity : ComponentActivity() {
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +42,8 @@ class SplashActivity : ComponentActivity() {
         setContent {
             AllPouseAndroidTheme {
                 SplashActivityContent()
+                SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
+                SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
                 lifecycleScope.launch {
                     delay(2000L)
                     startActivity(Intent(this@SplashActivity, OnBoardingActivity::class.java))
@@ -64,7 +68,9 @@ private fun SplashActivityContent() {
                 .align(Center)
         ) {
             Image(
-                modifier = Modifier.size(120.dp).align(CenterHorizontally),
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(CenterHorizontally),
                 painter = painterResource(id = R.drawable.main_icon),
                 contentDescription = "mainIcon",
                 contentScale = ContentScale.FillBounds
