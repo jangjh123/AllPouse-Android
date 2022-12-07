@@ -381,6 +381,20 @@ fun ReviewListItem(
     }
 }
 
+@Composable
+fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
+    Icon(
+        modifier = modifier
+            .clickableWithoutRipple {
+                onClickBackButton()
+            },
+        painter = painterResource(id = R.drawable.ic_arrow_back),
+        contentDescription = "goBack",
+        tint = mainTextColor()
+    )
+}
+
+
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {

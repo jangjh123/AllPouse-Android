@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.main
+package com.jangjh123.allpouse_android.ui.screen.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -31,9 +31,10 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
-import com.jangjh123.allpouse_android.ui.main.Screen.*
-import com.jangjh123.allpouse_android.ui.main.home.HomeScreen
-import com.jangjh123.allpouse_android.ui.main.search.SearchScreen
+import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.PerfumeDetailScreen
+import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
+import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
+import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
@@ -215,24 +216,32 @@ private fun MainActivityContent() {
             navController = navController,
             startDestination = Home.route,
             enterTransition = {
-                slideIntoContainer(AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(300))
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(300)
+                )
             },
             exitTransition = {
-                slideOutOfContainer(AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(300))
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(300)
+                )
             },
             popEnterTransition = {
-                slideIntoContainer(AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(300))
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(300)
+                )
             },
             popExitTransition = {
-                slideOutOfContainer(AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(300))
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(300)
+                )
             }
         ) {
             composable(Home.route) { HomeScreen() }
-            composable(Shop.route) { }
+            composable(Shop.route) { PerfumeDetailScreen()}
             composable(Review.route) { }
             composable(MyInfo.route) { }
             composable(Search.route) { SearchScreen(navController) }
