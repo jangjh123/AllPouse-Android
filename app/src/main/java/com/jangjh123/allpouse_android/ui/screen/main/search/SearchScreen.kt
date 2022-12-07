@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.main.search
+package com.jangjh123.allpouse_android.ui.screen.main.search
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
@@ -30,8 +30,8 @@ import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.APTextField
 import com.jangjh123.allpouse_android.ui.component.addFocusCleaner
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
-import com.jangjh123.allpouse_android.ui.main.search.SearchKeywordType.Popular
-import com.jangjh123.allpouse_android.ui.main.search.SearchKeywordType.Recent
+import com.jangjh123.allpouse_android.ui.screen.main.search.SearchKeywordType.Popular
+import com.jangjh123.allpouse_android.ui.screen.main.search.SearchKeywordType.Recent
 import com.jangjh123.allpouse_android.ui.theme.*
 
 val dummyRecentSearchKeyword = listOf("돌체앤가바나", "베르사체", "샤넬")

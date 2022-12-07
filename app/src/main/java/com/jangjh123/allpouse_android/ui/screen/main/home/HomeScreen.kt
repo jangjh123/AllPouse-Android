@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.main.home
+package com.jangjh123.allpouse_android.ui.screen.main.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

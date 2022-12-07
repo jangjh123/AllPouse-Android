@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.splash
+package com.jangjh123.allpouse_android.ui.screen.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,13 +10,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
@@ -27,11 +26,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.on_boarding.OnBoardingActivity
+import com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+var SCREEN_HEIGHT_DP = 705.dp
+var SCREEN_WIDTH_DP = 360.dp
 
 class SplashActivity : ComponentActivity() {
     @SuppressLint("CoroutineCreationDuringComposition")
@@ -39,6 +41,10 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AllPouseAndroidTheme {
+                SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
+                SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
+                println("height $SCREEN_HEIGHT_DP")
+                println("width $SCREEN_WIDTH_DP")
                 SplashActivityContent()
                 lifecycleScope.launch {
                     delay(2000L)
@@ -64,7 +70,9 @@ private fun SplashActivityContent() {
                 .align(Center)
         ) {
             Image(
-                modifier = Modifier.size(120.dp).align(CenterHorizontally),
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(CenterHorizontally),
                 painter = painterResource(id = R.drawable.main_icon),
                 contentDescription = "mainIcon",
                 contentScale = ContentScale.FillBounds

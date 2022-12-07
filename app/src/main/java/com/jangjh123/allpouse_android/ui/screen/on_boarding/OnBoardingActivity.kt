@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.on_boarding
+package com.jangjh123.allpouse_android.ui.screen.on_boarding
 
 import android.content.Intent
 import android.os.Bundle
@@ -33,7 +33,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
-import com.jangjh123.allpouse_android.ui.login.LoginActivity
+import com.jangjh123.allpouse_android.ui.screen.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
