@@ -41,10 +41,6 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AllPouseAndroidTheme {
-                SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
-                SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
-                println("height $SCREEN_HEIGHT_DP")
-                println("width $SCREEN_WIDTH_DP")
                 SplashActivityContent()
                 SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
                 SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp

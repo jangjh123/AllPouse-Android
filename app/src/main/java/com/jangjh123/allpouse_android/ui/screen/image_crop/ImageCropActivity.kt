@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.image_crop
+package com.jangjh123.allpouse_android.ui.screen.image_crop
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -43,8 +43,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.splash.SCREEN_HEIGHT_DP
-import com.jangjh123.allpouse_android.ui.splash.SCREEN_WIDTH_DP
+import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
+import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlin.math.roundToInt
 
