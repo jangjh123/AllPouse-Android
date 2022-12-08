@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.login
+package com.jangjh123.allpouse_android.ui.screen.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
-import com.jangjh123.allpouse_android.ui.login.Gender.*
-import com.jangjh123.allpouse_android.ui.main.MainActivity
+import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
+import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.launch
 

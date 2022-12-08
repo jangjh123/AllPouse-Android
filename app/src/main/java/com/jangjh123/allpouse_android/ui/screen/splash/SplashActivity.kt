@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.ui.splash
+package com.jangjh123.allpouse_android.ui.screen.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -26,14 +26,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.on_boarding.OnBoardingActivity
+import com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-var SCREEN_WIDTH_DP = 0.dp
-var SCREEN_HEIGHT_DP = 0.dp
+var SCREEN_HEIGHT_DP = 705.dp
+var SCREEN_WIDTH_DP = 360.dp
 
 class SplashActivity : ComponentActivity() {
     @SuppressLint("CoroutineCreationDuringComposition")
@@ -41,6 +41,10 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AllPouseAndroidTheme {
+                SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
+                SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
+                println("height $SCREEN_HEIGHT_DP")
+                println("width $SCREEN_WIDTH_DP")
                 SplashActivityContent()
                 SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
                 SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp

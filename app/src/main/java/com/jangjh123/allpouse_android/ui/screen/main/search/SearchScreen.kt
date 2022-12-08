@@ -1,8 +1,7 @@
-package com.jangjh123.allpouse_android.ui.main.search
+package com.jangjh123.allpouse_android.ui.screen.main.search
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -31,8 +30,8 @@ import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.APTextField
 import com.jangjh123.allpouse_android.ui.component.addFocusCleaner
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
-import com.jangjh123.allpouse_android.ui.main.search.SearchKeywordType.Popular
-import com.jangjh123.allpouse_android.ui.main.search.SearchKeywordType.Recent
+import com.jangjh123.allpouse_android.ui.screen.main.search.SearchKeywordType.Popular
+import com.jangjh123.allpouse_android.ui.screen.main.search.SearchKeywordType.Recent
 import com.jangjh123.allpouse_android.ui.theme.*
 
 val dummyRecentSearchKeyword = listOf("돌체앤가바나", "베르사체", "샤넬")
@@ -97,7 +96,7 @@ fun SearchScreen(navController: NavController) {
             SearchKeywordTypeButton(
                 modifier = Modifier
                     .weight(0.5f)
-                    .clickable {
+                    .clickableWithoutRipple {
                         typeState.value = Recent
                     },
                 type = stringResource(id = R.string.recent_search_keyword),
@@ -107,7 +106,7 @@ fun SearchScreen(navController: NavController) {
             SearchKeywordTypeButton(
                 modifier = Modifier
                     .weight(0.5f)
-                    .clickable {
+                    .clickableWithoutRipple {
                         typeState.value = Popular
                     },
                 type = stringResource(id = R.string.popular_search_keyword),
