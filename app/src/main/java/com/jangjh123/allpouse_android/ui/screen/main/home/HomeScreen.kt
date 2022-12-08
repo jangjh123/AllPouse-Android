@@ -138,7 +138,7 @@ fun HomeScreen() {
                     .clip(RoundedCornerShape(20.dp))
                     .width(48.dp)
                     .height(24.dp)
-                    .background(color = Color(0x77000000))
+                    .background(color = darkFilter())
                     .align(Alignment.BottomEnd)
             ) {
                 APText(

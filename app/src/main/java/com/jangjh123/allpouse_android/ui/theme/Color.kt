@@ -54,6 +54,9 @@ fun mainGradient1() = Color(0xFFC16666)
 fun mainColor() = Color(0xFFAD3232)
 
 @Composable
+fun darkFilter() = Color(0x88000000)
+
+@Composable
 fun onDarkModeOrNot(darkModeColor: Color, lightModeColor: Color): Color {
     return if (isSystemInDarkTheme()) {
         darkModeColor

@@ -98,7 +98,7 @@ private fun LoginActivityContent(
         },
         sheetElevation = 20.dp,
         sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-        scrimColor = Color(0x88000000),
+        scrimColor = darkFilter(),
         modifier = Modifier.addFocusCleaner(focusManager)
     ) {
         Box(
@@ -109,7 +109,7 @@ private fun LoginActivityContent(
             Image(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color(0xdd000000))
+                    .background(color = darkFilter())
                     .alpha(1f),
                 painter = painterResource(id = R.drawable.bg_login),
                 contentDescription = "background",
@@ -119,7 +119,7 @@ private fun LoginActivityContent(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(color = Color(0x77000000))
+                    .background(color = darkFilter())
             )
 
             Column(Modifier.fillMaxSize()) {
@@ -154,7 +154,7 @@ private fun LoginActivityContent(
                         .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
                         .weight(0.4f)
                         .fillMaxWidth()
-                        .background(color = Color(0x55000000))
+                        .background(color = darkFilter())
                 ) {
                     Box(
                         modifier = Modifier

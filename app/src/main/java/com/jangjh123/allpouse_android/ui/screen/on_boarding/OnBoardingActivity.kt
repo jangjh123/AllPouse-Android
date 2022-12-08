@@ -36,6 +36,7 @@ import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
+import com.jangjh123.allpouse_android.ui.theme.darkFilter
 import com.jangjh123.allpouse_android.ui.theme.mainColor
 import kotlinx.coroutines.launch
 
@@ -98,7 +99,7 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                         modifier = Modifier
                             .weight(0.4f)
                             .fillMaxWidth()
-                            .background(color = Color(0x99000000))
+                            .background(color = darkFilter())
                     ) {
                         Column(
                             modifier = Modifier
