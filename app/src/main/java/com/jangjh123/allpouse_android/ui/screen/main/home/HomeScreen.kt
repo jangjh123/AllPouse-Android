@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,6 +36,7 @@ import com.jangjh123.allpouse_android.ui.component.APAppendedText
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.ui.component.ReviewListItem
+import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -110,7 +110,7 @@ fun HomeScreen() {
             .verticalScroll(scrollState)
             .background(color = background())
     ) {
-        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+        val screenWidth = SCREEN_WIDTH_DP
         val calculatedHeight = (screenWidth / 16F) * 9F
 
         Box(modifier = Modifier.wrapContentSize()) {
