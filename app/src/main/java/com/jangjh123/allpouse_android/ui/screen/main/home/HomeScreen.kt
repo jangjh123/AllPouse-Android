@@ -35,7 +35,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APAppendedText
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
-import com.jangjh123.allpouse_android.ui.component.ReviewListItem
+import com.jangjh123.allpouse_android.ui.component.Review
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.delay
@@ -556,7 +556,7 @@ fun HomeScreen() {
             fontType = FontType.Bold
         )
 
-        ReviewListItem(
+        Review(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             score = 4.7f,
             perfumeName = "TestPerfume",
@@ -569,7 +569,7 @@ fun HomeScreen() {
             recommend = 43
         )
 
-        ReviewListItem(
+        Review(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             score = 4.7f,
             perfumeName = "TestPerfume",
@@ -582,7 +582,7 @@ fun HomeScreen() {
             recommend = 43
         )
 
-        ReviewListItem(
+        Review(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             score = 4.7f,
             perfumeName = "TestPerfume",

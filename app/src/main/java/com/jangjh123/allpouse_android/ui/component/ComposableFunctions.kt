@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -181,6 +182,56 @@ fun GradientButton(
 }
 
 @Composable
+fun GradientIconButton(
+    modifier: Modifier,
+    iconId: Int,
+    text: String,
+    fontSize: TextUnit? = 14.sp,
+    onClickButton: () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(12.dp))
+            .clickable {
+                onClickButton()
+            }
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        mainColor(),
+                        mainGradient0(),
+                        mainGradient1()
+                    )
+                )
+            )
+    ) {
+        Row(
+            modifier = Modifier
+                .align(Center)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .align(CenterVertically)
+                    .size(16.dp),
+                painter = painterResource(
+                    id = iconId
+                ),
+                contentDescription = "buttonIcon",
+                tint = Color.White
+            )
+            APText(
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .align(CenterVertically),
+                text = text,
+                fontSize = fontSize,
+                fontColor = Color.White
+            )
+        }
+    }
+}
+
+@Composable
 fun APTextField(
     modifier: Modifier,
     textFieldState: MutableState<String>,
@@ -231,7 +282,7 @@ fun CloseIcon(modifier: Modifier) {
 }
 
 @Composable
-fun ReviewListItem(
+fun Review(
     modifier: Modifier,
     score: Float,
     perfumeName: String,
@@ -273,6 +324,7 @@ fun ReviewListItem(
 
                 Row(
                     modifier = Modifier
+                        .padding(end = 4.dp)
                         .wrapContentSize()
                         .align(CenterEnd)
                 ) {
@@ -301,6 +353,7 @@ fun ReviewListItem(
                         .padding(4.dp)
                         .clip(shape = RoundedCornerShape(12.dp))
                         .size(100.dp)
+                        .fillMaxWidth()
                         .background(color = contentBackground()),
                     painter = painterResource(id = image),
                     contentDescription = "reviewImage",
@@ -311,6 +364,7 @@ fun ReviewListItem(
                     Modifier
                         .padding(4.dp)
                         .height(100.dp)
+                        .fillMaxWidth()
                 ) {
                     Column(
                         modifier = Modifier
@@ -394,8 +448,19 @@ fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
     )
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
+    Review(
+        modifier = Modifier,
+        score = 1.3f,
+        perfumeName = "테스트 향수",
+        image = R.drawable.perfume_test_0,
+        title = "테스트 리뷰",
+        body = "테스트 리뷰 내용",
+        author = "테스터",
+        authorImage = R.drawable.ad_banner_1,
+        hit = 132,
+        recommend = 22
+    )
 }
