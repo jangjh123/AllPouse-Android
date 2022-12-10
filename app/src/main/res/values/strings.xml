@@ -10,6 +10,7 @@
     <string name="edit">수정하기</string>
     <string name="perfumer_talk">퍼퓨머톡</string>
     <string name="best_post">인기글</string>
+    <string name="review">리뷰</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -54,5 +55,22 @@
     <string name="recent_search_keyword">최근 검색어</string>
     <string name="popular_search_keyword">인기 검색어</string>
     <!--    SearchScreen-->
+
+    <!--    PerfumeDetailScreen-->
+    <string name="perfume_information">제품 정보</string>
+    <string name="perfume_review">제품 리뷰</string>
+    <string name="go_for_more_perfumer_reviews">더 많은 조향사 리뷰 보기</string>
+    <string name="go_for_more_normal_reviews">더 많은 일반 리뷰 보기</string>
+    <!--    PerfumeDetailScreen-->
+
+    <!--    PerfumeDetailInformation-->
+    <!--    PerfumeDetailInformation-->
+    <!--    PerfumeDetailReview-->
+    <string name="write_review">리뷰 작성</string>
+    <string name="review_count">%d개의 리뷰 기반</string>
+    <string name="best">베스트</string>
+    <string name="perfumer">조향사</string>
+    <string name="normal">일반</string>
+    <!--    PerfumeDetailReview-->
 
 </resources>
