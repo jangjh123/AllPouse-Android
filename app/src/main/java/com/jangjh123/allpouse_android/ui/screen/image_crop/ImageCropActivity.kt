@@ -9,20 +9,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterVertically
-import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -42,10 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.APText
+import com.jangjh123.allpouse_android.ui.component.RoundedCornerIconButton
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
-import com.jangjh123.allpouse_android.ui.theme.*
+import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
+import com.jangjh123.allpouse_android.ui.theme.background
+import com.jangjh123.allpouse_android.ui.theme.contentBackground
 import kotlin.math.roundToInt
 
 class ImageCropActivity : ComponentActivity() {
@@ -71,13 +68,17 @@ private fun ImageCropActivityContent(context: Context) {
     val movedState = remember { mutableStateOf(false) }
     val sizeState = remember { mutableStateOf(160f) }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(background())) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .weight(0.6f)
-            .background(color = Color.Black)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(background())
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.6f)
+                .background(color = Color.Black)
+        ) {
 
             val bitmap = ContextCompat.getDrawable(context, R.drawable.ad_banner_0)!!.toBitmap()
             val bitmapRatio = (bitmap.width).toFloat() / (bitmap.height).toFloat()
@@ -101,16 +102,21 @@ private fun ImageCropActivityContent(context: Context) {
                 frameHeightState.value = imageHeightState.value.toPx().toInt()
             }
 
-            Box(modifier = Modifier
-                .width(imageWidthState.value)
-                .height(imageHeightState.value)
-                .align(Center)
+            Box(
+                modifier = Modifier
+                    .width(imageWidthState.value)
+                    .height(imageHeightState.value)
+                    .align(Center)
             ) {
-                imageState.value = BitmapDrawable(LocalContext.current.resources,
-                    Bitmap.createScaledBitmap(bitmap,
+                imageState.value = BitmapDrawable(
+                    LocalContext.current.resources,
+                    Bitmap.createScaledBitmap(
+                        bitmap,
                         frameWidthState.value,
                         frameHeightState.value,
-                        true)).bitmap.asImageBitmap()
+                        true
+                    )
+                ).bitmap.asImageBitmap()
 
                 Image(
                     modifier = Modifier.fillMaxSize(),
@@ -168,58 +174,49 @@ private fun ImageCropActivityContent(context: Context) {
 
                     clipPath(circlePath, clipOp = ClipOp.Difference) {
                         drawRect(color = Color(0x88000000))
-                        drawOval(color = Color.White,
+                        drawOval(
+                            color = Color.White,
                             topLeft = Offset(
                                 offsetX.value - sizeState.value,
-                                offsetY.value - sizeState.value),
+                                offsetY.value - sizeState.value
+                            ),
                             size = Size(sizeState.value * 2, sizeState.value * 2),
-                            style = Stroke(width = 8f, pathEffect = PathEffect.dashPathEffect(
-                                floatArrayOf(20f, 20f), 0f)))
+                            style = Stroke(
+                                width = 8f, pathEffect = PathEffect.dashPathEffect(
+                                    floatArrayOf(20f, 20f), 0f
+                                )
+                            )
+                        )
                     }
                 })
             }
         }
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .weight(0.4f)) {
-            Box(
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.4f)
+        ) {
+            RoundedCornerIconButton(
                 modifier = Modifier
-                    .padding(12.dp)
-                    .clip(shape = RoundedCornerShape(24.dp))
-                    .width(200.dp)
-                    .height(40.dp)
-                    .background(color = subBackground())
-                    .align(TopCenter)
-                    .clickable {
-                        croppedImageState.value = Bitmap
-                            .createBitmap(
-                                imageState.value.asAndroidBitmap(),
-                                (offsetX.value - sizeState.value).roundToInt(),
-                                (offsetY.value - sizeState.value).roundToInt(),
-                                sizeState.value.roundToInt() * 2,
-                                sizeState.value.roundToInt() * 2
-                            )
-                            .asImageBitmap()
-                    }
+                    .padding(20.dp)
+                    .fillMaxWidth()
+                    .height(50.dp),
+                text = stringResource(
+                    id = R.string.cut_image
+                ),
+                icon = painterResource(
+                    id = R.drawable.ic_cut
+                )
             ) {
-                Row(modifier = Modifier
-                    .wrapContentSize()
-                    .align(Center)) {
-                    Icon(
-                        modifier = Modifier
-                            .size(12.dp)
-                            .align(CenterVertically),
-                        painter = painterResource(id = R.drawable.ic_cut),
-                        contentDescription = "cutImage",
-                        tint = subTextColor()
+                croppedImageState.value = Bitmap
+                    .createBitmap(
+                        imageState.value.asAndroidBitmap(),
+                        (offsetX.value - sizeState.value).roundToInt(),
+                        (offsetY.value - sizeState.value).roundToInt(),
+                        sizeState.value.roundToInt() * 2,
+                        sizeState.value.roundToInt() * 2
                     )
-
-                    APText(
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .align(CenterVertically),
-                        text = stringResource(id = R.string.cut_image))
-                }
+                    .asImageBitmap()
             }
 
             Image(
@@ -230,7 +227,8 @@ private fun ImageCropActivityContent(context: Context) {
                     .size(120.dp)
                     .background(color = contentBackground()),
                 bitmap = croppedImageState.value, contentDescription = "cropped",
-                contentScale = ContentScale.FillBounds)
+                contentScale = ContentScale.FillBounds
+            )
         }
     }
 }

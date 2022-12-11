@@ -255,6 +255,84 @@ fun APTextField(
 }
 
 @Composable
+fun RoundedCornerButton(
+    modifier: Modifier,
+    text: String,
+    backgroundColor: Color? = null,
+    textColor: Color? = null,
+    onClickButton: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .clip(
+                shape = RoundedCornerShape(30.dp)
+            )
+            .background(
+                color = backgroundColor.let {
+                    backgroundColor
+                } ?: contentBackground()
+            )
+            .clickable {
+                onClickButton()
+            }
+    ) {
+        APText(
+            modifier = Modifier
+                .align(Center),
+            text = text,
+            fontColor = textColor.let {
+                textColor
+            } ?: mainTextColor(),
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
+fun RoundedCornerIconButton(
+    modifier: Modifier,
+    text: String,
+    backgroundColor: Color? = null,
+    textColor: Color? = null,
+    icon: Painter,
+    onClickButton: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(30.dp))
+            .background(
+                color = backgroundColor ?: contentBackground()
+            )
+            .clickable {
+                onClickButton()
+            }
+    ) {
+        Row(
+            modifier = Modifier
+                .align(Center)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .size(16.dp)
+                    .align(CenterVertically),
+                painter = icon,
+                contentDescription = "buttonIcon",
+                tint = subTextColor()
+            )
+
+            APText(
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .align(CenterVertically),
+                text = text,
+                fontColor = textColor ?: mainTextColor(),
+                fontSize = 14.sp
+            )
+        }
+    }
+}
+
+@Composable
 fun textSelectionColor() = TextSelectionColors(
     handleColor = mainColor(),
     backgroundColor = mainColor()

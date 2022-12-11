@@ -35,6 +35,8 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.PerfumeDetail
+import com.jangjh123.allpouse_android.ui.screen.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
@@ -190,7 +192,7 @@ private fun MainActivityContent() {
         ) {
             composable(Home.route) { HomeScreen() }
             composable(Products.route) { }
-            composable(Reviews.route) { }
+            composable(Reviews.route) { PerfumeDetail()}
             composable(Boards.route) { }
             composable(MyInfo.route) { }
             composable(Search.route) { SearchScreen(navController) }

@@ -32,10 +32,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.APAppendedText
-import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.component.FontType
-import com.jangjh123.allpouse_android.ui.component.Review
+import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.delay
@@ -403,21 +400,16 @@ fun HomeScreen() {
             like = 15
         )
 
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 12.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(12.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
+                .height(50.dp),
+            text = stringResource(id = R.string.go_for_more_posts)
         ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_posts),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
-            )
+
         }
+
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -595,20 +587,14 @@ fun HomeScreen() {
             recommend = 43
         )
 
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 20.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(12.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
+                .height(50.dp),
+            text = stringResource(id = R.string.go_for_more_reviews)
         ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_reviews),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
-            )
+
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -693,20 +679,14 @@ fun HomeScreen() {
             )
         }
 
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 12.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(12.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
+                .height(50.dp),
+            text = stringResource(id = R.string.go_for_more_perfumes)
         ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_perfumes),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
-            )
+
         }
 
         Spacer(modifier = Modifier.height(36.dp))
