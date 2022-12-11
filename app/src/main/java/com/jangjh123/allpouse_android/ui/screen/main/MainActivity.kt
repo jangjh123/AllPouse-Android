@@ -35,11 +35,10 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
-import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.PerfumeDetail
-import com.jangjh123.allpouse_android.ui.screen.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
+import com.jangjh123.allpouse_android.ui.screen.my_info.MyInfoScreen
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
@@ -192,9 +191,9 @@ private fun MainActivityContent() {
         ) {
             composable(Home.route) { HomeScreen() }
             composable(Products.route) { }
-            composable(Reviews.route) { PerfumeDetail()}
+            composable(Reviews.route) { }
             composable(Boards.route) { }
-            composable(MyInfo.route) { }
+            composable(MyInfo.route) { MyInfoScreen() }
             composable(Search.route) { SearchScreen(navController) }
         }
     }
