@@ -247,7 +247,7 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(12.dp)
                 .fillMaxWidth()
                 .height(50.dp),
-            iconId = R.drawable.ic_write,
+            icon = painterResource(R.drawable.ic_write),
             text = stringResource(id = R.string.write_review),
             fontSize = 16.sp
         ) {
@@ -294,11 +294,11 @@ private fun PerfumeDetailReviewsContent() {
             modifier = Modifier,
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -344,11 +344,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -358,11 +358,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -372,11 +372,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -440,11 +440,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -454,11 +454,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -468,11 +468,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
