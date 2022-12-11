@@ -9,7 +9,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -119,20 +118,21 @@ fun PerfumeDetail() {
 
                 Row(
                     modifier = Modifier
+                        .wrapContentWidth()
                         .align(CenterHorizontally)
                         .padding(24.dp)
                 ) {
                     ContentButton(
                         modifier = Modifier
-                            .weight(0.5f)
-                            .clickableWithoutRipple {
-                                contentState.value = InformationContent
-                            },
+                            .weight(0.5f),
                         content = stringResource(
                             id = R.string.perfume_information
                         ),
                         contentState = contentState
-                    )
+                    ) {
+                        contentState.value = InformationContent
+                    }
+
                     Spacer(
                         modifier = Modifier
                             .width(12.dp)
@@ -140,19 +140,14 @@ fun PerfumeDetail() {
 
                     ContentButton(
                         modifier = Modifier
-                            .weight(0.5f)
-                            .clickableWithoutRipple {
-                                contentState.value = ReviewContent
-                            },
+                            .weight(0.5f),
                         content = stringResource(
                             id = R.string.perfume_review
                         ),
                         contentState = contentState
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .width(12.dp)
-                    )
+                    ) {
+                        contentState.value = ReviewContent
+                    }
                 }
 
                 when (contentState.value) {
@@ -247,7 +242,7 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(12.dp)
                 .fillMaxWidth()
                 .height(50.dp),
-            iconId = R.drawable.ic_write,
+            icon = painterResource(R.drawable.ic_write),
             text = stringResource(id = R.string.write_review),
             fontSize = 16.sp
         ) {
@@ -294,11 +289,11 @@ private fun PerfumeDetailReviewsContent() {
             modifier = Modifier,
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -344,11 +339,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -358,11 +353,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -372,32 +367,27 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
 
-
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 20.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(horizontal = 12.dp)
+                .padding(top = 20.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
-        ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_perfumer_reviews),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
+                .height(50.dp),
+            text = stringResource(
+                id = R.string.go_for_more_perfumer_reviews
             )
-        }
+        ) {
 
+        }
 
         Spacer(modifier = Modifier.height(36.dp))
 
@@ -440,11 +430,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -454,11 +444,11 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
@@ -468,29 +458,24 @@ private fun PerfumeDetailReviewsContent() {
                 .padding(vertical = 4.dp),
             score = 4.32f,
             perfumeName = "TestPerfume",
-            image = R.drawable.perfume_test_1,
+            image = painterResource(id = R.drawable.perfume_test_1),
             title = "Test Title",
             body = "Test Body",
             author = "Test Author",
-            authorImage = R.drawable.ad_banner_2,
+            authorImage = painterResource(id = R.drawable.ad_banner_2),
             hit = 6554,
             recommend = 32
         )
 
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 20.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(horizontal = 12.dp)
+                .padding(top = 20.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
+                .height(50.dp),
+            text = stringResource(id = R.string.go_for_more_normal_reviews)
         ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_normal_reviews),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
-            )
+
         }
 
         Spacer(modifier = Modifier.height(36.dp))
@@ -501,7 +486,8 @@ private fun PerfumeDetailReviewsContent() {
 private fun ContentButton(
     modifier: Modifier,
     content: String,
-    contentState: MutableState<ContentState>
+    contentState: MutableState<ContentState>,
+    onClick: () -> Unit
 ) {
     val textColorState =
         animateColorAsState(
@@ -527,18 +513,14 @@ private fun ContentButton(
         ) mainColor() else contentBackground()
     )
 
-    Box(
+    RoundedCornerButton(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(24.dp))
-            .height(40.dp)
-            .background(color = buttonColorState.value)
+            .height(40.dp),
+        text = content,
+        backgroundColor = buttonColorState.value,
+        textColor = textColorState.value
     ) {
-        APText(
-            modifier = Modifier
-                .align(Center),
-            text = content,
-            fontColor = textColorState.value
-        )
+        onClick()
     }
 }
 

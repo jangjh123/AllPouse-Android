@@ -10,7 +10,11 @@
     <string name="edit">수정하기</string>
     <string name="perfumer_talk">퍼퓨머톡</string>
     <string name="best_post">인기글</string>
+    <string name="home">홈</string>
+    <string name="products">향수</string>
+    <string name="board">게시판</string>
     <string name="review">리뷰</string>
+    <string name="my_info">내 정보</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>

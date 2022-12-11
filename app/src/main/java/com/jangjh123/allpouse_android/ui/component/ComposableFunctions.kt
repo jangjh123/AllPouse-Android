@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -184,7 +185,7 @@ fun GradientButton(
 @Composable
 fun GradientIconButton(
     modifier: Modifier,
-    iconId: Int,
+    icon: Painter,
     text: String,
     fontSize: TextUnit? = 14.sp,
     onClickButton: () -> Unit,
@@ -213,9 +214,7 @@ fun GradientIconButton(
                 modifier = Modifier
                     .align(CenterVertically)
                     .size(16.dp),
-                painter = painterResource(
-                    id = iconId
-                ),
+                painter = icon,
                 contentDescription = "buttonIcon",
                 tint = Color.White
             )
@@ -256,6 +255,84 @@ fun APTextField(
 }
 
 @Composable
+fun RoundedCornerButton(
+    modifier: Modifier,
+    text: String,
+    backgroundColor: Color? = null,
+    textColor: Color? = null,
+    onClickButton: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .clip(
+                shape = RoundedCornerShape(30.dp)
+            )
+            .background(
+                color = backgroundColor.let {
+                    backgroundColor
+                } ?: contentBackground()
+            )
+            .clickable {
+                onClickButton()
+            }
+    ) {
+        APText(
+            modifier = Modifier
+                .align(Center),
+            text = text,
+            fontColor = textColor.let {
+                textColor
+            } ?: mainTextColor(),
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
+fun RoundedCornerIconButton(
+    modifier: Modifier,
+    text: String,
+    backgroundColor: Color? = null,
+    textColor: Color? = null,
+    icon: Painter,
+    onClickButton: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(30.dp))
+            .background(
+                color = backgroundColor ?: contentBackground()
+            )
+            .clickable {
+                onClickButton()
+            }
+    ) {
+        Row(
+            modifier = Modifier
+                .align(Center)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .size(16.dp)
+                    .align(CenterVertically),
+                painter = icon,
+                contentDescription = "buttonIcon",
+                tint = subTextColor()
+            )
+
+            APText(
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .align(CenterVertically),
+                text = text,
+                fontColor = textColor ?: mainTextColor(),
+                fontSize = 14.sp
+            )
+        }
+    }
+}
+
+@Composable
 fun textSelectionColor() = TextSelectionColors(
     handleColor = mainColor(),
     backgroundColor = mainColor()
@@ -286,11 +363,11 @@ fun Review(
     modifier: Modifier,
     score: Float,
     perfumeName: String,
-    image: Int,
+    image: Painter,
     title: String,
     body: String,
     author: String, // User
-    authorImage: Int,
+    authorImage: Painter,
     hit: Int,
     recommend: Int,
 ) {
@@ -333,7 +410,7 @@ fun Review(
                             .padding(4.dp)
                             .clip(shape = CircleShape)
                             .size(24.dp),
-                        painter = painterResource(id = authorImage),
+                        painter = authorImage,
                         contentDescription = "reviewAuthorImage",
                         contentScale = ContentScale.FillBounds
                     )
@@ -355,7 +432,7 @@ fun Review(
                         .size(100.dp)
                         .fillMaxWidth()
                         .background(color = contentBackground()),
-                    painter = painterResource(id = image),
+                    painter = image,
                     contentDescription = "reviewImage",
                     contentScale = ContentScale.FillBounds
                 )
@@ -451,16 +528,4 @@ fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Review(
-        modifier = Modifier,
-        score = 1.3f,
-        perfumeName = "테스트 향수",
-        image = R.drawable.perfume_test_0,
-        title = "테스트 리뷰",
-        body = "테스트 리뷰 내용",
-        author = "테스터",
-        authorImage = R.drawable.ad_banner_1,
-        hit = 132,
-        recommend = 22
-    )
 }

@@ -32,10 +32,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.APAppendedText
-import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.component.FontType
-import com.jangjh123.allpouse_android.ui.component.Review
+import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.delay
@@ -403,21 +400,16 @@ fun HomeScreen() {
             like = 15
         )
 
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 12.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(12.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
+                .height(50.dp),
+            text = stringResource(id = R.string.go_for_more_posts)
         ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_posts),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
-            )
+
         }
+
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -560,11 +552,11 @@ fun HomeScreen() {
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             score = 4.7f,
             perfumeName = "TestPerfume",
-            image = R.drawable.ad_banner_0,
+            image = painterResource(id = R.drawable.ad_banner_0),
             title = "테스트 향수입니다.",
             body = "사람들의 내 내 봅니다. 까닭이요, 벌레는 나는 듯합니다. 아무 우는 사람들의 잠, 다 별이 이름을 까닭입니다. 소녀들의 새겨지는 않은 하늘에는 버리었습니다. 이름과, 하나의 벌써 토끼, 새겨지는 별이 그리고 것은 없이 있습니다. 했던 위에 아름다운 덮어 밤을 그러나 이름과 까닭이요, 봅니다. 이름자를 어머니, 위에 별 나의 것은 계절이 버리었습니다. 나는 써 하나에 그리고 동경과 가을로 멀듯이, 계십니다. 위에 이네들은 가득 까닭입니다. 못 피어나듯이 아름다운 부끄러운 지나가는 잠, 봅니다. 이름과, 가을 별 아름다운 흙으로 별빛이 봅니다.",
             author = "TestAuthor0",
-            authorImage = R.drawable.ad_banner_1,
+            authorImage = painterResource(id = R.drawable.ad_banner_1),
             hit = 3312,
             recommend = 43
         )
@@ -573,11 +565,11 @@ fun HomeScreen() {
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             score = 4.7f,
             perfumeName = "TestPerfume",
-            image = R.drawable.ad_banner_1,
+            image = painterResource(id = R.drawable.ad_banner_1),
             title = "테스트 향수입니다.",
             body = "사람들의 내 내 봅니다. 까닭이요, 벌레는 나는 듯합니다. 아무 우는 사람들의 잠, 다 별이 이름을 까닭입니다. 소녀들의 새겨지는 않은 하늘에는 버리었습니다. 이름과, 하나의 벌써 토끼, 새겨지는 별이 그리고 것은 없이 있습니다. 했던 위에 아름다운 덮어 밤을 그러나 이름과 까닭이요, 봅니다. 이름자를 어머니, 위에 별 나의 것은 계절이 버리었습니다. 나는 써 하나에 그리고 동경과 가을로 멀듯이, 계십니다. 위에 이네들은 가득 까닭입니다. 못 피어나듯이 아름다운 부끄러운 지나가는 잠, 봅니다. 이름과, 가을 별 아름다운 흙으로 별빛이 봅니다.",
             author = "TestAuthor1",
-            authorImage = R.drawable.ad_banner_1,
+            authorImage = painterResource(id = R.drawable.ad_banner_1),
             hit = 3312,
             recommend = 43
         )
@@ -586,29 +578,23 @@ fun HomeScreen() {
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             score = 4.7f,
             perfumeName = "TestPerfume",
-            image = R.drawable.ad_banner_2,
+            image = painterResource(id = R.drawable.ad_banner_2),
             title = "테스트 향수입니다.",
             body = "사람들의 내 내 봅니다. 까닭이요, 벌레는 나는 듯합니다. 아무 우는 사람들의 잠, 다 별이 이름을 까닭입니다. 소녀들의 새겨지는 않은 하늘에는 버리었습니다. 이름과, 하나의 벌써 토끼, 새겨지는 별이 그리고 것은 없이 있습니다. 했던 위에 아름다운 덮어 밤을 그러나 이름과 까닭이요, 봅니다. 이름자를 어머니, 위에 별 나의 것은 계절이 버리었습니다. 나는 써 하나에 그리고 동경과 가을로 멀듯이, 계십니다. 위에 이네들은 가득 까닭입니다. 못 피어나듯이 아름다운 부끄러운 지나가는 잠, 봅니다. 이름과, 가을 별 아름다운 흙으로 별빛이 봅니다.",
             author = "TestAuthor2",
-            authorImage = R.drawable.ad_banner_1,
+            authorImage = painterResource(id = R.drawable.ad_banner_1),
             hit = 3312,
             recommend = 43
         )
 
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 20.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(12.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
+                .height(50.dp),
+            text = stringResource(id = R.string.go_for_more_reviews)
         ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_reviews),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
-            )
+
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -693,20 +679,14 @@ fun HomeScreen() {
             )
         }
 
-        Box(
+        RoundedCornerButton(
             modifier = Modifier
-                .padding(start = 12.dp, end = 12.dp, top = 12.dp)
-                .clip(RoundedCornerShape(30.dp))
+                .padding(12.dp)
                 .fillMaxWidth()
-                .height(50.dp)
-                .background(contentBackground())
+                .height(50.dp),
+            text = stringResource(id = R.string.go_for_more_perfumes)
         ) {
-            APText(
-                modifier = Modifier.align(Center),
-                text = stringResource(id = R.string.go_for_more_perfumes),
-                fontColor = mainTextColor(),
-                fontSize = 14.sp
-            )
+
         }
 
         Spacer(modifier = Modifier.height(36.dp))
