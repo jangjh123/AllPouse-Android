@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
@@ -23,6 +24,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -30,6 +33,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
@@ -112,100 +116,45 @@ private fun MainActivityContent() {
                     .clip(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
                 backgroundColor = Color.Black
             ) {
-                BottomNavigationItem(
-                    selected = currentScreen?.hierarchy?.any {
-                        it.route == Home.route
-                    } == true,
-                    onClick = {
-                        navController.navigate(Home.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    selectedContentColor = mainColor(),
-                    unselectedContentColor = Color.Gray,
-                    icon = {
-                        Icon(
-                            painter =
-                            painterResource(id = R.drawable.ic_home),
-                            contentDescription = "home"
-                        )
-                    }
+                CustomBottomNavigationItem(
+                    screenName = stringResource(id = R.string.home),
+                    currentScreen = currentScreen,
+                    navController = navController,
+                    screen = Home,
+                    icon = painterResource(id = R.drawable.ic_home)
                 )
 
-                BottomNavigationItem(
-                    selected = currentScreen?.hierarchy?.any {
-                        it.route == Shop.route
-                    } == true,
-                    onClick = {
-                        navController.navigate(Shop.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    selectedContentColor = mainColor(),
-                    unselectedContentColor = Color.Gray,
-                    icon = {
-                        Icon(
-                            painter =
-                            painterResource(id = R.drawable.ic_shopping),
-                            contentDescription = "shop"
-                        )
-                    }
+                CustomBottomNavigationItem(
+                    screenName = stringResource(id = R.string.products),
+                    currentScreen = currentScreen,
+                    navController = navController,
+                    screen = Products,
+                    icon = painterResource(id = R.drawable.ic_product)
                 )
 
-                BottomNavigationItem(
-                    selected = currentScreen?.hierarchy?.any {
-                        it.route == Review.route
-                    } == true,
-                    onClick = {
-                        navController.navigate(Review.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    selectedContentColor = mainColor(),
-                    unselectedContentColor = Color.Gray,
-                    icon = {
-                        Icon(
-                            painter =
-                            painterResource(id = R.drawable.ic_review),
-                            contentDescription = "review"
-                        )
-                    }
+
+                CustomBottomNavigationItem(
+                    screenName = stringResource(id = R.string.review),
+                    currentScreen = currentScreen,
+                    navController = navController,
+                    screen = Reviews,
+                    icon = painterResource(id = R.drawable.ic_review)
                 )
 
-                BottomNavigationItem(
-                    selected = currentScreen?.hierarchy?.any {
-                        it.route == MyInfo.route
-                    } == true,
-                    onClick = {
-                        navController.navigate(MyInfo.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    selectedContentColor = mainColor(),
-                    unselectedContentColor = Color.Gray,
-                    icon = {
-                        Icon(
-                            painter =
-                            painterResource(id = R.drawable.ic_settings),
-                            contentDescription = "myInfo"
-                        )
-                    }
+                CustomBottomNavigationItem(
+                    screenName = stringResource(id = R.string.board),
+                    currentScreen = currentScreen,
+                    navController = navController,
+                    screen = Boards,
+                    icon = painterResource(id = R.drawable.ic_board)
+                )
+
+                CustomBottomNavigationItem(
+                    screenName = stringResource(id = R.string.my_info),
+                    currentScreen = currentScreen,
+                    navController = navController,
+                    screen = MyInfo,
+                    icon = painterResource(id = R.drawable.ic_my_info)
                 )
             }
         }
@@ -240,11 +189,56 @@ private fun MainActivityContent() {
             }
         ) {
             composable(Home.route) { HomeScreen() }
-            composable(Shop.route) { }
-            composable(Review.route) { }
+            composable(Products.route) { }
+            composable(Reviews.route) { }
+            composable(Boards.route) { }
             composable(MyInfo.route) { }
             composable(Search.route) { SearchScreen(navController) }
         }
+    }
+}
+
+@Composable
+private fun RowScope.CustomBottomNavigationItem(
+    screenName: String,
+    currentScreen: NavDestination?,
+    navController: NavController,
+    screen: Screen,
+    icon: Painter
+) {
+    currentScreen?.hierarchy?.let {
+        BottomNavigationItem(
+            label = {
+                APText(
+                    text = screenName,
+                    fontSize = 9.sp,
+                    fontColor = Color.LightGray
+                )
+            },
+            alwaysShowLabel = false,
+            selected = it.any {
+                it.route == screen.route
+            },
+            onClick = {
+                navController.navigate(screen.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
+            selectedContentColor = mainColor(),
+            unselectedContentColor = Color.Gray,
+            icon = {
+                Icon(
+                    modifier = Modifier
+                        .size(20.dp),
+                    painter = icon,
+                    contentDescription = "myInfo"
+                )
+            }
+        )
     }
 }
 
@@ -258,8 +252,9 @@ private fun DefaultPreview() {
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
-    object Shop : Screen("shop")
-    object Review : Screen("review")
+    object Products : Screen("products")
+    object Reviews : Screen("reviews")
+    object Boards : Screen("boards")
     object MyInfo : Screen("myInfo")
     object Search : Screen("search")
 }
