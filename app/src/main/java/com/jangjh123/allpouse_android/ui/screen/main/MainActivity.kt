@@ -130,7 +130,7 @@ private fun MainActivityContent() {
                     currentScreen = currentScreen,
                     navController = navController,
                     screen = Products,
-                    icon = painterResource(id = R.drawable.ic_product)
+                    icon = painterResource(id = R.drawable.ic_perfume)
                 )
 
 
