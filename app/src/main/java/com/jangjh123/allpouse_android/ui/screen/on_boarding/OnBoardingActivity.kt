@@ -36,7 +36,6 @@ import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
-import com.jangjh123.allpouse_android.ui.theme.darkFilter
 import com.jangjh123.allpouse_android.ui.theme.mainColor
 import kotlinx.coroutines.launch
 
@@ -61,17 +60,17 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
 
     val screens = listOf(
         Triple(
-            painterResource(id = R.drawable.splash_bg_0),
+            painterResource(id = R.drawable.on_boarding_bg_0),
             stringResource(R.string.center_text_page_0),
             stringResource(R.string.desc_page_0)
         ),
         Triple(
-            painterResource(id = R.drawable.splash_bg_1),
+            painterResource(id = R.drawable.on_boarding_bg_1),
             stringResource(R.string.center_text_page_1),
             stringResource(R.string.desc_page_1)
         ),
         Triple(
-            painterResource(id = R.drawable.splash_bg_2),
+            painterResource(id = R.drawable.on_boarding_bg_2),
             stringResource(R.string.center_text_page_2),
             stringResource(R.string.desc_page_2)
         )
@@ -90,16 +89,25 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                     modifier = Modifier.fillMaxSize(),
                     painter = item.first,
                     contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            color = Color(0x88000000)
+                        )
                 )
 
                 Column(Modifier.fillMaxSize()) {
-                    Box(modifier = Modifier.weight(0.6f))
+                    Box(modifier = Modifier.weight(0.5f))
                     Box(
                         modifier = Modifier
-                            .weight(0.4f)
+                            .weight(0.5f)
                             .fillMaxWidth()
-                            .background(color = darkFilter())
+                            .background(
+                                color = Color(0xAA000000)
+                            )
                     ) {
                         Column(
                             modifier = Modifier
@@ -110,7 +118,7 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                                 modifier = Modifier.align(CenterHorizontally),
                                 text = item.second,
                                 fontColor = mainColor(),
-                                fontSize = 24.sp,
+                                fontSize = 28.sp,
                                 fontType = FontType.Bold,
                             )
 
@@ -119,7 +127,7 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                                     .padding(top = 30.dp)
                                     .align(CenterHorizontally),
                                 text = item.third,
-                                fontSize = 14.sp,
+                                fontSize = 16.sp,
                                 fontColor = Color.LightGray,
                                 textAlign = TextAlign.Center
                             )
