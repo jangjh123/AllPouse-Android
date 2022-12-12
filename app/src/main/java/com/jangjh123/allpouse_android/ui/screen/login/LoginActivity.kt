@@ -1,13 +1,16 @@
 package com.jangjh123.allpouse_android.ui.screen.login
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -18,7 +21,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
+import com.jangjh123.allpouse_android.ui.screen.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
@@ -40,6 +43,12 @@ class LoginActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val startActivityForProfileImage =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+
+                }
+            }
         setContent {
             AllPouseAndroidTheme {
                 val signUpBottomSheetState =
@@ -61,6 +70,14 @@ class LoginActivity : ComponentActivity() {
                             signUpBottomSheetState.show()
                         }
                     },
+                    onClickProfileImage = {
+                        startActivityForProfileImage.launch(
+                            Intent(
+                                this@LoginActivity,
+                                ImageCropActivity::class.java
+                            )
+                        )
+                    },
                     onClickStartButton = {
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     },
@@ -81,6 +98,7 @@ private fun LoginActivityContent(
     modalBottomSheetState: ModalBottomSheetState,
     onClickGoogleLogin: () -> Unit,
     onClickKakaoLogin: () -> Unit,
+    onClickProfileImage: () -> Unit,
     onClickStartButton: () -> Unit,
     onClickClose: () -> Unit
 ) {
@@ -89,12 +107,137 @@ private fun LoginActivityContent(
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetContent = {
-            SignUpModalBottomSheet(focusManager, onClickStartButton = {
-                onClickStartButton()
-            },
-                onClickClose = {
-                    onClickClose()
-                })
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(background())
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp, vertical = 20.dp)
+                        .fillMaxWidth()
+                        .background(background())
+                ) {
+
+                    Image(
+                        modifier = Modifier
+                            .padding(
+                                all = 24.dp
+                            )
+                            .clip(
+                                shape = CircleShape
+                            )
+                            .size(100.dp)
+                            .background(
+                                color = contentBackground()
+                            )
+                            .align(CenterHorizontally)
+                            .clickable {
+                                onClickProfileImage()
+                            },
+                        painter = painterResource(
+                            id = R.drawable.main_icon
+                        ),
+                        contentDescription = "profileImage",
+                        contentScale = ContentScale.FillBounds
+                    )
+
+                    APText(
+                        text = stringResource(id = R.string.nickName),
+                        fontType = FontType.Bold,
+                        fontSize = 20.sp
+                    )
+
+                    val nicknameState = remember { mutableStateOf("") }
+
+                    APTextField(
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .fillMaxWidth(),
+                        textFieldState = nicknameState,
+                        onValueChanged = { nicknameState.value = it },
+                        focusManager = focusManager,
+                    )
+
+                    APText(
+                        modifier = Modifier.padding(top = 20.dp),
+                        text = stringResource(id = R.string.gender),
+                        fontType = FontType.Bold,
+                        fontSize = 20.sp
+                    )
+
+                    val genderState = remember { mutableStateOf<Gender>(None) }
+                    Row(
+                        Modifier
+                            .wrapContentSize()
+                            .padding(top = 8.dp)
+                    ) {
+                        GenderButton(
+                            modifier = Modifier,
+                            gender = stringResource(id = R.string.male),
+                            onClickGenderButton = {
+                                genderState.value = Man
+                            },
+                            genderState
+                        )
+                        GenderButton(
+                            modifier = Modifier.padding(start = 20.dp),
+                            gender = stringResource(id = R.string.female),
+                            onClickGenderButton = {
+                                genderState.value = Woman
+                            },
+                            genderState
+                        )
+                    }
+
+                    APText(
+                        modifier = Modifier.padding(top = 20.dp),
+                        text = stringResource(id = R.string.age),
+                        fontType = FontType.Bold,
+                        fontSize = 20.sp
+                    )
+
+                    val ageState = remember { mutableStateOf("") }
+                    APTextField(
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .fillMaxWidth(),
+                        textFieldState = ageState,
+                        onValueChanged = { ageState.value = it },
+                        focusManager = focusManager,
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                    )
+
+                    val buttonAlphaState = animateFloatAsState(
+                        targetValue =
+                        if (nicknameState.value.isNotEmpty() && genderState.value != None && ageState.value.isNotEmpty()) {
+                            1f
+                        } else {
+                            0.3f
+                        }
+                    )
+
+                    GradientButton(
+                        modifier = Modifier
+                            .padding(top = 20.dp)
+                            .alpha(buttonAlphaState.value)
+                            .fillMaxWidth()
+                            .height(60.dp),
+                        text = stringResource(id = R.string.start),
+                        fontSize = 18.sp,
+                        onClickButton = {
+                            onClickStartButton()
+                        }
+                    )
+                }
+                CloseIcon(modifier = Modifier
+                    .padding(top = 24.dp, end = 20.dp)
+                    .size(24.dp)
+                    .align(Alignment.TopEnd)
+                    .clickableWithoutRipple {
+                        onClickClose()
+                    })
+            }
         },
         sheetElevation = 20.dp,
         sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
@@ -244,122 +387,6 @@ private fun LoginButton(
             fontSize = 14.sp,
             fontColor = Color.Black
         )
-    }
-}
-
-@Composable
-private fun SignUpModalBottomSheet(
-    focusManager: FocusManager,
-    onClickStartButton: () -> Unit,
-    onClickClose: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .height(420.dp)
-            .fillMaxWidth()
-            .background(background())
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 20.dp)
-                .fillMaxSize()
-                .background(background())
-        ) {
-            APText(
-                text = stringResource(id = R.string.nickName),
-                fontType = FontType.Bold,
-                fontSize = 20.sp
-            )
-
-            val nicknameState = remember { mutableStateOf("") }
-
-            APTextField(
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth(),
-                textFieldState = nicknameState,
-                onValueChanged = { nicknameState.value = it },
-                focusManager = focusManager,
-            )
-
-            APText(
-                modifier = Modifier.padding(top = 20.dp),
-                text = stringResource(id = R.string.gender),
-                fontType = FontType.Bold,
-                fontSize = 20.sp
-            )
-
-            val genderState = remember { mutableStateOf<Gender>(None) }
-            Row(
-                Modifier
-                    .wrapContentSize()
-                    .padding(top = 8.dp)
-            ) {
-                GenderButton(
-                    modifier = Modifier,
-                    gender = stringResource(id = R.string.male),
-                    onClickGenderButton = {
-                        genderState.value = Man
-                    },
-                    genderState
-                )
-                GenderButton(
-                    modifier = Modifier.padding(start = 20.dp),
-                    gender = stringResource(id = R.string.female),
-                    onClickGenderButton = {
-                        genderState.value = Woman
-                    },
-                    genderState
-                )
-            }
-
-            APText(
-                modifier = Modifier.padding(top = 20.dp),
-                text = stringResource(id = R.string.age),
-                fontType = FontType.Bold,
-                fontSize = 20.sp
-            )
-
-            val ageState = remember { mutableStateOf("") }
-            APTextField(
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth(),
-                textFieldState = ageState,
-                onValueChanged = { ageState.value = it },
-                focusManager = focusManager,
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-            )
-
-            val buttonAlphaState = animateFloatAsState(
-                targetValue =
-                if (nicknameState.value.isNotEmpty() && genderState.value != None && ageState.value.isNotEmpty()) {
-                    1f
-                } else {
-                    0.3f
-                }
-            )
-
-            GradientButton(
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .alpha(buttonAlphaState.value)
-                    .fillMaxWidth()
-                    .height(60.dp),
-                text = stringResource(id = R.string.start),
-                fontSize = 18.sp,
-                onClickButton = {
-                    onClickStartButton()
-                }
-            )
-        }
-        CloseIcon(modifier = Modifier
-            .padding(top = 24.dp, end = 20.dp)
-            .size(24.dp)
-            .align(Alignment.TopEnd)
-            .clickableWithoutRipple {
-                onClickClose()
-            })
     }
 }
 

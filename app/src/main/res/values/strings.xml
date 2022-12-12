@@ -41,8 +41,8 @@
     <!--    LoginActivity-->
 
     <!--    ImageCropActivity-->
-    <string name="cut_image">잘라내기</string>
-    <string name="use_cut_image">이미지 사용</string>
+    <string name="crop_image">잘라내기</string>
+    <string name="use_cropped_image">이미지 사용</string>
     <!--    ImageCropActivity-->
 
     <!--    MainScreen-->
