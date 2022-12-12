@@ -1,5 +1,6 @@
 package com.jangjh123.allpouse_android.ui.screen.image_crop
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -9,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
@@ -30,19 +32,16 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.RoundedCornerIconButton
+import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
-import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
-import com.jangjh123.allpouse_android.ui.theme.background
-import com.jangjh123.allpouse_android.ui.theme.contentBackground
+import com.jangjh123.allpouse_android.ui.theme.*
 import kotlin.math.roundToInt
 
 class ImageCropActivity : ComponentActivity() {
@@ -50,14 +49,17 @@ class ImageCropActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AllPouseAndroidTheme {
-                ImageCropActivityContent(this@ImageCropActivity)
+                ImageCropActivityContent(this@ImageCropActivity) {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
         }
     }
 }
 
 @Composable
-private fun ImageCropActivityContent(context: Context) {
+private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Unit) {
 // todo : 고정되는 값에 대해서는 파라미터를 통해 넘겨주도록 수정
     val imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
     val imageWidthState = remember { mutableStateOf(0.dp) } // dp
@@ -191,44 +193,93 @@ private fun ImageCropActivityContent(context: Context) {
                 })
             }
         }
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.4f)
         ) {
-            RoundedCornerIconButton(
+            Box(
                 modifier = Modifier
-                    .padding(20.dp)
                     .fillMaxWidth()
-                    .height(50.dp),
-                text = stringResource(
-                    id = R.string.cut_image
-                ),
-                icon = painterResource(
-                    id = R.drawable.ic_cut
-                )
+                    .weight(0.8f)
             ) {
-                croppedImageState.value = Bitmap
-                    .createBitmap(
-                        imageState.value.asAndroidBitmap(),
-                        (offsetX.value - sizeState.value).roundToInt(),
-                        (offsetY.value - sizeState.value).roundToInt(),
-                        sizeState.value.roundToInt() * 2,
-                        sizeState.value.roundToInt() * 2
-                    )
-                    .asImageBitmap()
+                Image(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .align(Center)
+                        .size(120.dp)
+                        .background(color = contentBackground()),
+                    bitmap = croppedImageState.value, contentDescription = "cropped",
+                    contentScale = ContentScale.FillBounds
+                )
             }
 
-            Image(
+            Row(
                 modifier = Modifier
-                    .padding(top = 20.dp)
-                    .clip(CircleShape)
-                    .align(Center)
-                    .size(120.dp)
-                    .background(color = contentBackground()),
-                bitmap = croppedImageState.value, contentDescription = "cropped",
-                contentScale = ContentScale.FillBounds
-            )
+                    .fillMaxWidth()
+                    .weight(0.2f)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(0.5f)
+                        .fillMaxHeight()
+                        .background(
+                            color = subBackground()
+                        )
+                        .clickable {
+                            croppedImageState.value = Bitmap
+                                .createBitmap(
+                                    imageState.value.asAndroidBitmap(),
+                                    (offsetX.value - sizeState.value).roundToInt(),
+                                    (offsetY.value - sizeState.value).roundToInt(),
+                                    sizeState.value.roundToInt() * 2,
+                                    sizeState.value.roundToInt() * 2
+                                )
+                                .asImageBitmap()
+                        }) {
+                    APText(
+                        modifier = Modifier
+                            .align(Center),
+                        text = stringResource(
+                            id = R.string.crop_image
+                        )
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(0.5f)
+                        .fillMaxHeight()
+                        .background(
+                            color = mainColor()
+                        )
+                        .clickable {
+                            onClickUseImage()
+                        }
+                ) {
+                    APText(
+                        modifier = Modifier
+                            .align(Center),
+                        text = stringResource(
+                            id = R.string.use_cropped_image
+                        ),
+                        fontColor = Color.White
+                    )
+                }
+            }
+
+//            GradientButton(
+//                modifier = Modifier
+//                    .padding(
+//                        horizontal = 20.dp)
+//                    .fillMaxWidth()
+//                    .height(40.dp),
+//                text = stringResource(id = R.string.use_cut_image)
+//            ) {
+//                onClickUseImage()
+//            }
+
+
         }
     }
 }
