@@ -30,9 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +39,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.ui.screen.detail.review_detail.dummyReviewComments
 import com.jangjh123.allpouse_android.ui.theme.*
 
 sealed class FontType {
@@ -295,6 +295,7 @@ fun RoundedCornerIconButton(
     backgroundColor: Color? = null,
     textColor: Color? = null,
     icon: Painter,
+    iconTint: Color? = null,
     onClickButton: () -> Unit
 ) {
     Box(
@@ -317,7 +318,7 @@ fun RoundedCornerIconButton(
                     .align(CenterVertically),
                 painter = icon,
                 contentDescription = "buttonIcon",
-                tint = subTextColor()
+                tint = iconTint ?: subTextColor()
             )
 
             APText(
@@ -356,6 +357,91 @@ fun CloseIcon(modifier: Modifier) {
         contentDescription = "close",
         tint = mainTextColor()
     )
+}
+
+@Composable
+fun Perfume(
+    modifier: Modifier,
+    perfumeName: String,
+    brandName: String,
+    image: Painter,
+    keywordCount: Int
+) {
+    Box(
+        modifier = modifier
+            .wrapContentHeight()
+            .width(160.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = subBackground())
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Image(
+                modifier = Modifier
+                    .padding(
+                        top = 8.dp,
+                        start = 8.dp,
+                        end = 8.dp
+                    )
+                    .size(160.dp)
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .background(contentBackground())
+                    .padding(10.dp),
+                painter = image,
+                contentDescription = "perfumeImage",
+                contentScale = ContentScale.FillBounds
+            )
+            APText(
+                modifier = Modifier.padding(
+                    top = 4.dp,
+                    start = 10.dp,
+                    end = 10.dp
+                ),
+                text = perfumeName,
+                fontColor = mainTextColor(),
+                fontSize = 14.sp
+            )
+            APText(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp),
+                text = brandName,
+                fontColor = subTextColor(),
+                fontSize = 12.sp
+            )
+            APAppendedText(modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .padding(bottom = 8.dp),
+                annotatedString = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = subTextColor(),
+                            fontSize = 12.sp
+                        )
+                    ) {
+                        append("5개 중")
+                        append(" ")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = mainColor(),
+                            fontSize = 12.sp
+                        )
+                    ) {
+                        append("$keywordCount")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = subTextColor(),
+                            fontSize = 12.sp
+                        )
+                    ) {
+                        append(" ")
+                        append("개")
+                        append(" ")
+                        append("일치")
+                    }
+                })
+        }
+    }
 }
 
 @Composable
@@ -512,6 +598,166 @@ fun Review(
     }
 }
 
+sealed class DummyComment {
+    data class DummyReviewComment(
+        val userName: String,
+        val date: String,
+        val userProfileImage: Int,
+        val body: String,
+        val commentsInComment: ArrayList<DummyCommentInReviewComment>
+    ) : DummyComment()
+
+    data class DummyCommentInReviewComment(
+        val userName: String,
+        val date: String,
+        val userProfileImage: Int,
+        val body: String
+    ) : DummyComment()
+}
+
+
+@Composable
+fun Comment(modifier: Modifier, comment: DummyComment) {
+    when (comment) {
+        is DummyComment.DummyReviewComment -> {
+            Column {
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .clip(
+                                shape = CircleShape
+                            )
+                            .size(48.dp),
+                        painter = painterResource(
+                            id = comment.userProfileImage
+                        ),
+                        contentDescription = "commentWriterProfileImage",
+                        contentScale = ContentScale.FillBounds
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 8.dp
+                            )
+                    ) {
+                        Row {
+                            APText(
+                                modifier = Modifier
+                                    .align(CenterVertically),
+                                text = comment.userName,
+                                fontSize = 12.sp
+                            )
+
+                            APText(
+                                modifier = Modifier
+                                    .padding(
+                                        horizontal = 8.dp
+                                    )
+                                    .align(CenterVertically),
+                                text = comment.date,
+                                fontSize = 10.sp,
+                                fontColor = subTextColor()
+                            )
+                        }
+
+                        APText(
+                            text = comment.body
+                        )
+
+                        APText(
+                            modifier = Modifier
+                                .clickableWithoutRipple {
+                                    // todo : commentInComment
+                                },
+                            text = stringResource(
+                                id = R.string.write_comment_in_comment
+                            ),
+                            fontSize = 12.sp,
+                            fontColor = subTextColor()
+                        )
+                    }
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .height(12.dp)
+                )
+
+                if (comment.commentsInComment.isNotEmpty()) {
+                    comment.commentsInComment.forEach {
+                        Comment(
+                            modifier = Modifier
+                                .padding(
+                                    start = 60.dp
+                                ),
+                            comment = it
+                        )
+                    }
+                }
+            }
+        }
+        is DummyComment.DummyCommentInReviewComment -> {
+            Column {
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = 8.dp
+                        )
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .clip(
+                                shape = CircleShape
+                            )
+                            .size(48.dp),
+                        painter = painterResource(
+                            id = comment.userProfileImage
+                        ),
+                        contentDescription = "commentWriterProfileImage",
+                        contentScale = ContentScale.FillBounds
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 8.dp
+                            )
+                    ) {
+                        Row {
+                            APText(
+                                modifier = Modifier
+                                    .align(CenterVertically),
+                                text = comment.userName,
+                                fontSize = 12.sp
+                            )
+
+                            APText(
+                                modifier = Modifier
+                                    .padding(
+                                        horizontal = 8.dp
+                                    )
+                                    .align(CenterVertically),
+                                text = comment.date,
+                                fontSize = 10.sp,
+                                fontColor = subTextColor()
+                            )
+                        }
+
+                        APText(
+                            text = comment.body
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Composable
 fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
     Icon(
@@ -528,4 +774,5 @@ fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
+    Comment(Modifier, comment = dummyReviewComments[0])
 }
