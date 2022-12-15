@@ -16,6 +16,8 @@
     <string name="review">리뷰</string>
     <string name="my_info">내 정보</string>
     <string name="taste_keyword">나의 취향 키워드</string>
+    <string name="comment">댓글</string>
+    <string name="write_comment_in_comment">답글작성</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -77,6 +79,11 @@
     <string name="perfumer">조향사</string>
     <string name="normal">일반</string>
     <!--    PerfumeDetailReview-->
+
+    <!--    ReviewDetailScreen-->
+    <string name="recommend">추천하기</string>
+    <string name="did_recommend">추천함</string>
+    <!--    ReviewDetailScreen-->
 
     <!--    SettingsScreen-->
     <string name="my_like">나의 좋아요</string>
