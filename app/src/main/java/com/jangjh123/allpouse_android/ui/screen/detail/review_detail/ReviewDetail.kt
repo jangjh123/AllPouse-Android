@@ -330,7 +330,7 @@ fun ReviewDetailScreen() {
         val iconState = remember { mutableStateOf(R.drawable.ic_empty_heart) }
         val recommendTextState = remember { mutableStateOf(R.string.recommend) }
         val recommendTextColorState =
-            animateColorAsState(targetValue = if (recommendState.value) mainColor() else Color.White)
+            animateColorAsState(targetValue = if (recommendState.value) mainColor() else mainTextColor())
         val iconTintState =
             animateColorAsState(targetValue = if (recommendState.value) mainColor() else subTextColor())
 
@@ -365,7 +365,7 @@ fun ReviewDetailScreen() {
                     horizontal = 12.dp
                 ),
             thickness = 0.5.dp,
-            color = subBackground()
+            color = contentBackground()
         )
 
         APText(
@@ -396,7 +396,7 @@ fun ReviewDetailScreen() {
                         horizontal = 12.dp
                     ),
                 thickness = 0.5.dp,
-                color = subBackground()
+                color = contentBackground()
             )
         }
     }
