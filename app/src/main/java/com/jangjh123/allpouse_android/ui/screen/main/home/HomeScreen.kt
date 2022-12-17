@@ -173,21 +173,13 @@ fun HomeScreen() {
                 .padding(horizontal = 10.dp)
         ) {
             items(dummyTasteKeyword) { tasteKeyword ->
-                Box(
+                Keyword(
                     modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                        .clip(RoundedCornerShape(24.dp))
-                        .width(100.dp)
-                        .height(36.dp)
-                        .background(contentBackground())
-                ) {
-                    APText(
-                        modifier = Modifier.align(Center),
-                        text = tasteKeyword,
-                        fontColor = mainTextColor(),
-                        fontSize = 14.sp
-                    )
-                }
+                        .padding(
+                            horizontal = 4.dp
+                        ),
+                    tasteKeyword
+                )
             }
 
             item {
