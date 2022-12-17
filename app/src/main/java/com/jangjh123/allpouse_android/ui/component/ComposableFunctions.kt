@@ -759,6 +759,24 @@ fun Comment(modifier: Modifier, comment: DummyComment) {
 }
 
 @Composable
+fun Keyword(modifier: Modifier, keyword: String) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(24.dp))
+            .width(100.dp)
+            .height(36.dp)
+            .background(contentBackground())
+    ) {
+        APText(
+            modifier = Modifier.align(Center),
+            text = keyword,
+            fontColor = mainTextColor(),
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
 fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
     Icon(
         modifier = modifier

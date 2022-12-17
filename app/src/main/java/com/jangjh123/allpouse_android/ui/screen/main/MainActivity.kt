@@ -39,6 +39,7 @@ import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
 import com.jangjh123.allpouse_android.ui.screen.my_info.MyInfoScreen
+import com.jangjh123.allpouse_android.ui.screen.perfume_look_around.PerfumeLookAroundScreen
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
@@ -129,7 +130,7 @@ private fun MainActivityContent() {
                     screenName = stringResource(id = R.string.products),
                     currentScreen = currentScreen,
                     navController = navController,
-                    screen = Products,
+                    screen = PerfumeLookAround,
                     icon = painterResource(id = R.drawable.ic_perfume)
                 )
 
@@ -190,7 +191,7 @@ private fun MainActivityContent() {
             }
         ) {
             composable(Home.route) { HomeScreen() }
-            composable(Products.route) { }
+            composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
             composable(Reviews.route) { }
             composable(Boards.route) { }
             composable(MyInfo.route) { MyInfoScreen() }
@@ -253,7 +254,7 @@ private fun DefaultPreview() {
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
-    object Products : Screen("products")
+    object PerfumeLookAround : Screen("perfumeLookAround")
     object Reviews : Screen("reviews")
     object Boards : Screen("boards")
     object MyInfo : Screen("myInfo")
