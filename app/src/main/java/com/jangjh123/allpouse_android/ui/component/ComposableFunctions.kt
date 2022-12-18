@@ -20,6 +20,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -39,7 +40,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.screen.detail.review_detail.dummyReviewComments
 import com.jangjh123.allpouse_android.ui.theme.*
 
 sealed class FontType {
@@ -561,7 +561,7 @@ fun Review(
                                 .size(10.dp)
                                 .align(CenterVertically),
                             painter = painterResource(id = R.drawable.ic_viewed),
-                            contentDescription = "viewedIcon",
+                            contentDescription = "hitIcon",
                             tint = subTextColor()
                         )
 
@@ -777,6 +777,104 @@ fun Keyword(modifier: Modifier, keyword: String) {
 }
 
 @Composable
+fun Brand(
+    modifier: Modifier,
+    brandName: String,
+    brandImage: Painter,
+    brandPerfumeCount: Int,
+    brandHit: Int
+) {
+    Row(
+        modifier = modifier
+            .clip(
+                shape = RoundedCornerShape(24.dp)
+            )
+            .fillMaxWidth()
+            .height(100.dp)
+            .background(
+                color = subBackground()
+            )
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(12.dp)
+                .weight(0.5f)
+                .clip(
+                    shape = RoundedCornerShape(24.dp)
+                )
+                .background(
+                    color = brandLogoBackground()
+                )
+        ) {
+            Image(
+                modifier = Modifier
+                    .clip(
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                    .padding(12.dp)
+                    .align(Center),
+                painter = brandImage,
+                contentDescription = "brandLogoImage",
+                contentScale = ContentScale.Inside
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(12.dp)
+                .weight(0.5f)
+                .align(CenterVertically)
+        ) {
+            APText(
+                modifier = Modifier
+                    .align(CenterHorizontally),
+                text = brandName,
+                fontType = FontType.Bold,
+                fontSize = 24.sp
+            )
+
+            APText(
+                modifier = Modifier
+                    .align(CenterHorizontally),
+                text = stringResource(
+                    id = R.string.brand_perfume_count, brandPerfumeCount
+                ),
+                fontSize = 12.sp,
+                fontColor = subTextColor()
+            )
+
+            Row(
+                modifier = Modifier
+                    .align(CenterHorizontally)
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(12.dp)
+                        .align(CenterVertically),
+                    painter = painterResource(
+                        id = R.drawable.ic_viewed
+                    ),
+                    contentDescription = "hitIcon",
+                    tint = subTextColor()
+                )
+
+                APText(
+                    modifier = Modifier
+                        .padding(
+                            start = 4.dp
+                        )
+                        .align(CenterVertically),
+                    text = "$brandHit",
+                    fontSize = 12.sp,
+                    fontColor = subTextColor()
+                )
+            }
+
+        }
+    }
+}
+
+@Composable
 fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
     Icon(
         modifier = modifier
@@ -792,5 +890,11 @@ fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Comment(Modifier, comment = dummyReviewComments[0])
+    Brand(
+        Modifier,
+        brandName = "Versace",
+        painterResource(id = R.drawable.brand_test_0),
+        3,
+        123
+    )
 }

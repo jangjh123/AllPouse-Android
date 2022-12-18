@@ -57,6 +57,9 @@ fun mainColor() = Color(0xFFAD3232)
 fun darkFilter() = Color(0x88000000)
 
 @Composable
+fun brandLogoBackground() = Color(0x09000000)
+
+@Composable
 fun onDarkModeOrNot(darkModeColor: Color, lightModeColor: Color): Color {
     return if (isSystemInDarkTheme()) {
         darkModeColor

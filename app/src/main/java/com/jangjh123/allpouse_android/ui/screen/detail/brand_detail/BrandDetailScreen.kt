@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.main.home.dummyPerfumesForYou
 import com.jangjh123.allpouse_android.ui.theme.background
+import com.jangjh123.allpouse_android.ui.theme.brandLogoBackground
 
 @Composable
 fun BrandDetailScreen() {
@@ -31,8 +33,10 @@ fun BrandDetailScreen() {
             .background(
                 color = Color.White
             )
-            .verticalScroll(state = scrollState)
-            .background(color = Color(0x09000000))
+            .verticalScroll(
+                state = scrollState)
+            .background(
+                color = brandLogoBackground())
     ) {
         Image(
             modifier = Modifier
@@ -40,7 +44,8 @@ fun BrandDetailScreen() {
                 .fillMaxWidth()
                 .height(120.dp),
             painter = painterResource(id = R.drawable.brand_test_0),
-            contentDescription = "brandLogoImage"
+            contentDescription = "brandLogoImage",
+            contentScale = ContentScale.Inside
         )
 
         Column(

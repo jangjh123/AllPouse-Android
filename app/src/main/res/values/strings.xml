@@ -18,6 +18,7 @@
     <string name="taste_keyword">나의 취향 키워드</string>
     <string name="comment">댓글</string>
     <string name="write_comment_in_comment">답글작성</string>
+    <string name="brand_perfume_count">등록된 향수 %d개</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
