@@ -35,6 +35,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.ui.screen.detail.brand_detail.BrandDetailScreen
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
@@ -134,15 +135,6 @@ private fun MainActivityContent() {
                     icon = painterResource(id = R.drawable.ic_perfume)
                 )
 
-
-                CustomBottomNavigationItem(
-                    screenName = stringResource(id = R.string.review),
-                    currentScreen = currentScreen,
-                    navController = navController,
-                    screen = Reviews,
-                    icon = painterResource(id = R.drawable.ic_review)
-                )
-
                 CustomBottomNavigationItem(
                     screenName = stringResource(id = R.string.board),
                     currentScreen = currentScreen,
@@ -192,7 +184,6 @@ private fun MainActivityContent() {
         ) {
             composable(Home.route) { HomeScreen() }
             composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
-            composable(Reviews.route) { }
             composable(Boards.route) { }
             composable(MyInfo.route) { MyInfoScreen() }
             composable(Search.route) { SearchScreen(navController) }
@@ -255,7 +246,6 @@ private fun DefaultPreview() {
 sealed class Screen(val route: String) {
     object Home : Screen("home")
     object PerfumeLookAround : Screen("perfumeLookAround")
-    object Reviews : Screen("reviews")
     object Boards : Screen("boards")
     object MyInfo : Screen("myInfo")
     object Search : Screen("search")
