@@ -237,6 +237,7 @@ fun APTextField(
     onValueChanged: (String) -> Unit,
     focusManager: FocusManager,
     keyboardOptions: KeyboardOptions? = null,
+    singleLine: Boolean? = null
 ) {
     CompositionLocalProvider(LocalTextSelectionColors.provides(textSelectionColor())) {
         TextField(
@@ -248,7 +249,9 @@ fun APTextField(
                 keyboardOptions
             } ?: KeyboardOptions.Default,
             shape = RoundedCornerShape(8.dp),
-            singleLine = true,
+            singleLine = singleLine.let {
+                singleLine
+            } ?: true,
             colors = textFieldColors()
         )
     }
