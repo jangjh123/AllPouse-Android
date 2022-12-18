@@ -782,34 +782,38 @@ fun Brand(
     brandName: String,
     brandImage: Painter,
     brandPerfumeCount: Int,
-    brandHit: Int
+    brandHit: Int,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
             .clip(
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(12.dp)
             )
             .fillMaxWidth()
             .height(100.dp)
             .background(
                 color = subBackground()
             )
+            .clickable {
+                onClick()
+            }
     ) {
         Box(
             modifier = Modifier
                 .padding(12.dp)
                 .weight(0.5f)
                 .clip(
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(12.dp)
                 )
                 .background(
-                    color = brandLogoBackground()
+                    color = Color.White
                 )
         ) {
             Image(
                 modifier = Modifier
                     .clip(
-                        shape = RoundedCornerShape(24.dp)
+                        shape = RoundedCornerShape(12.dp)
                     )
                     .padding(12.dp)
                     .align(Center),
@@ -830,7 +834,8 @@ fun Brand(
                     .align(CenterHorizontally),
                 text = brandName,
                 fontType = FontType.Bold,
-                fontSize = 24.sp
+                fontSize = 20.sp,
+                lines = 1
             )
 
             APText(
@@ -896,5 +901,7 @@ private fun Preview() {
         painterResource(id = R.drawable.brand_test_0),
         3,
         123
-    )
+    ) {
+
+    }
 }
