@@ -101,6 +101,14 @@
     <string name="show_more_brand_perfume_reviews">%s 향수 리뷰 더 보기</string>
     <!--    BrandDetailScreen-->
 
+    <!--    WriteReviewScreen-->
+    <string name="review_title">리뷰 제목</string>
+    <string name="review_image">리뷰 이미지</string>
+    <string name="review_body">리뷰 내용</string>
+    <string name="add_review_image">이미지 추가</string>
+    <string name="complete_writing_review">작성 완료</string>
+    <!--    WriteReviewScreen-->
+
     <!--    SettingsScreen-->
     <string name="my_like">나의 좋아요</string>
     <string name="my_review">작성한 리뷰</string>
