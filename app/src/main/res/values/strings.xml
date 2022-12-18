@@ -93,6 +93,13 @@
     <string name="keyword_limit">최대 5개</string>
     <!--    PerfumeLookAroundScreen-->
 
+    <!--    BrandDetailScreen-->
+    <string name="brand_popular_perfumes">%s 인기 향수</string>
+    <string name="brand_perfume_reviews">%s 향수 리뷰</string>
+    <string name="show_more_brand_perfumes">%s 향수 더 보기</string>
+    <string name="show_more_brand_perfume_reviews">%s 향수 리뷰 더 보기</string>
+    <!--    BrandDetailScreen-->
+
     <!--    SettingsScreen-->
     <string name="my_like">나의 좋아요</string>
     <string name="my_review">작성한 리뷰</string>
