@@ -116,4 +116,12 @@
     <string name="perfumer_settings">조향사 설정</string>
     <!--    SettingsScreen-->
 
+    <!--    MyHistoryScreen-->
+    <string name="wrote_to">에 작성한 댓글</string>
+    <string name="set_period">조회할 기간을 설정해 주세요.</string>
+    <string name="week">최근 1주</string>
+    <string name="month">최근 1개월</string>
+    <string name="halfOfYear">최근 6개월</string>
+    <string name="year">최근 1년</string>
+    <!--    MyHistoryScreen-->
 </resources>
