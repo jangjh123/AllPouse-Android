@@ -262,7 +262,7 @@ fun RoundedCornerButton(
     modifier: Modifier,
     text: String,
     backgroundColor: Color? = null,
-    textColor: Color? = null,
+    fontColor: Color? = null,
     onClickButton: () -> Unit
 ) {
     Box(
@@ -283,8 +283,8 @@ fun RoundedCornerButton(
             modifier = Modifier
                 .align(Center),
             text = text,
-            fontColor = textColor.let {
-                textColor
+            fontColor = fontColor.let {
+                fontColor
             } ?: mainTextColor(),
             fontSize = 14.sp
         )
@@ -296,7 +296,7 @@ fun RoundedCornerIconButton(
     modifier: Modifier,
     text: String,
     backgroundColor: Color? = null,
-    textColor: Color? = null,
+    fontColor: Color? = null,
     icon: Painter,
     iconTint: Color? = null,
     onClickButton: () -> Unit
@@ -329,7 +329,7 @@ fun RoundedCornerIconButton(
                     .padding(start = 8.dp)
                     .align(CenterVertically),
                 text = text,
-                fontColor = textColor ?: mainTextColor(),
+                fontColor = fontColor ?: mainTextColor(),
                 fontSize = 14.sp
             )
         }
