@@ -20,6 +20,7 @@
     <string name="post">게시글</string>
     <string name="write_comment_in_comment">답글작성</string>
     <string name="brand_perfume_count">등록된 향수 %d개</string>
+    <string name="go_back">돌아가기</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -131,5 +132,6 @@
     <string name="search_result">검색 결과</string>
     <string name="show_more_review">리뷰 더 보기</string>
     <string name="show_more_post">게시글 더 보기</string>
+    <string name="no_search_result">검색 결과가 없습니다.</string>
     <!--    SearchResultScreen-->
 </resources>

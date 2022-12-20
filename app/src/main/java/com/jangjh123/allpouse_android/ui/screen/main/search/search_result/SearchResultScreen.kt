@@ -29,6 +29,59 @@ import com.jangjh123.allpouse_android.ui.theme.subTextColor
 
 @Composable
 fun SearchResultScreen() {
+
+//    no data
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize()
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .align(Alignment.Center)
+//        ) {
+//            Icon(
+//                modifier = Modifier
+//                    .size(36.dp)
+//                    .align(CenterHorizontally),
+//                painter = painterResource(
+//                    id = R.drawable.ic_no_result
+//                ),
+//                contentDescription = "noResultIcon",
+//                tint = subTextColor()
+//            )
+//
+//            APText(
+//                modifier = Modifier
+//                    .padding(
+//                        top = 8.dp
+//                    ),
+//                text = stringResource(
+//                    id = R.string.no_search_result
+//                ),
+//                fontSize = 20.sp,
+//                fontColor = subTextColor()
+//            )
+//
+//            RoundedCornerButton(
+//                modifier = Modifier
+//                    .padding(
+//                        top = 36.dp
+//                    )
+//                    .width(120.dp)
+//                    .height(50.dp)
+//                    .align(
+//                        CenterHorizontally
+//                    ),
+//                text = stringResource(
+//                    id = R.string.go_back
+//                ),
+//                fontColor = subTextColor()
+//            ) {
+//
+//            }
+//        }
+//    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
