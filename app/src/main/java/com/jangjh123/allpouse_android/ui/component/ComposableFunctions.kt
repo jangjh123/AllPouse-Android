@@ -884,24 +884,32 @@ fun Brand(
 
 @Composable
 fun PostWithBoardName(
+    modifier : Modifier,
     board: String,
     postName: String,
     like: Int,
 ) {
     Box(
-        modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 4.dp)
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(shape = RoundedCornerShape(12.dp))
-            .background(color = subBackground())
+            .clip(
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(
+                color = subBackground()
+            )
     ) {
 
         Row(Modifier.fillMaxHeight()) {
             APText(
                 modifier = Modifier
-                    .padding(start = 12.dp)
-                    .padding(vertical = 8.dp),
+                    .padding(
+                        start = 12.dp
+                    )
+                    .padding(
+                        vertical = 8.dp
+                    ),
                 text = board,
                 fontSize = 10.sp,
                 fontColor = mainColor()
@@ -909,7 +917,9 @@ fun PostWithBoardName(
 
             APText(
                 modifier = Modifier
-                    .padding(start = 8.dp)
+                    .padding(
+                        start = 8.dp
+                    )
                     .align(CenterVertically),
                 text = postName,
                 fontSize = 12.sp,
@@ -927,7 +937,9 @@ fun PostWithBoardName(
                     .padding(2.dp)
                     .align(CenterVertically)
                     .size(12.dp),
-                painter = painterResource(id = R.drawable.ic_filled_heart),
+                painter = painterResource(
+                    id = R.drawable.ic_filled_heart
+                ),
                 contentDescription = "postLikeIcon",
                 tint = subTextColor()
             )
@@ -935,7 +947,9 @@ fun PostWithBoardName(
             APText(
                 modifier = Modifier
                     .align(CenterVertically)
-                    .padding(end = 4.dp),
+                    .padding(
+                        end = 4.dp
+                    ),
                 text = "$like",
                 fontColor = subTextColor(),
                 fontSize = 10.sp
@@ -946,7 +960,9 @@ fun PostWithBoardName(
                     .padding(2.dp)
                     .align(CenterVertically)
                     .size(12.dp),
-                painter = painterResource(id = R.drawable.ic_comment),
+                painter = painterResource(
+                    id = R.drawable.ic_comment
+                ),
                 contentDescription = "postCommentIcon",
                 tint = subTextColor()
             )
@@ -954,7 +970,9 @@ fun PostWithBoardName(
             APText(
                 modifier = Modifier
                     .align(CenterVertically)
-                    .padding(end = 12.dp),
+                    .padding(
+                        end = 12.dp
+                    ),
                 text = "$like",
                 fontColor = subTextColor(),
                 fontSize = 10.sp
@@ -970,7 +988,9 @@ fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
             .clickableWithoutRipple {
                 onClickBackButton()
             },
-        painter = painterResource(id = R.drawable.ic_arrow_back),
+        painter = painterResource(
+            id = R.drawable.ic_arrow_back
+        ),
         contentDescription = "goBack",
         tint = mainTextColor()
     )
@@ -982,7 +1002,9 @@ private fun Preview() {
     Brand(
         Modifier,
         brandName = "Versace",
-        painterResource(id = R.drawable.brand_test_0),
+        painterResource(
+            id = R.drawable.brand_test_0
+        ),
         3,
         123
     ) {

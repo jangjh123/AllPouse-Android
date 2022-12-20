@@ -369,26 +369,46 @@ fun HomeScreen() {
         )
 
         PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "조향사게시판",
             postName = "첫 번째 테스트 포스트",
             like = 33
         )
         PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "조향사게시판",
             postName = "두 번째 테스트 포스트",
             like = 31
         )
         PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "자유게시판",
             postName = "세 번째 테스트 포스트",
             like = 22
         )
         PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "자유게시판",
             postName = "네 번째 테스트 포스트",
             like = 19
         )
         PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "조향사게시판",
             postName = "다섯 번째 테스트 포스트",
             like = 15
