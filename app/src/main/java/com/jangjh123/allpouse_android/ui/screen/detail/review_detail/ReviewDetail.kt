@@ -344,7 +344,7 @@ fun ReviewDetailScreen() {
                 .width(110.dp),
             text = stringResource(id = recommendTextState.value),
             icon = painterResource(iconState.value),
-            textColor = recommendTextColorState.value,
+            fontColor = recommendTextColorState.value,
             iconTint = iconTintState.value
         ) {
             if (!recommendState.value) {

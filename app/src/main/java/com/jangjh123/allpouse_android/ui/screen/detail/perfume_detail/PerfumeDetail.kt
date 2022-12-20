@@ -518,7 +518,7 @@ private fun ContentButton(
             .height(40.dp),
         text = content,
         backgroundColor = buttonColorState.value,
-        textColor = textColorState.value
+        fontColor = textColorState.value
     ) {
         onClick()
     }
