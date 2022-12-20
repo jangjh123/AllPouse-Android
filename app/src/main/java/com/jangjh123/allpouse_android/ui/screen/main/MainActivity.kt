@@ -37,9 +37,9 @@ import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
-import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
 import com.jangjh123.allpouse_android.ui.screen.main.my_info.MyInfoScreen
 import com.jangjh123.allpouse_android.ui.screen.main.perfume_look_around.PerfumeLookAroundScreen
+import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
@@ -127,7 +127,9 @@ private fun MainActivityContent() {
                 )
 
                 CustomBottomNavigationItem(
-                    screenName = stringResource(id = R.string.products),
+                    screenName = stringResource(
+                        id = R.string.perfume
+                    ),
                     currentScreen = currentScreen,
                     navController = navController,
                     screen = PerfumeLookAround,
