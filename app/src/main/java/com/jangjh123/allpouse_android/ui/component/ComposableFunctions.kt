@@ -883,6 +883,87 @@ fun Brand(
 }
 
 @Composable
+fun PostWithBoardName(
+    board: String,
+    postName: String,
+    like: Int,
+) {
+    Box(
+        modifier = Modifier
+            .padding(horizontal = 12.dp, vertical = 4.dp)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(shape = RoundedCornerShape(12.dp))
+            .background(color = subBackground())
+    ) {
+
+        Row(Modifier.fillMaxHeight()) {
+            APText(
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .padding(vertical = 8.dp),
+                text = board,
+                fontSize = 10.sp,
+                fontColor = mainColor()
+            )
+
+            APText(
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .align(CenterVertically),
+                text = postName,
+                fontSize = 12.sp,
+                lines = 1
+            )
+        }
+
+        Row(
+            Modifier
+                .fillMaxHeight()
+                .align(CenterEnd)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .padding(2.dp)
+                    .align(CenterVertically)
+                    .size(12.dp),
+                painter = painterResource(id = R.drawable.ic_filled_heart),
+                contentDescription = "postLikeIcon",
+                tint = subTextColor()
+            )
+
+            APText(
+                modifier = Modifier
+                    .align(CenterVertically)
+                    .padding(end = 4.dp),
+                text = "$like",
+                fontColor = subTextColor(),
+                fontSize = 10.sp
+            )
+
+            Icon(
+                modifier = Modifier
+                    .padding(2.dp)
+                    .align(CenterVertically)
+                    .size(12.dp),
+                painter = painterResource(id = R.drawable.ic_comment),
+                contentDescription = "postCommentIcon",
+                tint = subTextColor()
+            )
+
+            APText(
+                modifier = Modifier
+                    .align(CenterVertically)
+                    .padding(end = 12.dp),
+                text = "$like",
+                fontColor = subTextColor(),
+                fontSize = 10.sp
+            )
+        }
+    }
+}
+
+@Composable
 fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
     Icon(
         modifier = modifier
