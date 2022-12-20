@@ -11,14 +11,16 @@
     <string name="perfumer_talk">퍼퓨머톡</string>
     <string name="best_post">인기글</string>
     <string name="home">홈</string>
-    <string name="products">향수</string>
+    <string name="perfume">향수</string>
     <string name="board">게시판</string>
     <string name="review">리뷰</string>
     <string name="my_info">내 정보</string>
     <string name="taste_keyword">나의 취향 키워드</string>
     <string name="comment">댓글</string>
+    <string name="post">게시글</string>
     <string name="write_comment_in_comment">답글작성</string>
     <string name="brand_perfume_count">등록된 향수 %d개</string>
+    <string name="go_back">돌아가기</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -124,4 +126,12 @@
     <string name="halfOfYear">최근 6개월</string>
     <string name="year">최근 1년</string>
     <!--    MyHistoryScreen-->
+
+    <!--    SearchResultScreen-->
+    <string name="search_result_count">%s 검색 결과 %s건</string>
+    <string name="search_result">검색 결과</string>
+    <string name="show_more_review">리뷰 더 보기</string>
+    <string name="show_more_post">게시글 더 보기</string>
+    <string name="no_search_result">검색 결과가 없습니다.</string>
+    <!--    SearchResultScreen-->
 </resources>

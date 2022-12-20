@@ -94,6 +94,8 @@ val dummyPerfumesForYou = listOf(
     )
 )
 
+var PERFUME_ITEM_HEIGHT = 0.dp
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen() {
@@ -366,27 +368,47 @@ fun HomeScreen() {
             fontType = FontType.Bold
         )
 
-        BestPerfumerTalkPost(
+        PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "조향사게시판",
             postName = "첫 번째 테스트 포스트",
             like = 33
         )
-        BestPerfumerTalkPost(
+        PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "조향사게시판",
             postName = "두 번째 테스트 포스트",
             like = 31
         )
-        BestPerfumerTalkPost(
+        PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "자유게시판",
             postName = "세 번째 테스트 포스트",
             like = 22
         )
-        BestPerfumerTalkPost(
+        PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "자유게시판",
             postName = "네 번째 테스트 포스트",
             like = 19
         )
-        BestPerfumerTalkPost(
+        PostWithBoardName(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             "조향사게시판",
             postName = "다섯 번째 테스트 포스트",
             like = 15
@@ -427,6 +449,7 @@ fun HomeScreen() {
                         .background(color = subBackground())
                         .onGloballyPositioned { coordinates ->
                             itemHeight.value = with(localDensity) {
+                                PERFUME_ITEM_HEIGHT = coordinates.size.height.toDp()
                                 coordinates.size.height.toDp()
                             }
                         }
@@ -725,68 +748,6 @@ fun PopularPerfume(modifier: Modifier, image: Int, perfumeName: String, brandNam
             fontColor = subTextColor(),
             fontSize = 10.sp
         )
-    }
-}
-
-@Composable
-fun BestPerfumerTalkPost(
-    board: String,
-    postName: String,
-    like: Int,
-) {
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 4.dp)
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .clip(shape = RoundedCornerShape(12.dp))
-            .background(color = subBackground())
-    ) {
-
-        Row(Modifier.fillMaxHeight()) {
-            APText(
-                modifier = Modifier
-                    .padding(start = 12.dp)
-                    .padding(vertical = 8.dp),
-                text = board,
-                fontSize = 10.sp,
-                fontColor = mainColor()
-            )
-
-            APText(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .align(CenterVertically),
-                text = postName,
-                fontSize = 12.sp,
-                lines = 1
-            )
-        }
-
-        Row(
-            Modifier
-                .fillMaxHeight()
-                .align(CenterEnd)
-        ) {
-            Icon(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .align(CenterVertically)
-                    .size(12.dp),
-                painter = painterResource(id = R.drawable.ic_filled_heart),
-                contentDescription = "postLike",
-                tint = subTextColor()
-            )
-
-            APText(
-                modifier = Modifier
-                    .align(CenterVertically)
-                    .padding(end = 12.dp),
-                text = "$like",
-                fontColor = subTextColor(),
-                fontSize = 10.sp
-            )
-        }
     }
 }
 
