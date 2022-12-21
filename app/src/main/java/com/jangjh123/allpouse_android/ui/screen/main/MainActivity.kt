@@ -36,6 +36,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
+import com.jangjh123.allpouse_android.ui.screen.main.board.BoardScreen
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
 import com.jangjh123.allpouse_android.ui.screen.main.my_info.MyInfoScreen
 import com.jangjh123.allpouse_android.ui.screen.main.perfume_look_around.PerfumeLookAroundScreen
@@ -185,7 +186,7 @@ private fun MainActivityContent() {
         ) {
             composable(Home.route) { HomeScreen() }
             composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
-            composable(Boards.route) { }
+            composable(Boards.route) { BoardScreen() }
             composable(MyInfo.route) { MyInfoScreen() }
             composable(Search.route) { SearchScreen(navController) }
         }
