@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -40,6 +41,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.ui.screen.main.board.DummyPost
+import com.jangjh123.allpouse_android.ui.screen.main.board.dummyPosts
 import com.jangjh123.allpouse_android.ui.theme.*
 
 sealed class FontType {
@@ -884,7 +887,7 @@ fun Brand(
 
 @Composable
 fun PostWithBoardName(
-    modifier : Modifier,
+    modifier: Modifier,
     board: String,
     postName: String,
     like: Int,
@@ -982,6 +985,163 @@ fun PostWithBoardName(
 }
 
 @Composable
+fun Post(modifier: Modifier, post: DummyPost) {
+    Column(
+        modifier = modifier
+            .clip(
+                shape = RoundedCornerShape(12.dp)
+            )
+            .fillMaxWidth()
+            .background(
+                color = subBackground()
+            )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .weight(0.6f)
+                    .align(CenterVertically)
+            ) {
+                APText(
+                    modifier = Modifier
+                        .align(CenterVertically),
+                    text = post.title,
+                    lines = 1
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .weight(0.4f),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Image(
+                    modifier = Modifier
+                        .clip(
+                            shape = CircleShape
+                        )
+                        .size(24.dp)
+                        .align(CenterVertically),
+                    painter = painterResource(
+                        id = post.authorImage
+                    ),
+                    contentDescription = "postAuthorImage",
+                    contentScale = ContentScale.FillBounds
+                )
+
+                APText(
+                    modifier = Modifier
+                        .padding(
+                            start = 8.dp
+                        )
+                        .align(CenterVertically),
+                    text = post.authorName,
+                    fontSize = 12.sp,
+                    lines = 1
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            if (post.imageList != null) {
+                Image(
+                    modifier = Modifier
+                        .padding(
+                            vertical = 12.dp
+                        )
+                        .padding(
+                            start = 12.dp
+                        )
+                        .clip(
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .size(80.dp),
+                    painter = painterResource(
+                        id = post.imageList[0]
+                    ),
+                    contentDescription = "postThumbnail",
+                    contentScale = ContentScale.Crop
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth()
+                    .height(80.dp)
+            ) {
+                APText(
+                    text = post.body,
+                    lines = 3,
+                    fontSize = 12.sp,
+                    fontColor = subTextColor()
+                )
+
+                Row(
+                    modifier = Modifier
+                        .align(BottomEnd)
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .align(CenterVertically)
+                            .size(12.dp),
+                        painter = painterResource(
+                            id = R.drawable.ic_viewed
+                        ),
+                        contentDescription = "postViewedIcon",
+                        tint = subTextColor()
+                    )
+
+                    APText(
+                        modifier = Modifier
+                            .align(CenterVertically)
+                            .padding(
+                                end = 4.dp
+                            ),
+                        text = "${post.hit}",
+                        fontColor = subTextColor(),
+                        fontSize = 10.sp
+                    )
+
+                    Icon(
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .align(CenterVertically)
+                            .size(12.dp),
+                        painter = painterResource(
+                            id = R.drawable.ic_comment
+                        ),
+                        contentDescription = "postCommentIcon",
+                        tint = subTextColor()
+                    )
+
+                    APText(
+                        modifier = Modifier
+                            .align(CenterVertically)
+                            .padding(
+                                end = 12.dp
+                            ),
+                        text = "${post.commentCount}",
+                        fontColor = subTextColor(),
+                        fontSize = 10.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
     Icon(
         modifier = modifier
@@ -999,15 +1159,8 @@ fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Brand(
-        Modifier,
-        brandName = "Versace",
-        painterResource(
-            id = R.drawable.brand_test_0
-        ),
-        3,
-        123
-    ) {
-
-    }
+    Post(
+        modifier = Modifier,
+        post = dummyPosts[0]
+    )
 }
