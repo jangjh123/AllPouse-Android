@@ -619,6 +619,13 @@ sealed class DummyComment {
         val userProfileImage: Int,
         val body: String
     ) : DummyComment()
+
+    data class DummyPostComment(
+        val authorName: String,
+        val authorImage: Int,
+        val date: String,
+        val body: String
+    ) : DummyComment()
 }
 
 
@@ -739,6 +746,59 @@ fun Comment(modifier: Modifier, comment: DummyComment) {
                                 modifier = Modifier
                                     .align(CenterVertically),
                                 text = comment.userName,
+                                fontSize = 12.sp
+                            )
+
+                            APText(
+                                modifier = Modifier
+                                    .padding(
+                                        horizontal = 8.dp
+                                    )
+                                    .align(CenterVertically),
+                                text = comment.date,
+                                fontSize = 10.sp,
+                                fontColor = subTextColor()
+                            )
+                        }
+
+                        APText(
+                            text = comment.body
+                        )
+                    }
+                }
+            }
+        }
+        is DummyComment.DummyPostComment -> {
+            Column {
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .clip(
+                                shape = CircleShape
+                            )
+                            .size(48.dp),
+                        painter = painterResource(
+                            id = comment.authorImage
+                        ),
+                        contentDescription = "commentWriterProfileImage",
+                        contentScale = ContentScale.FillBounds
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 8.dp
+                            )
+                            .align(CenterVertically)
+                    ) {
+                        Row {
+                            APText(
+                                modifier = Modifier
+                                    .align(CenterVertically),
+                                text = comment.authorName,
                                 fontSize = 12.sp
                             )
 

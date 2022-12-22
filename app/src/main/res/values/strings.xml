@@ -134,4 +134,9 @@
     <string name="show_more_post">게시글 더 보기</string>
     <string name="no_search_result">검색 결과가 없습니다.</string>
     <!--    SearchResultScreen-->
+
+    <!--    PostDetailScreen-->
+    <string name="write_comment">댓글 작성</string>
+    <string name="post_comment">작성 완료</string>
+    <!--    PostDetailScreen-->
 </resources>
