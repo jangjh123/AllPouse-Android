@@ -318,7 +318,9 @@ private fun DateItem(date: String) {
     ) {
         APText(
             modifier = Modifier
-                .padding(start = 12.dp)
+                .padding(
+                    start = 12.dp
+                )
                 .align(CenterVertically),
             text = date,
             fontSize = 18.sp,
@@ -372,9 +374,10 @@ private fun MyComment(modifier: Modifier, title: String, body: String, date: Str
         )
 
         APText(
-            modifier = Modifier.padding(
-                horizontal = 12.dp
-            ),
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp
+                ),
             text = date,
             fontColor = subTextColor(),
             fontSize = 12.sp
@@ -413,7 +416,8 @@ private fun MyComment(modifier: Modifier, title: String, body: String, date: Str
 private fun Preview() {
 //    MyHistoryScreen(MyComment)
     MyComment(
-        modifier = Modifier.padding(5.dp),
+        modifier = Modifier
+            .padding(5.dp),
         title = "테스트 향수 리뷰",
         date = "2022-12-19",
         body = "테스트 내용"

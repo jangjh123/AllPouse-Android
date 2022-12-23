@@ -34,16 +34,20 @@ fun BrandDetailScreen() {
                 color = Color.White
             )
             .verticalScroll(
-                state = scrollState)
+                state = scrollState
+            )
             .background(
-                color = brandLogoBackground())
+                color = brandLogoBackground()
+            )
     ) {
         Image(
             modifier = Modifier
                 .padding(24.dp)
                 .fillMaxWidth()
                 .height(120.dp),
-            painter = painterResource(id = R.drawable.brand_test_0),
+            painter = painterResource(
+                id = R.drawable.brand_test_0
+            ),
             contentDescription = "brandLogoImage",
             contentScale = ContentScale.Inside
         )
@@ -157,8 +161,12 @@ fun BrandDetailScreen() {
 
             RoundedCornerButton(
                 modifier = Modifier
-                    .padding(top = 12.dp)
-                    .padding(horizontal = 12.dp)
+                    .padding(
+                        top = 12.dp
+                    )
+                    .padding(
+                        horizontal = 12.dp
+                    )
                     .fillMaxWidth()
                     .height(50.dp),
                 text = stringResource(

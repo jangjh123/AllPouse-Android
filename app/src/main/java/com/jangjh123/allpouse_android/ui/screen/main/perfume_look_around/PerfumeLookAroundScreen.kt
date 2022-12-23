@@ -44,8 +44,12 @@ fun PerfumeLookAroundScreen() {
     val modeState =
         remember { mutableStateOf<PerfumeLookAroundMode>(UserDefault) }
     val keywordBlockHeightState = animateDpAsState(
-        targetValue = if (modeState.value == UserDefault) 60.dp else 310.dp)
-        val testChosenKeywords = remember { mutableStateListOf<String>() }
+        targetValue =
+        if (modeState.value == UserDefault) 60.dp
+        else 310.dp
+    )
+
+    val testChosenKeywords = remember { mutableStateListOf<String>() }
 
     Column(
         modifier = Modifier
@@ -212,7 +216,11 @@ fun PerfumeLookAroundScreen() {
                         items(keywords) { keyword ->
                             val keywordChoiceState = remember { mutableStateOf(false) }
                             val textColorState =
-                                animateColorAsState(targetValue = if (keywordChoiceState.value) mainColor() else mainTextColor())
+                                animateColorAsState(
+                                    targetValue =
+                                    if (keywordChoiceState.value) mainColor()
+                                    else mainTextColor()
+                                )
 
                             Box(
                                 modifier = Modifier
@@ -258,7 +266,8 @@ private fun PerfumeLookAroundModeButton(
     onClick: () -> Unit
 ) {
     val textColorState = animateColorAsState(
-        targetValue = if (modeState.value == UserDefault && mode == stringResource(
+        targetValue =
+        if (modeState.value == UserDefault && mode == stringResource(
                 id = R.string.depend_on_user_default
             )
         ) Color.White
@@ -270,7 +279,8 @@ private fun PerfumeLookAroundModeButton(
     )
 
     val buttonColorState = animateColorAsState(
-        targetValue = if (modeState.value == UserDefault && mode == stringResource(
+        targetValue =
+        if (modeState.value == UserDefault && mode == stringResource(
                 id = R.string.depend_on_user_default
             )
         ) mainColor()

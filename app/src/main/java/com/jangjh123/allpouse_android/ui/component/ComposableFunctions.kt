@@ -86,7 +86,9 @@ fun APText(
             }
         },
         style = TextStyle(
-            platformStyle = PlatformTextStyle(includeFontPadding = false)
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false
+            )
         ),
         textAlign = textAlign.let {
             textAlign
@@ -162,7 +164,9 @@ fun GradientButton(
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(12.dp))
+            .clip(
+                shape = RoundedCornerShape(12.dp)
+            )
             .clickable {
                 onClickButton()
             }
@@ -177,7 +181,7 @@ fun GradientButton(
             )
     ) {
         APText(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Center),
             text = text,
             fontSize = fontSize,
             fontColor = Color.White
@@ -195,7 +199,9 @@ fun GradientIconButton(
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(12.dp))
+            .clip(
+                shape = RoundedCornerShape(12.dp)
+            )
             .clickable {
                 onClickButton()
             }
@@ -223,7 +229,9 @@ fun GradientIconButton(
             )
             APText(
                 modifier = Modifier
-                    .padding(start = 4.dp)
+                    .padding(
+                        start = 4.dp
+                    )
                     .align(CenterVertically),
                 text = text,
                 fontSize = fontSize,
@@ -247,7 +255,8 @@ fun APTextField(
             modifier = modifier,
             value = textFieldState.value,
             onValueChange = { onValueChanged(it) },
-            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }),
             keyboardOptions = keyboardOptions.let {
                 keyboardOptions
             } ?: KeyboardOptions.Default,
@@ -306,7 +315,9 @@ fun RoundedCornerIconButton(
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(30.dp))
+            .clip(
+                shape = RoundedCornerShape(30.dp)
+            )
             .background(
                 color = backgroundColor ?: contentBackground()
             )
@@ -329,7 +340,9 @@ fun RoundedCornerIconButton(
 
             APText(
                 modifier = Modifier
-                    .padding(start = 8.dp)
+                    .padding(
+                        start = 8.dp
+                    )
                     .align(CenterVertically),
                 text = text,
                 fontColor = fontColor ?: mainTextColor(),
@@ -359,7 +372,9 @@ fun textFieldColors() = TextFieldDefaults.textFieldColors(
 fun CloseIcon(modifier: Modifier) {
     Icon(
         modifier = modifier,
-        painter = painterResource(id = R.drawable.close),
+        painter = painterResource(
+            id = R.drawable.close
+        ),
         contentDescription = "close",
         tint = mainTextColor()
     )
@@ -377,10 +392,17 @@ fun Perfume(
         modifier = modifier
             .wrapContentHeight()
             .width(160.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = subBackground())
+            .clip(
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(
+                color = subBackground()
+            )
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
             Image(
                 modifier = Modifier
                     .padding(
@@ -389,7 +411,9 @@ fun Perfume(
                         end = 8.dp
                     )
                     .size(160.dp)
-                    .clip(shape = RoundedCornerShape(12.dp))
+                    .clip(
+                        shape = RoundedCornerShape(12.dp)
+                    )
                     .background(contentBackground())
                     .padding(10.dp),
                 painter = image,
@@ -397,25 +421,33 @@ fun Perfume(
                 contentScale = ContentScale.FillBounds
             )
             APText(
-                modifier = Modifier.padding(
-                    top = 4.dp,
-                    start = 10.dp,
-                    end = 10.dp
-                ),
+                modifier = Modifier
+                    .padding(
+                        top = 4.dp,
+                        start = 10.dp,
+                        end = 10.dp
+                    ),
                 text = perfumeName,
                 fontColor = mainTextColor(),
                 fontSize = 14.sp
             )
             APText(
                 modifier = Modifier
-                    .padding(horizontal = 10.dp),
+                    .padding(
+                        horizontal = 10.dp
+                    ),
                 text = brandName,
                 fontColor = subTextColor(),
                 fontSize = 12.sp
             )
-            APAppendedText(modifier = Modifier
-                .padding(horizontal = 10.dp)
-                .padding(bottom = 8.dp),
+            APAppendedText(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 10.dp
+                    )
+                    .padding(
+                        bottom = 8.dp
+                    ),
                 annotatedString = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(
@@ -467,8 +499,12 @@ fun Review(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = subBackground())
+            .clip(
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(
+                color = subBackground()
+            )
     ) {
         Column(
             Modifier
@@ -493,14 +529,18 @@ fun Review(
 
                 Row(
                     modifier = Modifier
-                        .padding(end = 4.dp)
+                        .padding(
+                            end = 4.dp
+                        )
                         .wrapContentSize()
                         .align(CenterEnd)
                 ) {
                     Image(
                         modifier = Modifier
                             .padding(4.dp)
-                            .clip(shape = CircleShape)
+                            .clip(
+                                shape = CircleShape
+                            )
                             .size(24.dp),
                         painter = authorImage,
                         contentDescription = "reviewAuthorImage",
@@ -520,10 +560,14 @@ fun Review(
                 Image(
                     modifier = Modifier
                         .padding(4.dp)
-                        .clip(shape = RoundedCornerShape(12.dp))
+                        .clip(
+                            shape = RoundedCornerShape(12.dp)
+                        )
                         .size(100.dp)
                         .fillMaxWidth()
-                        .background(color = contentBackground()),
+                        .background(
+                            color = contentBackground()
+                        ),
                     painter = image,
                     contentDescription = "reviewImage",
                     contentScale = ContentScale.FillBounds
@@ -538,7 +582,10 @@ fun Review(
                     Column(
                         modifier = Modifier
                             .wrapContentSize()
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .padding(
+                                horizontal = 8.dp,
+                                vertical = 4.dp
+                            )
                     ) {
                         APText(
                             text = perfumeName,
@@ -554,26 +601,36 @@ fun Review(
 
                     APText(
                         modifier = Modifier
-                            .padding(start = 8.dp)
+                            .padding(
+                                start = 8.dp
+                            )
                             .align(Alignment.BottomStart),
-                        text = "$score", fontSize = 18.sp,
+                        text = "$score",
+                        fontSize = 18.sp,
                         fontColor = mainColor(),
                         fontType = FontType.Bold
                     )
 
-                    Row(modifier = Modifier.align(Alignment.BottomEnd)) {
+                    Row(
+                        modifier = Modifier
+                            .align(BottomEnd)
+                    ) {
                         Icon(
                             modifier = Modifier
                                 .size(10.dp)
                                 .align(CenterVertically),
-                            painter = painterResource(id = R.drawable.ic_viewed),
+                            painter = painterResource(
+                                id = R.drawable.ic_viewed
+                            ),
                             contentDescription = "hitIcon",
                             tint = subTextColor()
                         )
 
                         APText(
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                .padding(
+                                    horizontal = 4.dp
+                                )
                                 .align(CenterVertically),
                             text = "$hit",
                             fontSize = 10.sp,
@@ -584,14 +641,18 @@ fun Review(
                             modifier = Modifier
                                 .size(10.dp)
                                 .align(CenterVertically),
-                            painter = painterResource(id = R.drawable.ic_filled_heart),
+                            painter = painterResource(
+                                id = R.drawable.ic_filled_heart
+                            ),
                             contentDescription = "viewedIcon",
                             tint = subTextColor()
                         )
 
                         APText(
                             modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                                .padding(
+                                    horizontal = 4.dp
+                                )
                                 .align(CenterVertically),
                             text = "$recommend",
                             fontSize = 10.sp,
@@ -828,7 +889,9 @@ fun Comment(modifier: Modifier, comment: DummyComment) {
 fun Keyword(modifier: Modifier, keyword: String) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(24.dp))
+            .clip(
+                shape = RoundedCornerShape(24.dp)
+            )
             .width(100.dp)
             .height(36.dp)
             .background(contentBackground())

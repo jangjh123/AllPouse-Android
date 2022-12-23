@@ -44,9 +44,10 @@ class OnBoardingActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AllPouseAndroidTheme {
-                OnBoardingActivityContent(onClickStart = {
-                    startActivity(Intent(this@OnBoardingActivity, LoginActivity::class.java))
-                })
+                OnBoardingActivityContent(
+                    onClickStart = {
+                        startActivity(Intent(this@OnBoardingActivity, LoginActivity::class.java))
+                    })
             }
         }
     }
@@ -60,23 +61,32 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
 
     val screens = listOf(
         Triple(
-            painterResource(id = R.drawable.on_boarding_bg_0),
+            painterResource(
+                id = R.drawable.on_boarding_bg_0
+            ),
             stringResource(R.string.center_text_page_0),
             stringResource(R.string.desc_page_0)
         ),
         Triple(
-            painterResource(id = R.drawable.on_boarding_bg_1),
+            painterResource(
+                id = R.drawable.on_boarding_bg_1
+            ),
             stringResource(R.string.center_text_page_1),
             stringResource(R.string.desc_page_1)
         ),
         Triple(
-            painterResource(id = R.drawable.on_boarding_bg_2),
+            painterResource(
+                id = R.drawable.on_boarding_bg_2
+            ),
             stringResource(R.string.center_text_page_2),
             stringResource(R.string.desc_page_2)
         )
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         HorizontalPager(
             state = pagerState,
             count = 3,
@@ -100,7 +110,10 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                 )
 
                 Column(Modifier.fillMaxSize()) {
-                    Box(modifier = Modifier.weight(0.5f))
+                    Box(
+                        modifier = Modifier
+                            .weight(0.5f)
+                    )
                     Box(
                         modifier = Modifier
                             .weight(0.5f)
@@ -115,7 +128,8 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                                 .padding(20.dp)
                         ) {
                             APText(
-                                modifier = Modifier.align(CenterHorizontally),
+                                modifier = Modifier
+                                    .align(CenterHorizontally),
                                 text = item.second,
                                 fontColor = mainColor(),
                                 fontSize = 28.sp,
@@ -124,7 +138,9 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
 
                             APText(
                                 modifier = Modifier
-                                    .padding(top = 30.dp)
+                                    .padding(
+                                        top = 30.dp
+                                    )
                                     .align(CenterHorizontally),
                                 text = item.third,
                                 fontSize = 16.sp,
@@ -139,7 +155,8 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
 
         HorizontalPagerIndicator(
             pagerState = pagerState,
-            activeColor = mainColor(), inactiveColor = Color.LightGray,
+            activeColor = mainColor(),
+            inactiveColor = Color.LightGray,
             modifier = Modifier
                 .align(BottomStart)
                 .padding(20.dp)
@@ -148,11 +165,17 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
         Text(
             modifier = Modifier
                 .align(BottomCenter)
-                .padding(bottom = 15.dp),
+                .padding(
+                    bottom = 15.dp
+                ),
             style = TextStyle(
-                platformStyle = PlatformTextStyle(includeFontPadding = false)
+                platformStyle = PlatformTextStyle(
+                    includeFontPadding = false
+                )
             ),
-            text = stringResource(id = R.string.app),
+            text = stringResource(
+                id = R.string.app
+            ),
             color = Color.White,
             fontSize = 12.sp,
             fontFamily = cinzelExtraBold
@@ -161,7 +184,10 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
         APText(
             modifier = Modifier
                 .align(BottomEnd)
-                .padding(end = 20.dp, bottom = 13.dp)
+                .padding(
+                    end = 20.dp,
+                    bottom = 13.dp
+                )
                 .clickableWithoutRipple {
                     if (pagerState.currentPage == 2) {
                         onClickStart()
@@ -171,7 +197,9 @@ private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
                         }
                     }
                 },
-            text = if (pagerState.currentPage == 2) stringResource(id = R.string.start) else stringResource(
+            text = if (pagerState.currentPage == 2) stringResource(
+                id = R.string.start
+            ) else stringResource(
                 id = R.string.next
             ),
             fontColor = Color.White

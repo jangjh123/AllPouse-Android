@@ -114,7 +114,10 @@ private fun LoginActivityContent(
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 20.dp, vertical = 20.dp)
+                        .padding(
+                            horizontal = 20.dp,
+                            vertical = 20.dp
+                        )
                         .fillMaxWidth()
                         .background(background())
                 ) {
@@ -143,7 +146,9 @@ private fun LoginActivityContent(
                     )
 
                     APText(
-                        text = stringResource(id = R.string.nickName),
+                        text = stringResource(
+                            id = R.string.nickName
+                        ),
                         fontType = FontType.Bold,
                         fontSize = 20.sp
                     )
@@ -152,7 +157,9 @@ private fun LoginActivityContent(
 
                     APTextField(
                         modifier = Modifier
-                            .padding(top = 8.dp)
+                            .padding(
+                                top = 8.dp
+                            )
                             .fillMaxWidth(),
                         textFieldState = nicknameState,
                         onValueChanged = { nicknameState.value = it },
@@ -160,8 +167,13 @@ private fun LoginActivityContent(
                     )
 
                     APText(
-                        modifier = Modifier.padding(top = 20.dp),
-                        text = stringResource(id = R.string.gender),
+                        modifier = Modifier
+                            .padding(
+                                top = 20.dp
+                            ),
+                        text = stringResource(
+                            id = R.string.gender
+                        ),
                         fontType = FontType.Bold,
                         fontSize = 20.sp
                     )
@@ -170,19 +182,27 @@ private fun LoginActivityContent(
                     Row(
                         Modifier
                             .wrapContentSize()
-                            .padding(top = 8.dp)
+                            .padding(
+                                top = 8.dp
+                            )
                     ) {
                         GenderButton(
                             modifier = Modifier,
-                            gender = stringResource(id = R.string.male),
+                            gender = stringResource(
+                                id = R.string.male
+                            ),
                             onClickGenderButton = {
                                 genderState.value = Man
                             },
                             genderState
                         )
                         GenderButton(
-                            modifier = Modifier.padding(start = 20.dp),
-                            gender = stringResource(id = R.string.female),
+                            modifier = Modifier.padding(
+                                start = 20.dp
+                            ),
+                            gender = stringResource(
+                                id = R.string.female
+                            ),
                             onClickGenderButton = {
                                 genderState.value = Woman
                             },
@@ -191,8 +211,12 @@ private fun LoginActivityContent(
                     }
 
                     APText(
-                        modifier = Modifier.padding(top = 20.dp),
-                        text = stringResource(id = R.string.age),
+                        modifier = Modifier.padding(
+                            top = 20.dp
+                        ),
+                        text = stringResource(
+                            id = R.string.age
+                        ),
                         fontType = FontType.Bold,
                         fontSize = 20.sp
                     )
@@ -200,12 +224,16 @@ private fun LoginActivityContent(
                     val ageState = remember { mutableStateOf("") }
                     APTextField(
                         modifier = Modifier
-                            .padding(top = 8.dp)
+                            .padding(
+                                top = 8.dp
+                            )
                             .fillMaxWidth(),
                         textFieldState = ageState,
                         onValueChanged = { ageState.value = it },
                         focusManager = focusManager,
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        )
                     )
 
                     val buttonAlphaState = animateFloatAsState(
@@ -219,28 +247,39 @@ private fun LoginActivityContent(
 
                     GradientButton(
                         modifier = Modifier
-                            .padding(top = 20.dp)
+                            .padding(
+                                top = 20.dp
+                            )
                             .alpha(buttonAlphaState.value)
                             .fillMaxWidth()
                             .height(60.dp),
-                        text = stringResource(id = R.string.start),
+                        text = stringResource(
+                            id = R.string.start
+                        ),
                         fontSize = 18.sp,
                         onClickButton = {
                             onClickStartButton()
                         }
                     )
                 }
-                CloseIcon(modifier = Modifier
-                    .padding(top = 24.dp, end = 20.dp)
-                    .size(24.dp)
-                    .align(Alignment.TopEnd)
-                    .clickableWithoutRipple {
-                        onClickClose()
-                    })
+                CloseIcon(
+                    modifier = Modifier
+                        .padding(
+                            top = 24.dp,
+                            end = 20.dp
+                        )
+                        .size(24.dp)
+                        .align(Alignment.TopEnd)
+                        .clickableWithoutRipple {
+                            onClickClose()
+                        })
             }
         },
         sheetElevation = 20.dp,
-        sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        sheetShape = RoundedCornerShape(
+            topStart = 24.dp,
+            topEnd = 24.dp
+        ),
         scrimColor = darkFilter(),
         modifier = Modifier.addFocusCleaner(focusManager)
     ) {
@@ -252,9 +291,13 @@ private fun LoginActivityContent(
             Image(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = darkFilter())
+                    .background(
+                        color = darkFilter()
+                    )
                     .alpha(1f),
-                painter = painterResource(id = R.drawable.bg_login),
+                painter = painterResource(
+                    id = R.drawable.bg_login
+                ),
                 contentDescription = "background",
                 contentScale = ContentScale.Crop
             )
@@ -262,7 +305,9 @@ private fun LoginActivityContent(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(color = darkFilter())
+                    .background(
+                        color = darkFilter()
+                    )
             )
 
             Column(Modifier.fillMaxSize()) {
@@ -278,7 +323,9 @@ private fun LoginActivityContent(
                     ) {
 
                         Text(
-                            text = stringResource(id = R.string.app),
+                            text = stringResource(
+                                id = R.string.app
+                            ),
                             fontFamily = cinzelExtraBold,
                             color = Color.White,
                             fontSize = 32.sp,
@@ -286,7 +333,9 @@ private fun LoginActivityContent(
                         )
                         APText(
                             modifier = Modifier.align(CenterHorizontally),
-                            text = stringResource(id = R.string.desc_app),
+                            text = stringResource(
+                                id = R.string.desc_app
+                            ),
                             fontColor = Color.White,
                             fontSize = 14.sp
                         )
@@ -294,10 +343,17 @@ private fun LoginActivityContent(
                 }
                 Column(
                     modifier = Modifier
-                        .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                        .clip(
+                            shape = RoundedCornerShape(
+                                topStart = 24.dp,
+                                topEnd = 24.dp
+                            )
+                        )
                         .weight(0.4f)
                         .fillMaxWidth()
-                        .background(color = darkFilter())
+                        .background(
+                            color = darkFilter()
+                        )
                 ) {
                     Box(
                         modifier = Modifier
@@ -310,7 +366,9 @@ private fun LoginActivityContent(
                         ) {
                             APText(
                                 modifier = Modifier.align(CenterHorizontally),
-                                text = stringResource(id = R.string.social_login),
+                                text = stringResource(
+                                    id = R.string.social_login
+                                ),
                                 fontColor = Color.LightGray,
                                 fontSize = 14.sp
                             )
@@ -318,7 +376,9 @@ private fun LoginActivityContent(
                             LoginButton(
                                 modifier = Modifier
                                     .align(CenterHorizontally)
-                                    .padding(top = 16.dp)
+                                    .padding(
+                                        top = 16.dp
+                                    )
                                     .clickable {
                                         onClickGoogleLogin()
                                     },
@@ -331,7 +391,9 @@ private fun LoginActivityContent(
                             LoginButton(
                                 modifier = Modifier
                                     .align(CenterHorizontally)
-                                    .padding(top = 10.dp)
+                                    .padding(
+                                        top = 10.dp
+                                    )
                                     .clickable {
                                         onClickKakaoLogin()
                                     },
@@ -359,22 +421,30 @@ private fun LoginButton(
 ) {
     Box(
         modifier = modifier
-            .clip(shape = RoundedCornerShape(50))
+            .clip(
+                shape = RoundedCornerShape(50)
+            )
             .border(
                 width = 0.5.dp,
                 color = borderColor,
                 shape = RoundedCornerShape(50)
             )
-            .background(color = backgroundColor)
+            .background(
+                color = backgroundColor
+            )
             .width(280.dp)
             .height(50.dp)
     ) {
         Image(
-            painter = painterResource(id = iconId),
+            painter = painterResource(
+                id = iconId
+            ),
             contentDescription = "loginPlatform",
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = 30.dp)
+                .padding(
+                    start = 30.dp
+                )
                 .size(20.dp),
             contentScale = ContentScale.FillBounds
         )
@@ -382,8 +452,12 @@ private fun LoginButton(
         APText(
             modifier = Modifier
                 .align(Center)
-                .padding(start = 16.dp),
-            text = stringResource(id = textId),
+                .padding(
+                    start = 16.dp
+                ),
+            text = stringResource(
+                id = textId
+            ),
             fontSize = 14.sp,
             fontColor = Color.Black
         )
@@ -405,41 +479,54 @@ private fun GenderButton(
 ) {
     val buttonColorState =
         animateColorAsState(
-            targetValue = if (genderState.value == Man && gender == stringResource(id = R.string.male)) {
-                mainColor()
-            } else if (genderState.value == Woman && gender == stringResource(id = R.string.female)) {
-                mainColor()
-            } else {
-                subBackground()
-            }
+            targetValue =
+            if (genderState.value == Man && gender == stringResource(
+                    id = R.string.male
+                )
+            ) mainColor()
+            else if (genderState.value == Woman && gender == stringResource(
+                    id = R.string.female
+                )
+            ) mainColor()
+            else subBackground()
+
         )
 
     val textColorState =
         animateColorAsState(
-            targetValue = if (genderState.value == Man && gender == stringResource(id = R.string.male)) {
+            targetValue =
+            if (genderState.value == Man && gender == stringResource(
+                    id = R.string.male
+                )
+            )
                 Color.White
-            } else if (genderState.value == Woman && gender == stringResource(id = R.string.female)) {
+            else if (genderState.value == Woman && gender == stringResource(
+                    id = R.string.female
+                )
+            )
                 Color.White
-            } else {
-                mainTextColor()
-            }
+            else mainTextColor()
+
         )
     Box(
-        modifier
-            .clip(RoundedCornerShape(8.dp))
+        modifier = modifier
+            .clip(
+                shape = RoundedCornerShape(8.dp)
+            )
             .clickableWithoutRipple { onClickGenderButton() }
             .width(120.dp)
             .height(40.dp)
-            .background(color = buttonColorState.value)
+            .background(
+                color = buttonColorState.value
+            )
     ) {
         APText(
             modifier = Modifier.align(Center),
             text = gender,
-            fontColor = if (!isSystemInDarkTheme()) {
-                textColorState.value
-            } else {
-                mainTextColor()
-            }
+            fontColor =
+            if (!isSystemInDarkTheme()) textColorState.value
+            else mainTextColor()
+
         )
     }
 }

@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 fun ReviewDetailScreen() {
     val scrollState = rememberScrollState()
     val pagerState = rememberPagerState()
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -69,7 +70,11 @@ fun ReviewDetailScreen() {
     ) {
         APText(
             modifier = Modifier
-                .padding(top = 24.dp, start = 24.dp, bottom = 12.dp),
+                .padding(
+                    top = 24.dp,
+                    start = 24.dp,
+                    bottom = 12.dp
+                ),
             text = "테스트 리뷰 제목입니다.",
             fontSize = 20.sp,
             fontType = FontType.Bold,
@@ -100,7 +105,9 @@ fun ReviewDetailScreen() {
 
                 Column(
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(
+                            start = 8.dp
+                        )
                         .align(CenterVertically)
                 ) {
                     APText(
@@ -124,7 +131,9 @@ fun ReviewDetailScreen() {
                     modifier = Modifier
                         .size(12.dp)
                         .align(CenterVertically),
-                    painter = painterResource(id = R.drawable.ic_viewed),
+                    painter = painterResource(
+                        id = R.drawable.ic_viewed
+                    ),
                     contentDescription = "hitIcon",
                     tint = subTextColor()
                 )
@@ -147,7 +156,9 @@ fun ReviewDetailScreen() {
                         )
                         .size(12.dp)
                         .align(CenterVertically),
-                    painter = painterResource(id = R.drawable.ic_filled_heart),
+                    painter = painterResource(
+                        id = R.drawable.ic_filled_heart
+                    ),
                     contentDescription = "recommendedIcon",
                     tint = subTextColor()
                 )
@@ -185,11 +196,11 @@ fun ReviewDetailScreen() {
                     .padding(8.dp),
                 perfumeName = "테스트 향수",
                 brandName = "테스트 브랜드",
-                image = painterResource(id = R.drawable.perfume_test_0),
+                image = painterResource(
+                    id = R.drawable.perfume_test_0
+                ),
                 keywordCount = 3
             )
-
-            val scope = rememberCoroutineScope()
 
             Column(
                 modifier = Modifier
@@ -202,15 +213,35 @@ fun ReviewDetailScreen() {
                 val startWhenResumeValue3 = remember { mutableStateOf(false) }
                 val startWhenResumeValue4 = remember { mutableStateOf(false) }
                 val value0 =
-                    animateDpAsState(targetValue = if (startWhenResumeValue0.value) 80.dp else 0.dp)
+                    animateDpAsState(
+                        targetValue =
+                        if (startWhenResumeValue0.value) 80.dp
+                        else 0.dp
+                    )
                 val value1 =
-                    animateDpAsState(targetValue = if (startWhenResumeValue1.value) 60.dp else 0.dp)
+                    animateDpAsState(
+                        targetValue =
+                        if (startWhenResumeValue1.value) 60.dp
+                        else 0.dp
+                    )
                 val value2 =
-                    animateDpAsState(targetValue = if (startWhenResumeValue2.value) 90.dp else 0.dp)
+                    animateDpAsState(
+                        targetValue =
+                        if (startWhenResumeValue2.value) 90.dp
+                        else 0.dp
+                    )
                 val value3 =
-                    animateDpAsState(targetValue = if (startWhenResumeValue3.value) 40.dp else 0.dp)
+                    animateDpAsState(
+                        targetValue =
+                        if (startWhenResumeValue3.value) 40.dp
+                        else 0.dp
+                    )
                 val value4 =
-                    animateDpAsState(targetValue = if (startWhenResumeValue4.value) 70.dp else 0.dp)
+                    animateDpAsState(
+                        targetValue =
+                        if (startWhenResumeValue4.value) 70.dp
+                        else 0.dp
+                    )
 
                 LaunchedEffect(null) { // Test-Only
                     scope.launch {
@@ -234,25 +265,33 @@ fun ReviewDetailScreen() {
                 )
                 AnimatedSpecValueBar(
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(
+                            top = 8.dp
+                        ),
                     specName = "테스트",
                     specValue = value1
                 )
                 AnimatedSpecValueBar(
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(
+                            top = 8.dp
+                        ),
                     specName = "시원함",
                     specValue = value2
                 )
                 AnimatedSpecValueBar(
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(
+                            top = 8.dp
+                        ),
                     specName = "따뜻함",
                     specValue = value3
                 )
                 AnimatedSpecValueBar(
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(
+                            top = 8.dp
+                        ),
                     specName = "가성비",
                     specValue = value4
                 )
@@ -282,12 +321,16 @@ fun ReviewDetailScreen() {
             val item = dummyAds[index]
             Image(
                 modifier = Modifier
-                    .padding(horizontal = 24.dp)
+                    .padding(
+                        horizontal = 24.dp
+                    )
                     .clip(
                         shape = RoundedCornerShape(24.dp)
                     )
                     .fillMaxSize(),
-                painter = painterResource(id = item),
+                painter = painterResource(
+                    id = item
+                ),
                 contentDescription = "reviewImage",
                 contentScale = ContentScale.Crop
             )
@@ -330,9 +373,17 @@ fun ReviewDetailScreen() {
         val iconState = remember { mutableStateOf(R.drawable.ic_empty_heart) }
         val recommendTextState = remember { mutableStateOf(R.string.recommend) }
         val recommendTextColorState =
-            animateColorAsState(targetValue = if (recommendState.value) mainColor() else mainTextColor())
+            animateColorAsState(
+                targetValue =
+                if (recommendState.value) mainColor()
+                else mainTextColor()
+            )
         val iconTintState =
-            animateColorAsState(targetValue = if (recommendState.value) mainColor() else subTextColor())
+            animateColorAsState(
+                targetValue =
+                if (recommendState.value) mainColor()
+                else subTextColor()
+            )
 
         RoundedCornerIconButton(
             modifier = Modifier
@@ -342,7 +393,9 @@ fun ReviewDetailScreen() {
                 .align(CenterHorizontally)
                 .height(40.dp)
                 .width(110.dp),
-            text = stringResource(id = recommendTextState.value),
+            text = stringResource(
+                id = recommendTextState.value
+            ),
             icon = painterResource(iconState.value),
             fontColor = recommendTextColorState.value,
             iconTint = iconTintState.value
@@ -385,7 +438,9 @@ fun ReviewDetailScreen() {
         dummyReviewComments.forEach {
             Comment(
                 modifier = Modifier
-                    .padding(horizontal = 24.dp),
+                    .padding(
+                        horizontal = 24.dp
+                    ),
                 comment = it
             )
 
@@ -450,7 +505,9 @@ private fun AnimatedSpecValueBar(modifier: Modifier, specName: String, specValue
 
         Box(
             modifier = Modifier
-                .padding(top = 4.dp)
+                .padding(
+                    top = 4.dp
+                )
                 .clip(
                     shape = RoundedCornerShape(12.dp)
                 )

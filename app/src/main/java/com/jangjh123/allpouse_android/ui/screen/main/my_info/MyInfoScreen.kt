@@ -40,7 +40,7 @@ fun MyInfoScreen() {
                     color = subBackground()
                 )
                 .padding(
-                    all = 24.dp
+                    24.dp
                 )
         ) {
             Row(
@@ -51,17 +51,23 @@ fun MyInfoScreen() {
             ) {
                 Image(
                     modifier = Modifier
-                        .clip(shape = CircleShape)
+                        .clip(
+                            shape = CircleShape
+                        )
                         .size(72.dp)
                         .align(CenterVertically),
-                    painter = painterResource(id = R.drawable.ad_banner_0),
+                    painter = painterResource(
+                        id = R.drawable.ad_banner_0
+                    ),
                     contentDescription = "profileImage",
                     contentScale = ContentScale.FillBounds
                 )
 
                 Column(
                     modifier = Modifier
-                        .padding(start = 12.dp)
+                        .padding(
+                            start = 12.dp
+                        )
                         .align(CenterVertically)
                 ) {
                     APText(
@@ -83,7 +89,9 @@ fun MyInfoScreen() {
                     }
                     .size(24.dp)
                     .align(CenterEnd),
-                painter = painterResource(id = R.drawable.ic_settings),
+                painter = painterResource(
+                    id = R.drawable.ic_settings
+                ),
                 contentDescription = "settingsIcon",
                 tint = subTextColor()
             )
@@ -104,7 +112,9 @@ fun MyInfoScreen() {
 
             Divider(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp),
+                    .padding(
+                        horizontal = 12.dp
+                    ),
                 color = subBackground()
             )
 
@@ -121,7 +131,9 @@ fun MyInfoScreen() {
 
             Divider(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp),
+                    .padding(
+                        horizontal = 12.dp
+                    ),
                 color = subBackground()
             )
 
@@ -138,7 +150,9 @@ fun MyInfoScreen() {
 
             Divider(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp),
+                    .padding(
+                        horizontal = 12.dp
+                    ),
                 color = subBackground()
             )
 
@@ -155,7 +169,9 @@ fun MyInfoScreen() {
 
             Divider(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp),
+                    .padding(
+                        horizontal = 12.dp
+                    ),
                 color = subBackground()
             )
 
@@ -172,7 +188,9 @@ fun MyInfoScreen() {
 
             Divider(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp),
+                    .padding(
+                        horizontal = 12.dp
+                    ),
                 color = subBackground()
             )
         }
@@ -185,14 +203,19 @@ private fun SettingsItem(
     icon: Painter,
     onClick: () -> Unit
 ) {
-    Box(modifier = Modifier
-        .clickable {
-            onClick()
-        }
-        .padding(start = 24.dp)
-        .padding(vertical = 8.dp)
-        .fillMaxWidth()
-        .height(60.dp)
+    Box(
+        modifier = Modifier
+            .clickable {
+                onClick()
+            }
+            .padding(
+                start = 24.dp
+            )
+            .padding(
+                vertical = 8.dp
+            )
+            .fillMaxWidth()
+            .height(60.dp)
     ) {
         Row(
             modifier = Modifier
@@ -209,7 +232,9 @@ private fun SettingsItem(
 
             APText(
                 modifier = Modifier
-                    .padding(start = 24.dp)
+                    .padding(
+                        start = 24.dp
+                    )
                     .align(CenterVertically),
                 text = text,
                 fontSize = 16.sp
@@ -240,6 +265,11 @@ private fun Preview() {
 @Preview(showBackground = true)
 @Composable
 private fun SettingsItemPreview() {
-    SettingsItem(text = "옵션", icon = painterResource(id = R.drawable.ic_settings)) {
+    SettingsItem(
+        text = "옵션",
+        icon = painterResource(
+            id = R.drawable.ic_settings
+        )
+    ) {
     }
 }

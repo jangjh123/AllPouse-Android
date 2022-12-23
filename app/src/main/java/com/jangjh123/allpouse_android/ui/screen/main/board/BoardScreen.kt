@@ -53,11 +53,9 @@ fun BoardScreen() {
                         .width(120.dp)
                         .height(40.dp),
                     text = board,
-                    fontColor = if (boardState.value == index) {
-                        mainColor()
-                    } else {
-                        subTextColor()
-                    }
+                    fontColor =
+                    if (boardState.value == index) mainColor()
+                    else subTextColor()
                 ) {
                     boardState.value = index
                 }

@@ -256,7 +256,9 @@ private fun ReviewImagePlaceHolder(
 
                 APText(
                     modifier = Modifier
-                        .padding(top = 4.dp)
+                        .padding(
+                            top = 4.dp
+                        )
                         .align(CenterHorizontally),
                     text = stringResource(
                         id = R.string.add_review_image

@@ -79,7 +79,9 @@ private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Un
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.6f)
-                .background(color = Color.Black)
+                .background(
+                    color = Color.Black
+                )
         ) {
 
             val bitmap = ContextCompat.getDrawable(context, R.drawable.ad_banner_0)!!.toBitmap()
@@ -150,47 +152,57 @@ private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Un
                     sizeState.value *= zoomChange
                 }
 
-                Canvas(modifier = Modifier
-                    .fillMaxSize()
-                    .pointerInput(Unit) {
-                        detectDragGestures { _, dragAmount ->
-                            offsetX.value += dragAmount.x
-                            offsetY.value += dragAmount.y
+                Canvas(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pointerInput(Unit) {
+                            detectDragGestures { _, dragAmount ->
+                                offsetX.value += dragAmount.x
+                                offsetY.value += dragAmount.y
+                            }
                         }
-                    }
-                    .transformable(state = state), onDraw = {
-                    val circlePath = Path().apply {
-                        addOval(
-                            Rect(
-                                if (!movedState.value) {
-                                    offsetX.value = center.x
-                                    offsetY.value = center.y
-                                    movedState.value = true
-                                    center
-                                } else {
-                                    Offset(offsetX.value, offsetY.value)
-                                }, sizeState.value
-                            )
-                        )
-                    }
-
-                    clipPath(circlePath, clipOp = ClipOp.Difference) {
-                        drawRect(color = Color(0x88000000))
-                        drawOval(
-                            color = Color.White,
-                            topLeft = Offset(
-                                offsetX.value - sizeState.value,
-                                offsetY.value - sizeState.value
-                            ),
-                            size = Size(sizeState.value * 2, sizeState.value * 2),
-                            style = Stroke(
-                                width = 8f, pathEffect = PathEffect.dashPathEffect(
-                                    floatArrayOf(20f, 20f), 0f
+                        .transformable(
+                            state = state
+                        ),
+                    onDraw = {
+                        val circlePath = Path().apply {
+                            addOval(
+                                Rect(
+                                    if (!movedState.value) {
+                                        offsetX.value = center.x
+                                        offsetY.value = center.y
+                                        movedState.value = true
+                                        center
+                                    } else {
+                                        Offset(offsetX.value, offsetY.value)
+                                    }, sizeState.value
                                 )
                             )
-                        )
-                    }
-                })
+                        }
+
+                        clipPath(
+                            circlePath,
+                            clipOp = ClipOp.Difference
+                        ) {
+                            drawRect(
+                                color = Color(0x88000000)
+                            )
+                            drawOval(
+                                color = Color.White,
+                                topLeft = Offset(
+                                    offsetX.value - sizeState.value,
+                                    offsetY.value - sizeState.value
+                                ),
+                                size = Size(sizeState.value * 2, sizeState.value * 2),
+                                style = Stroke(
+                                    width = 8f,
+                                    pathEffect = PathEffect.dashPathEffect(
+                                        floatArrayOf(20f, 20f), 0f
+                                    )
+                                )
+                            )
+                        }
+                    })
             }
         }
         Column(
@@ -205,11 +217,16 @@ private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Un
             ) {
                 Image(
                     modifier = Modifier
-                        .clip(CircleShape)
+                        .clip(
+                            shape = CircleShape
+                        )
                         .align(Center)
                         .size(120.dp)
-                        .background(color = contentBackground()),
-                    bitmap = croppedImageState.value, contentDescription = "cropped",
+                        .background(
+                            color = contentBackground()
+                        ),
+                    bitmap = croppedImageState.value,
+                    contentDescription = "cropped",
                     contentScale = ContentScale.FillBounds
                 )
             }

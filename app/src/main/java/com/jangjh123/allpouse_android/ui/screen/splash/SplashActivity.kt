@@ -71,17 +71,24 @@ private fun SplashActivityContent() {
                 modifier = Modifier
                     .size(120.dp)
                     .align(CenterHorizontally),
-                painter = painterResource(id = R.drawable.main_icon),
+                painter = painterResource(
+                    id = R.drawable.main_icon
+                ),
                 contentDescription = "mainIcon",
                 contentScale = ContentScale.FillBounds
             )
 
             Text(
-                modifier = Modifier.align(CenterHorizontally),
-                text = stringResource(id = R.string.app),
+                modifier = Modifier
+                    .align(CenterHorizontally),
+                text = stringResource(
+                    id = R.string.app
+                ),
                 color = Color.White,
                 style = TextStyle(
-                    platformStyle = PlatformTextStyle(includeFontPadding = false)
+                    platformStyle = PlatformTextStyle(
+                        includeFontPadding = false
+                    )
                 ),
                 fontFamily = cinzelExtraBold,
                 fontSize = 24.sp,
@@ -90,7 +97,9 @@ private fun SplashActivityContent() {
             APText(
                 modifier = Modifier
                     .align(CenterHorizontally),
-                text = stringResource(id = R.string.desc_app),
+                text = stringResource(
+                    id = R.string.desc_app
+                ),
                 fontColor = Color.White,
                 fontSize = 12.sp
             )

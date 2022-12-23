@@ -122,14 +122,20 @@ fun SearchResultScreen() {
                 items(dummyPerfumesForYou) { perfume ->
                     Perfume(
                         modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .clip(RoundedCornerShape(12.dp))
+                            .padding(
+                                horizontal = 4.dp
+                            )
+                            .clip(
+                                shape = RoundedCornerShape(12.dp)
+                            )
                             .background(
                                 color = subBackground()
                             ),
                         perfumeName = perfume.perfumeName,
                         brandName = perfume.brandName,
-                        image = painterResource(id = perfume.image),
+                        image = painterResource(
+                            id = perfume.image
+                        ),
                         keywordCount = perfume.keywordCount
                     )
                 }
@@ -149,14 +155,19 @@ fun SearchResultScreen() {
                                 modifier = Modifier
                                     .size(36.dp)
                                     .align(Alignment.CenterHorizontally),
-                                painter = painterResource(id = R.drawable.ic_arrow_foward),
+                                painter = painterResource(
+                                    id = R.drawable.ic_arrow_foward
+                                ),
                                 tint = subTextColor(),
                                 contentDescription = "goForMorePerfumes"
                             )
 
                             APText(
-                                modifier = Modifier.padding(4.dp),
-                                text = stringResource(id = R.string.show_more),
+                                modifier = Modifier
+                                    .padding(4.dp),
+                                text = stringResource(
+                                    id = R.string.show_more
+                                ),
                                 fontColor = subTextColor()
                             )
                         }
@@ -183,42 +194,60 @@ fun SearchResultScreen() {
             ) {
                 Review(
                     modifier = Modifier
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     score = 4.32f,
                     perfumeName = "TestPerfume",
-                    image = painterResource(id = R.drawable.perfume_test_1),
+                    image = painterResource(
+                        id = R.drawable.perfume_test_1
+                    ),
                     title = "Test Title",
                     body = "Test Body",
                     author = "Test Author",
-                    authorImage = painterResource(id = R.drawable.ad_banner_2),
+                    authorImage = painterResource(
+                        id = R.drawable.ad_banner_2
+                    ),
                     hit = 6554,
                     recommend = 32
                 )
 
                 Review(
                     modifier = Modifier
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     score = 4.32f,
                     perfumeName = "TestPerfume",
-                    image = painterResource(id = R.drawable.perfume_test_1),
+                    image = painterResource(
+                        id = R.drawable.perfume_test_1
+                    ),
                     title = "Test Title",
                     body = "Test Body",
                     author = "Test Author",
-                    authorImage = painterResource(id = R.drawable.ad_banner_2),
+                    authorImage = painterResource(
+                        id = R.drawable.ad_banner_2
+                    ),
                     hit = 6554,
                     recommend = 32
                 )
 
                 Review(
                     modifier = Modifier
-                        .padding(vertical = 4.dp),
+                        .padding(
+                            vertical = 4.dp
+                        ),
                     score = 4.32f,
                     perfumeName = "TestPerfume",
-                    image = painterResource(id = R.drawable.perfume_test_1),
+                    image = painterResource(
+                        id = R.drawable.perfume_test_1
+                    ),
                     title = "Test Title",
                     body = "Test Body",
                     author = "Test Author",
-                    authorImage = painterResource(id = R.drawable.ad_banner_2),
+                    authorImage = painterResource(
+                        id = R.drawable.ad_banner_2
+                    ),
                     hit = 6554,
                     recommend = 32
                 )

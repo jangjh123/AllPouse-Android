@@ -78,17 +78,23 @@ private fun MainActivityContent() {
                         .padding(18.dp)
                         .size(24.dp)
                         .align(Alignment.TopStart),
-                    painter = painterResource(id = R.drawable.ic_notification),
+                    painter = painterResource(
+                        id = R.drawable.ic_notification
+                    ),
                     contentDescription = "notice",
                     tint = Color.White
                 )
 
                 Text(
                     modifier = Modifier.align(Alignment.Center),
-                    text = stringResource(id = R.string.app),
+                    text = stringResource(
+                        id = R.string.app
+                    ),
                     color = Color.White,
                     style = TextStyle(
-                        platformStyle = PlatformTextStyle(includeFontPadding = false)
+                        platformStyle = PlatformTextStyle(
+                            includeFontPadding = false
+                        )
                     ),
                     fontFamily = cinzelExtraBold,
                     fontSize = 24.sp,
@@ -106,7 +112,9 @@ private fun MainActivityContent() {
                                 restoreState = true
                             }
                         },
-                    painter = painterResource(id = R.drawable.ic_search),
+                    painter = painterResource(
+                        id = R.drawable.ic_search
+                    ),
                     contentDescription = "search",
                     tint = Color.White
                 )
@@ -116,15 +124,24 @@ private fun MainActivityContent() {
             BottomNavigation(
                 modifier = Modifier
                     .height(60.dp)
-                    .clip(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                    .clip(
+                        shape = RoundedCornerShape(
+                            topStart = 12.dp,
+                            topEnd = 12.dp
+                        )
+                    ),
                 backgroundColor = Color.Black
             ) {
                 CustomBottomNavigationItem(
-                    screenName = stringResource(id = R.string.home),
+                    screenName = stringResource(
+                        id = R.string.home
+                    ),
                     currentScreen = currentScreen,
                     navController = navController,
                     screen = Home,
-                    icon = painterResource(id = R.drawable.ic_home)
+                    icon = painterResource(
+                        id = R.drawable.ic_home
+                    )
                 )
 
                 CustomBottomNavigationItem(
@@ -134,23 +151,33 @@ private fun MainActivityContent() {
                     currentScreen = currentScreen,
                     navController = navController,
                     screen = PerfumeLookAround,
-                    icon = painterResource(id = R.drawable.ic_perfume)
+                    icon = painterResource(
+                        id = R.drawable.ic_perfume
+                    )
                 )
 
                 CustomBottomNavigationItem(
-                    screenName = stringResource(id = R.string.board),
+                    screenName = stringResource(
+                        id = R.string.board
+                    ),
                     currentScreen = currentScreen,
                     navController = navController,
                     screen = Boards,
-                    icon = painterResource(id = R.drawable.ic_board)
+                    icon = painterResource(
+                        id = R.drawable.ic_board
+                    )
                 )
 
                 CustomBottomNavigationItem(
-                    screenName = stringResource(id = R.string.my_info),
+                    screenName = stringResource(
+                        id = R.string.my_info
+                    ),
                     currentScreen = currentScreen,
                     navController = navController,
                     screen = MyInfo,
-                    icon = painterResource(id = R.drawable.ic_my_info)
+                    icon = painterResource(
+                        id = R.drawable.ic_my_info
+                    )
                 )
             }
         }

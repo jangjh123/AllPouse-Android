@@ -131,7 +131,9 @@ fun PostDetailScreen(post: DummyPost) {
                             modifier = Modifier
                                 .size(12.dp)
                                 .align(CenterVertically),
-                            painter = painterResource(id = R.drawable.ic_viewed),
+                            painter = painterResource(
+                                id = R.drawable.ic_viewed
+                            ),
                             contentDescription = "hitIcon",
                             tint = subTextColor()
                         )
@@ -154,7 +156,9 @@ fun PostDetailScreen(post: DummyPost) {
                                 )
                                 .size(12.dp)
                                 .align(CenterVertically),
-                            painter = painterResource(id = R.drawable.ic_comment),
+                            painter = painterResource(
+                                id = R.drawable.ic_comment
+                            ),
                             contentDescription = "recommendedIcon",
                             tint = subTextColor()
                         )
@@ -212,7 +216,9 @@ fun PostDetailScreen(post: DummyPost) {
                                 .background(
                                     color = subBackground()
                                 ),
-                            painter = painterResource(id = post.imageList[index]),
+                            painter = painterResource(
+                                id = post.imageList[index]
+                            ),
                             contentDescription = "postImage",
                             contentScale = ContentScale.Inside
                         )
@@ -273,7 +279,9 @@ fun PostDetailScreen(post: DummyPost) {
 
                 APText(
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(
+                            start = 8.dp
+                        )
                         .align(CenterVertically),
                     text = "${post.commentCount}개",
                     fontColor = subTextColor()
@@ -336,7 +344,9 @@ fun PostDetailScreen(post: DummyPost) {
                 )
 
                 val buttonAlphaState = animateFloatAsState(
-                    targetValue = if (commentTextFieldState.value.isNotEmpty()) 1.0f else 0f
+                    targetValue =
+                    if (commentTextFieldState.value.isNotEmpty()) 1.0f
+                    else 0f
                 )
 
                 GradientButton(

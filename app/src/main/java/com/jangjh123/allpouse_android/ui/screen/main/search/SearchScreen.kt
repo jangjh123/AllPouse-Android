@@ -43,7 +43,9 @@ fun SearchScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = background())
+            .background(
+                color = background()
+            )
             .addFocusCleaner(focusManager)
     ) {
         val searchTextState = remember { mutableStateOf("") }
@@ -51,7 +53,9 @@ fun SearchScreen(navController: NavController) {
 
         Row(
             Modifier
-                .padding(top = 12.dp)
+                .padding(
+                    top = 12.dp
+                )
                 .fillMaxWidth()
         ) {
             Icon(
@@ -61,7 +65,9 @@ fun SearchScreen(navController: NavController) {
                     .clickableWithoutRipple {
                         navController.popBackStack()
                     },
-                painter = painterResource(id = R.drawable.ic_arrow_back),
+                painter = painterResource(
+                    id = R.drawable.ic_arrow_back
+                ),
                 contentDescription = "goBack",
                 tint = mainTextColor()
             )
@@ -78,7 +84,9 @@ fun SearchScreen(navController: NavController) {
                 modifier = Modifier
                     .weight(0.15f)
                     .align(CenterVertically),
-                painter = painterResource(id = R.drawable.ic_search),
+                painter = painterResource(
+                    id = R.drawable.ic_search
+                ),
                 contentDescription = "search",
                 tint = mainTextColor()
             )
@@ -87,7 +95,9 @@ fun SearchScreen(navController: NavController) {
         Row(
             Modifier
                 .padding(12.dp)
-                .clip(shape = RoundedCornerShape(12.dp))
+                .clip(
+                    shape = RoundedCornerShape(12.dp)
+                )
                 .fillMaxWidth()
                 .height(40.dp)
                 .background(subBackground())
@@ -99,7 +109,9 @@ fun SearchScreen(navController: NavController) {
                     .clickableWithoutRipple {
                         typeState.value = Recent
                     },
-                type = stringResource(id = R.string.recent_search_keyword),
+                type = stringResource(
+                    id = R.string.recent_search_keyword
+                ),
                 typeState = typeState
             )
 
@@ -109,7 +121,9 @@ fun SearchScreen(navController: NavController) {
                     .clickableWithoutRipple {
                         typeState.value = Popular
                     },
-                type = stringResource(id = R.string.popular_search_keyword),
+                type = stringResource(
+                    id = R.string.popular_search_keyword
+                ),
                 typeState = typeState
             )
         }
@@ -117,13 +131,20 @@ fun SearchScreen(navController: NavController) {
         LazyColumn(
             modifier = Modifier
                 .padding(12.dp)
-                .clip(shape = RoundedCornerShape(12.dp))
+                .clip(
+                    shape = RoundedCornerShape(12.dp)
+                )
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(color = subBackground())
+                .background(
+                    color = subBackground()
+                )
         ) {
             item {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(8.dp)
+                )
             }
 
             items(
@@ -142,7 +163,9 @@ fun SearchScreen(navController: NavController) {
                             horizontal = 12.dp,
                             vertical = 4.dp
                         )
-                        .clip(shape = RoundedCornerShape(12.dp))
+                        .clip(
+                            shape = RoundedCornerShape(12.dp)
+                        )
                         .background(
                             color = contentBackground()
                         )
@@ -158,10 +181,14 @@ fun SearchScreen(navController: NavController) {
 
                     Icon(
                         modifier = Modifier
-                            .padding(end = 12.dp)
+                            .padding(
+                                end = 12.dp
+                            )
                             .size(20.dp)
                             .align(CenterEnd),
-                        painter = painterResource(id = R.drawable.close),
+                        painter = painterResource(
+                            id = R.drawable.close
+                        ),
                         contentDescription = "removeSearchKeyword",
                         tint = subTextColor()
                     )
@@ -184,21 +211,38 @@ private fun SearchKeywordTypeButton(
 ) {
     val buttonColorState =
         animateColorAsState(
-            targetValue = if (typeState.value == Recent && type == stringResource(id = R.string.recent_search_keyword)) mainColor() else if (
-                typeState.value == Popular && type == stringResource(id = R.string.popular_search_keyword)) mainColor() else
-                subBackground()
+            targetValue =
+            if (typeState.value == Recent && type == stringResource(
+                    id = R.string.recent_search_keyword
+                )
+            ) mainColor()
+            else if (typeState.value == Popular && type == stringResource(
+                    id = R.string.popular_search_keyword
+                )
+            ) mainColor()
+            else subBackground()
         )
 
     val textColorState =
         animateColorAsState(
-            targetValue = if (typeState.value == Recent && type == stringResource(id = R.string.recent_search_keyword)) Color.White else if (
-                typeState.value == Popular && type == stringResource(id = R.string.popular_search_keyword)) Color.White else
-                mainTextColor()
+            targetValue =
+            if (typeState.value == Recent && type == stringResource(
+                    id = R.string.recent_search_keyword
+                )
+            ) Color.White
+            else if (
+                typeState.value == Popular && type == stringResource(
+                    id = R.string.popular_search_keyword
+                )
+            ) Color.White
+            else mainTextColor()
         )
 
     Box(
         modifier = modifier
-            .background(color = buttonColorState.value)
+            .background(
+                color = buttonColorState.value
+            )
             .fillMaxHeight()
     ) {
         APText(
