@@ -2,6 +2,7 @@ package com.jangjh123.allpouse_android.ui.screen.login.image_crop
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
@@ -13,6 +14,7 @@ import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -58,8 +60,13 @@ import kotlin.math.roundToInt
 class ImageCropActivity : ComponentActivity() {
     private lateinit var cameraPermission: ActivityResultLauncher<String>
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
+
+    private lateinit var galleryPermission: ActivityResultLauncher<String>
+    private lateinit var galleryLauncher: ActivityResultLauncher<PickVisualMediaRequest>
+
     private lateinit var imageState: MutableState<ImageBitmap>
     private var photoUri: Uri? = null
+    private lateinit var croppedImageState: MutableState<ImageBitmap>
 
     private lateinit var needPermissionDialogState: MutableState<Boolean>
 
@@ -72,11 +79,24 @@ class ImageCropActivity : ComponentActivity() {
             AllPouseAndroidTheme {
                 needPermissionDialogState = remember { mutableStateOf(false) }
                 imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
-                cameraPermission.launch(Manifest.permission.CAMERA)
+                croppedImageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
+
+                val imageSource = intent.getStringExtra("imageSource")
+
+                if (imageSource == "camera") {
+                    cameraPermission.launch(Manifest.permission.CAMERA)
+                } else {
+                    galleryLauncher.launch(PickVisualMediaRequest())
+                }
+
                 ImageCropActivityContent(
-                    imageState = imageState
+                    imageState = imageState,
+                    croppedImageState = croppedImageState
                 ) {
-                    setResult(Activity.RESULT_OK)
+                    setResult(
+                        Activity.RESULT_OK,
+                        Intent().putExtra("croppedImage", croppedImageState.value.asAndroidBitmap())
+                    )
                     finish()
                 }
 
@@ -90,7 +110,9 @@ class ImageCropActivity : ComponentActivity() {
                     ) {
                         NoticeDialog(
                             text = stringResource(
-                                id = R.string.need_permission, "카메라"
+                                id = R.string.need_permission,
+                                if (imageSource == "camera") "카메라"
+                                else "저장소"
                             )
                         ) {
                             finish()
@@ -102,6 +124,24 @@ class ImageCropActivity : ComponentActivity() {
     }
 
     private fun initRegister() {
+        cameraPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    startCamera()
+                } else {
+                    needPermissionDialogState.value = true
+                }
+            }
+
+        galleryPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    startGallery()
+                } else {
+                    needPermissionDialogState.value = true
+                }
+            }
+
         cameraLauncher =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
                 if (isSuccess) {
@@ -119,12 +159,18 @@ class ImageCropActivity : ComponentActivity() {
                 }
             }
 
-        cameraPermission =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                if (isGranted) {
-                    startCamera()
+        galleryLauncher =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                if (Build.VERSION.SDK_INT < 28) {
+                    val imageBitmap = MediaStore.Images.Media.getBitmap(
+                        contentResolver,
+                        uri
+                    )
+                    imageState.value = imageBitmap.asImageBitmap()
                 } else {
-                    needPermissionDialogState.value = true
+                    val source =
+                        ImageDecoder.createSource(this.contentResolver, uri!!)
+                    imageState.value = ImageDecoder.decodeBitmap(source).asImageBitmap()
                 }
             }
     }
@@ -138,16 +184,20 @@ class ImageCropActivity : ComponentActivity() {
         photoUri = FileProvider.getUriForFile(this, "${packageName}.provider", photoFile)
         cameraLauncher.launch(photoUri)
     }
+
+    private fun startGallery() {
+        galleryLauncher.launch(PickVisualMediaRequest())
+    }
 }
 
 @Composable
 private fun ImageCropActivityContent(
     imageState: MutableState<ImageBitmap>,
+    croppedImageState: MutableState<ImageBitmap>,
     onClickUseImage: () -> Unit
 ) {
     val imageWidthState = remember { mutableStateOf(0.dp) }
     val imageHeightState = remember { mutableStateOf(0.dp) }
-    val croppedImageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
     val offsetX = remember { mutableStateOf(0f) }
     val offsetY = remember { mutableStateOf(0f) }
     val movedState = remember { mutableStateOf(false) }

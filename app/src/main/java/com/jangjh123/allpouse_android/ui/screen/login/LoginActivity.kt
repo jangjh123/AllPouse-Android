@@ -1,9 +1,12 @@
 package com.jangjh123.allpouse_android.ui.screen.login
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -21,6 +24,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -41,9 +45,19 @@ import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.launch
 
 class LoginActivity : ComponentActivity() {
+    private lateinit var profileImageLauncher: ActivityResultLauncher<Intent>
+    private lateinit var imageState: MutableState<ImageBitmap>
+
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        profileImageLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    imageState.value = (result.data?.extras?.get("croppedImage") as Bitmap).asImageBitmap()
+                }
+            }
 
         setContent {
             AllPouseAndroidTheme {
@@ -55,7 +69,7 @@ class LoginActivity : ComponentActivity() {
                     )
                 val scope = rememberCoroutineScope()
                 val selectImageSourceDialogState = remember { mutableStateOf(false) }
-                val imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
+                imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
                 LoginActivityContent(
                     modalBottomSheetState = signUpBottomSheetState,
                     imageState = imageState,
@@ -92,16 +106,25 @@ class LoginActivity : ComponentActivity() {
                     ) {
                         SelectImageSourceDialog(
                             onClickCamera = {
-                                startActivity(
+                                profileImageLauncher.launch(
                                     Intent(
                                         this@LoginActivity,
                                         ImageCropActivity::class.java
-                                    )
+                                    ).apply {
+                                        putExtra("imageSource", "camera")
+                                    }
                                 )
                                 selectImageSourceDialogState.value = false
                             },
                             onClickGallery = {
-
+                                profileImageLauncher.launch(
+                                    Intent(
+                                        this@LoginActivity,
+                                        ImageCropActivity::class.java
+                                    ).apply {
+                                        putExtra("imageSource", "gallery")
+                                    }
+                                )
                                 selectImageSourceDialogState.value = false
                             }
                         )
