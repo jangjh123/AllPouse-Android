@@ -1,11 +1,9 @@
 package com.jangjh123.allpouse_android.ui.screen.login
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -22,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -31,10 +30,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
-import com.jangjh123.allpouse_android.ui.screen.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
+import com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.launch
@@ -43,12 +44,7 @@ class LoginActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val startActivityForProfileImage =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode == Activity.RESULT_OK) {
 
-                }
-            }
         setContent {
             AllPouseAndroidTheme {
                 val signUpBottomSheetState =
@@ -58,8 +54,11 @@ class LoginActivity : ComponentActivity() {
                         confirmStateChange = { false }
                     )
                 val scope = rememberCoroutineScope()
+                val selectImageSourceDialogState = remember { mutableStateOf(false) }
+                val imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
                 LoginActivityContent(
-                    signUpBottomSheetState,
+                    modalBottomSheetState = signUpBottomSheetState,
+                    imageState = imageState,
                     onClickGoogleLogin = {
                         scope.launch {
                             signUpBottomSheetState.show()
@@ -71,12 +70,7 @@ class LoginActivity : ComponentActivity() {
                         }
                     },
                     onClickProfileImage = {
-                        startActivityForProfileImage.launch(
-                            Intent(
-                                this@LoginActivity,
-                                ImageCropActivity::class.java
-                            )
-                        )
+                        selectImageSourceDialogState.value = true
                     },
                     onClickStartButton = {
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
@@ -87,6 +81,32 @@ class LoginActivity : ComponentActivity() {
                         }
                     }
                 )
+
+                if (selectImageSourceDialogState.value) {
+                    Dialog(
+                        onDismissRequest = { selectImageSourceDialogState.value = false },
+                        properties = DialogProperties(
+                            dismissOnBackPress = true,
+                            dismissOnClickOutside = true
+                        )
+                    ) {
+                        SelectImageSourceDialog(
+                            onClickCamera = {
+                                startActivity(
+                                    Intent(
+                                        this@LoginActivity,
+                                        ImageCropActivity::class.java
+                                    )
+                                )
+                                selectImageSourceDialogState.value = false
+                            },
+                            onClickGallery = {
+
+                                selectImageSourceDialogState.value = false
+                            }
+                        )
+                    }
+                }
             }
         }
     }
@@ -96,6 +116,7 @@ class LoginActivity : ComponentActivity() {
 @Composable
 private fun LoginActivityContent(
     modalBottomSheetState: ModalBottomSheetState,
+    imageState: MutableState<ImageBitmap>,
     onClickGoogleLogin: () -> Unit,
     onClickKakaoLogin: () -> Unit,
     onClickProfileImage: () -> Unit,
@@ -138,9 +159,7 @@ private fun LoginActivityContent(
                             .clickable {
                                 onClickProfileImage()
                             },
-                        painter = painterResource(
-                            id = R.drawable.main_icon
-                        ),
+                        bitmap = imageState.value,
                         contentDescription = "profileImage",
                         contentScale = ContentScale.FillBounds
                     )
@@ -403,7 +422,6 @@ private fun LoginActivityContent(
                                 textId = R.string.kakao_login
                             )
                         }
-
                     }
                 }
             }

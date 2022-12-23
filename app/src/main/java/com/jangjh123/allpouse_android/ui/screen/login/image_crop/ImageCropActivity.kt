@@ -1,12 +1,19 @@
-package com.jangjh123.allpouse_android.ui.screen.image_crop
+package com.jangjh123.allpouse_android.ui.screen.login.image_crop
 
+import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +24,7 @@ import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.Center
@@ -35,34 +43,109 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.core.content.FileProvider
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
+import com.jangjh123.allpouse_android.ui.component.NoticeDialog
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
+import java.io.File
 import kotlin.math.roundToInt
 
 class ImageCropActivity : ComponentActivity() {
+    private lateinit var cameraPermission: ActivityResultLauncher<String>
+    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
+    private lateinit var imageState: MutableState<ImageBitmap>
+    private var photoUri: Uri? = null
+
+    private lateinit var needPermissionDialogState: MutableState<Boolean>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initRegister()
+
         setContent {
             AllPouseAndroidTheme {
-                ImageCropActivityContent(this@ImageCropActivity) {
+                needPermissionDialogState = remember { mutableStateOf(false) }
+                imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
+                cameraPermission.launch(Manifest.permission.CAMERA)
+                ImageCropActivityContent(
+                    imageState = imageState
+                ) {
                     setResult(Activity.RESULT_OK)
                     finish()
+                }
+
+                if (needPermissionDialogState.value) {
+                    Dialog(
+                        onDismissRequest = { needPermissionDialogState.value = false },
+                        properties = DialogProperties(
+                            dismissOnBackPress = true,
+                            dismissOnClickOutside = true
+                        )
+                    ) {
+                        NoticeDialog(
+                            text = stringResource(
+                                id = R.string.need_permission, "카메라"
+                            )
+                        ) {
+                            finish()
+                        }
+                    }
                 }
             }
         }
     }
+
+    private fun initRegister() {
+        cameraLauncher =
+            registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+                if (isSuccess) {
+                    if (Build.VERSION.SDK_INT < 28) {
+                        val imageBitmap = MediaStore.Images.Media.getBitmap(
+                            contentResolver,
+                            photoUri
+                        )
+                        imageState.value = imageBitmap.asImageBitmap()
+                    } else {
+                        val source =
+                            ImageDecoder.createSource(this.contentResolver, photoUri!!)
+                        imageState.value = ImageDecoder.decodeBitmap(source).asImageBitmap()
+                    }
+                }
+            }
+
+        cameraPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    startCamera()
+                } else {
+                    needPermissionDialogState.value = true
+                }
+            }
+    }
+
+    private fun startCamera() {
+        val photoFile = File.createTempFile(
+            "IMG_",
+            ".webp",
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        )
+        photoUri = FileProvider.getUriForFile(this, "${packageName}.provider", photoFile)
+        cameraLauncher.launch(photoUri)
+    }
 }
 
 @Composable
-private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Unit) {
-// todo : 고정되는 값에 대해서는 파라미터를 통해 넘겨주도록 수정
-    val imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
-    val imageWidthState = remember { mutableStateOf(0.dp) } // dp
+private fun ImageCropActivityContent(
+    imageState: MutableState<ImageBitmap>,
+    onClickUseImage: () -> Unit
+) {
+    val imageWidthState = remember { mutableStateOf(0.dp) }
     val imageHeightState = remember { mutableStateOf(0.dp) }
     val croppedImageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
     val offsetX = remember { mutableStateOf(0f) }
@@ -83,8 +166,7 @@ private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Un
                     color = Color.Black
                 )
         ) {
-
-            val bitmap = ContextCompat.getDrawable(context, R.drawable.ad_banner_0)!!.toBitmap()
+            val bitmap = imageState.value.asAndroidBitmap()
             val bitmapRatio = (bitmap.width).toFloat() / (bitmap.height).toFloat()
 
             if (bitmapRatio > 1.0) {
@@ -98,7 +180,7 @@ private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Un
                 imageHeightState.value = SCREEN_HEIGHT_DP * 0.5f
             }
 
-            val frameWidthState = remember { mutableStateOf(1) } // px
+            val frameWidthState = remember { mutableStateOf(1) }
             val frameHeightState = remember { mutableStateOf(1) }
 
             with(LocalDensity.current) {
@@ -244,15 +326,21 @@ private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Un
                             color = subBackground()
                         )
                         .clickable {
-                            croppedImageState.value = Bitmap
-                                .createBitmap(
-                                    imageState.value.asAndroidBitmap(),
-                                    (offsetX.value - sizeState.value).roundToInt(),
-                                    (offsetY.value - sizeState.value).roundToInt(),
-                                    sizeState.value.roundToInt() * 2,
-                                    sizeState.value.roundToInt() * 2
-                                )
-                                .asImageBitmap()
+                            try {
+                                croppedImageState.value = Bitmap
+                                    .createBitmap(
+                                        imageState.value.asAndroidBitmap(),
+                                        (offsetX.value - sizeState.value)
+                                            .roundToInt()
+                                            .apply { },
+                                        (offsetY.value - sizeState.value).roundToInt(),
+                                        sizeState.value.roundToInt() * 2,
+                                        sizeState.value.roundToInt() * 2
+                                    )
+                                    .asImageBitmap()
+                            } catch (e: Exception) {
+
+                            }
                         }) {
                     APText(
                         modifier = Modifier
@@ -284,19 +372,6 @@ private fun ImageCropActivityContent(context: Context, onClickUseImage: () -> Un
                     )
                 }
             }
-
-//            GradientButton(
-//                modifier = Modifier
-//                    .padding(
-//                        horizontal = 20.dp)
-//                    .fillMaxWidth()
-//                    .height(40.dp),
-//                text = stringResource(id = R.string.use_cut_image)
-//            ) {
-//                onClickUseImage()
-//            }
-
-
         }
     }
 }

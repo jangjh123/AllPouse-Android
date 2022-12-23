@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jangjh123.allpouse_android">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +16,7 @@
         android:theme="@style/Theme.AllPouseAndroid"
         tools:targetApi="31">
         <activity
-            android:name="com.jangjh123.allpouse_android.ui.screen.image_crop.ImageCropActivity"
+            android:name="com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity"
             android:exported="true"
             android:theme="@style/Theme.AllPouseAndroid" />
         <activity
@@ -42,6 +44,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/image_path"/>
+        </provider>
+    </application>
 </manifest>
