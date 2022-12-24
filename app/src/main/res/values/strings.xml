@@ -21,6 +21,8 @@
     <string name="write_comment_in_comment">답글작성</string>
     <string name="brand_perfume_count">등록된 향수 %d개</string>
     <string name="go_back">돌아가기</string>
+    <string name="confirm">확인</string>
+    <string name="need_permission">%s 권한이 필요합니다.</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>
@@ -48,6 +50,7 @@
     <!--    ImageCropActivity-->
     <string name="crop_image">잘라내기</string>
     <string name="use_cropped_image">이미지 사용</string>
+    <string name="image_load_error">이미지를 불러올 수 없습니다.\n다시 시도해 주세요.</string>
     <!--    ImageCropActivity-->
 
     <!--    HomeScreen-->
@@ -139,4 +142,9 @@
     <string name="write_comment">댓글 작성</string>
     <string name="post_comment">작성 완료</string>
     <!--    PostDetailScreen-->
+
+    <!--    SelectImageSourceDialog-->
+    <string name="take_a_picture">촬영하기</string>
+    <string name="get_image_from_gallery">갤러리에서 가져오기</string>
+    <!--    SelectImageSourceDialog-->
 </resources>
