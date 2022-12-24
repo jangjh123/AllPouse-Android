@@ -4,13 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
@@ -47,14 +43,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.core.content.FileProvider
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.component.NoticeDialog
+import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
-import java.io.File
 import kotlin.math.roundToInt
 
 class ImageCropActivity : ComponentActivity() {
@@ -69,6 +62,7 @@ class ImageCropActivity : ComponentActivity() {
     private lateinit var croppedImageState: MutableState<ImageBitmap>
 
     private lateinit var needPermissionDialogState: MutableState<Boolean>
+    private lateinit var imageLoadErrorDialogState: MutableState<Boolean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +72,7 @@ class ImageCropActivity : ComponentActivity() {
         setContent {
             AllPouseAndroidTheme {
                 needPermissionDialogState = remember { mutableStateOf(false) }
+                imageLoadErrorDialogState = remember { mutableStateOf(false) }
                 imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
                 croppedImageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
 
@@ -119,6 +114,24 @@ class ImageCropActivity : ComponentActivity() {
                         }
                     }
                 }
+
+                if (imageLoadErrorDialogState.value) {
+                    Dialog(
+                        onDismissRequest = { imageLoadErrorDialogState.value = false },
+                        properties = DialogProperties(
+                            dismissOnBackPress = true,
+                            dismissOnClickOutside = true
+                        )
+                    ) {
+                        NoticeDialog(
+                            text = stringResource(
+                                id = R.string.image_load_error
+                            )
+                        ) {
+                            finish()
+                        }
+                    }
+                }
             }
         }
     }
@@ -127,7 +140,10 @@ class ImageCropActivity : ComponentActivity() {
         cameraPermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
-                    startCamera()
+                    photoUri = startCamera(
+                        context = this@ImageCropActivity,
+                        cameraLauncher = cameraLauncher,
+                    )
                 } else {
                     needPermissionDialogState.value = true
                 }
@@ -136,7 +152,9 @@ class ImageCropActivity : ComponentActivity() {
         galleryPermission =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
-                    startGallery()
+                    startGallery(
+                        galleryLauncher = galleryLauncher
+                    )
                 } else {
                     needPermissionDialogState.value = true
                 }
@@ -145,48 +163,22 @@ class ImageCropActivity : ComponentActivity() {
         cameraLauncher =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
                 if (isSuccess) {
-                    if (Build.VERSION.SDK_INT < 28) {
-                        val imageBitmap = MediaStore.Images.Media.getBitmap(
-                            contentResolver,
-                            photoUri
-                        )
-                        imageState.value = imageBitmap.asImageBitmap()
-                    } else {
-                        val source =
-                            ImageDecoder.createSource(this.contentResolver, photoUri!!)
-                        imageState.value = ImageDecoder.decodeBitmap(source).asImageBitmap()
+                    photoUri?.let {
+                        imageState.value = convertUriToBitmap(contentResolver, it).asImageBitmap()
+                    } ?: run {
+                        imageLoadErrorDialogState.value = true
                     }
                 }
             }
 
         galleryLauncher =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                if (Build.VERSION.SDK_INT < 28) {
-                    val imageBitmap = MediaStore.Images.Media.getBitmap(
-                        contentResolver,
-                        uri
-                    )
-                    imageState.value = imageBitmap.asImageBitmap()
-                } else {
-                    val source =
-                        ImageDecoder.createSource(this.contentResolver, uri!!)
-                    imageState.value = ImageDecoder.decodeBitmap(source).asImageBitmap()
+                uri?.let {
+                    imageState.value = convertUriToBitmap(contentResolver, it).asImageBitmap()
+                } ?: run {
+                    imageLoadErrorDialogState.value = true
                 }
             }
-    }
-
-    private fun startCamera() {
-        val photoFile = File.createTempFile(
-            "IMG_",
-            ".webp",
-            getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        )
-        photoUri = FileProvider.getUriForFile(this, "${packageName}.provider", photoFile)
-        cameraLauncher.launch(photoUri)
-    }
-
-    private fun startGallery() {
-        galleryLauncher.launch(PickVisualMediaRequest())
     }
 }
 

@@ -70,6 +70,7 @@ class LoginActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 val selectImageSourceDialogState = remember { mutableStateOf(false) }
                 imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
+
                 LoginActivityContent(
                     modalBottomSheetState = signUpBottomSheetState,
                     imageState = imageState,
