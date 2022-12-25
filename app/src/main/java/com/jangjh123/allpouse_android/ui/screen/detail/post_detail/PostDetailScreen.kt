@@ -46,7 +46,9 @@ import com.jangjh123.allpouse_android.ui.theme.subTextColor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PostDetailScreen(post: DummyPost) {
+fun PostDetailScreen(
+    post: DummyPost
+) {
     val commentTextFieldState = remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()
     LazyColumn(

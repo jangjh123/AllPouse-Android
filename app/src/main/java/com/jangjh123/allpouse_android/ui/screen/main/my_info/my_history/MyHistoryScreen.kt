@@ -43,7 +43,9 @@ sealed class DummyHistoryType {
 }
 
 @Composable
-fun MyHistoryScreen(type: DummyHistoryType) {
+fun MyHistoryScreen(
+    type: DummyHistoryType
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -307,7 +309,9 @@ private fun HistoryPeriodButton(
 }
 
 @Composable
-private fun DateItem(date: String) {
+private fun DateItem(
+    date: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -331,7 +335,12 @@ private fun DateItem(date: String) {
 }
 
 @Composable
-private fun MyComment(modifier: Modifier, title: String, body: String, date: String) {
+private fun MyComment(
+    modifier: Modifier,
+    title: String,
+    body: String,
+    date: String
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()

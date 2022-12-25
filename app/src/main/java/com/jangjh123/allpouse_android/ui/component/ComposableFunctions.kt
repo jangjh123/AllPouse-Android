@@ -369,7 +369,9 @@ fun textFieldColors() = TextFieldDefaults.textFieldColors(
 )
 
 @Composable
-fun CloseIcon(modifier: Modifier) {
+fun CloseIcon(
+    modifier: Modifier
+) {
     Icon(
         modifier = modifier,
         painter = painterResource(
@@ -691,7 +693,10 @@ sealed class DummyComment {
 
 
 @Composable
-fun Comment(modifier: Modifier, comment: DummyComment) {
+fun Comment(
+    modifier: Modifier,
+    comment: DummyComment
+) {
     when (comment) {
         is DummyComment.DummyReviewComment -> {
             Column {
@@ -886,7 +891,10 @@ fun Comment(modifier: Modifier, comment: DummyComment) {
 }
 
 @Composable
-fun Keyword(modifier: Modifier, keyword: String) {
+fun Keyword(
+    modifier: Modifier,
+    keyword: String
+) {
     Box(
         modifier = modifier
             .clip(
@@ -1108,7 +1116,10 @@ fun PostWithBoardName(
 }
 
 @Composable
-fun Post(modifier: Modifier, post: DummyPost) {
+fun Post(
+    modifier: Modifier,
+    post: DummyPost
+) {
     Column(
         modifier = modifier
             .clip(
@@ -1265,7 +1276,10 @@ fun Post(modifier: Modifier, post: DummyPost) {
 }
 
 @Composable
-fun BackButton(modifier: Modifier, onClickBackButton: () -> Unit) {
+fun BackButton(
+    modifier: Modifier,
+    onClickBackButton: () -> Unit
+) {
     Icon(
         modifier = modifier
             .clickableWithoutRipple {

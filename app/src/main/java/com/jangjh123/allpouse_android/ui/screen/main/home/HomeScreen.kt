@@ -868,7 +868,12 @@ fun HomeScreen() {
 }
 
 @Composable
-fun PopularPerfume(modifier: Modifier, image: Int, perfumeName: String, brandName: String) {
+fun PopularPerfume(
+    modifier: Modifier,
+    image: Int,
+    perfumeName: String,
+    brandName: String
+) {
     Column(
         modifier = modifier
             .fillMaxSize()

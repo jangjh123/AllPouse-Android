@@ -55,7 +55,9 @@ class OnBoardingActivity : ComponentActivity() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun OnBoardingActivityContent(onClickStart: () -> Unit) {
+private fun OnBoardingActivityContent(
+    onClickStart: () -> Unit
+) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
 

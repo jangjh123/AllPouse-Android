@@ -22,7 +22,10 @@ import com.jangjh123.allpouse_android.ui.theme.subBackground
 import com.jangjh123.allpouse_android.ui.theme.subTextColor
 
 @Composable
-fun SelectImageSourceDialog(onClickCamera: () -> Unit, onClickGallery: () -> Unit) {
+fun SelectImageSourceDialog(
+    onClickCamera: () -> Unit,
+    onClickGallery: () -> Unit
+) {
     DefaultDialog(
         modifier = Modifier
             .width(300.dp)
@@ -144,7 +147,10 @@ fun SelectImageSourceDialog(onClickCamera: () -> Unit, onClickGallery: () -> Uni
 }
 
 @Composable
-fun NoticeDialog(text: String, onClickConfirm: () -> Unit) {
+fun NoticeDialog(
+    text: String,
+    onClickConfirm: () -> Unit
+) {
     DefaultDialog(
         modifier = Modifier
             .width(300.dp)
@@ -190,7 +196,10 @@ fun NoticeDialog(text: String, onClickConfirm: () -> Unit) {
 }
 
 @Composable
-private fun DefaultDialog(modifier: Modifier, content: @Composable () -> Unit) {
+private fun DefaultDialog(
+    modifier: Modifier,
+    content: @Composable () -> Unit
+) {
     Card(
         modifier = modifier,
         backgroundColor = subBackground(),

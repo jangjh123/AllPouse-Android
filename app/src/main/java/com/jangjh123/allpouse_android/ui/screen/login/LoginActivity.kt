@@ -55,7 +55,8 @@ class LoginActivity : ComponentActivity() {
         profileImageLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    imageState.value = (result.data?.extras?.get("croppedImage") as Bitmap).asImageBitmap()
+                    imageState.value =
+                        (result.data?.extras?.get("croppedImage") as Bitmap).asImageBitmap()
                 }
             }
 
@@ -281,11 +282,11 @@ private fun LoginActivityContent(
 
                     val buttonAlphaState = animateFloatAsState(
                         targetValue =
-                        if (nicknameState.value.isNotEmpty() && genderState.value != None && ageState.value.isNotEmpty()) {
-                            1f
-                        } else {
-                            0.3f
-                        }
+                        if (nicknameState.value.isNotEmpty()
+                            && genderState.value != None
+                            && ageState.value.isNotEmpty()
+                        ) 1f
+                        else 0.3f
                     )
 
                     GradientButton(

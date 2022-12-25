@@ -493,7 +493,11 @@ val dummyReviewComments = listOf(
 
 
 @Composable
-private fun AnimatedSpecValueBar(modifier: Modifier, specName: String, specValue: State<Dp>) {
+private fun AnimatedSpecValueBar(
+    modifier: Modifier,
+    specName: String,
+    specValue: State<Dp>
+) {
     Column(
         modifier = modifier
     ) {
