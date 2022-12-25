@@ -369,15 +369,20 @@ private fun ImageCropActivityContent(
                         )
                         .clickable {
                             try {
+                                val croppedImage = Bitmap.createBitmap(
+                                    imageState.value.asAndroidBitmap(),
+                                    (offsetX.value - sizeState.value).roundToInt(),
+                                    (offsetY.value - sizeState.value).roundToInt(),
+                                    sizeState.value.roundToInt() * 2,
+                                    sizeState.value.roundToInt() * 2
+                                )
+
                                 croppedImageState.value = Bitmap
-                                    .createBitmap(
-                                        imageState.value.asAndroidBitmap(),
-                                        (offsetX.value - sizeState.value)
-                                            .roundToInt()
-                                            .apply { },
-                                        (offsetY.value - sizeState.value).roundToInt(),
-                                        sizeState.value.roundToInt() * 2,
-                                        sizeState.value.roundToInt() * 2
+                                    .createScaledBitmap(
+                                        croppedImage,
+                                        320,
+                                        320,
+                                        true
                                     )
                                     .asImageBitmap()
                             } catch (e: Exception) {
