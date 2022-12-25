@@ -64,4 +64,24 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    // Retrofit2 for network request
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.google.code.gson:gson:$retrofit_version"
+
+    // OkHttp3 for interceptor
+    implementation "com.squareup.okhttp3:okhttp:$ok_http3_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$ok_http3_version"
+
+    // Room for local database
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
+    // Dagger-Hilt for dependency injection
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+
+    // Datastore for migration from SharedPreferences
+    implementation "androidx.datastore:datastore-preferences:$data_store_version"
+    implementation "androidx.datastore:datastore-preferences-core:$data_store_version"
 }
