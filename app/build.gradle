@@ -46,6 +46,8 @@ android {
 }
 
 dependencies {
+    implementation "com.google.accompanist:accompanist-insets:$insets_version"
+    implementation "com.google.accompanist:accompanist-insets-ui:$insets_version"
     implementation "androidx.navigation:navigation-compose:$navigation_version"
     implementation "com.google.accompanist:accompanist-navigation-animation:$navigation_animation_version"
     implementation "com.google.accompanist:accompanist-pager:$pager_version"

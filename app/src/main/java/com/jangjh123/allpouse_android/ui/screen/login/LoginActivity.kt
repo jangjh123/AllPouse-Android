@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.core.view.WindowCompat
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
@@ -57,6 +58,7 @@ class LoginActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false) // for WindowInsets
 
         profileImageLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -196,6 +198,7 @@ private fun LoginActivityContent(
     onClickClose: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
+    val bottomSheetScrollState = rememberScrollState()
 
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
@@ -204,15 +207,22 @@ private fun LoginActivityContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(background())
+                    .windowInsetsPadding(
+                        insets = WindowInsets.systemBars.only(
+                            sides = WindowInsetsSides.Vertical
+                        )
+                    )
+                    .imePadding()
             ) {
                 Column(
                     modifier = Modifier
                         .padding(
                             horizontal = 20.dp,
-                            vertical = 20.dp
+                        )
+                        .padding(
+                            top = 20.dp
                         )
                         .fillMaxWidth()
-                        .background(background())
                 ) {
 
                     Image(
@@ -261,6 +271,41 @@ private fun LoginActivityContent(
                                 top = 20.dp
                             ),
                         text = stringResource(
+                            id = R.string.age
+                        ),
+                        fontType = FontType.Bold,
+                        fontSize = 20.sp
+                    )
+
+                    APTextField(
+                        modifier = Modifier
+                            .padding(
+                                top = 8.dp
+                            )
+                            .fillMaxWidth(),
+                        textFieldState = ageState,
+                        onValueChanged = { ageState.value = it },
+                        focusManager = focusManager,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        )
+                    )
+
+                    val buttonAlphaState = animateFloatAsState(
+                        targetValue =
+                        if (nicknameState.value.isNotEmpty()
+                            && genderState.value != None
+                            && ageState.value.isNotEmpty()
+                        ) 1f
+                        else 0.3f
+                    )
+
+                    APText(
+                        modifier = Modifier
+                            .padding(
+                                top = 20.dp
+                            ),
+                        text = stringResource(
                             id = R.string.gender
                         ),
                         fontType = FontType.Bold,
@@ -298,44 +343,10 @@ private fun LoginActivityContent(
                         )
                     }
 
-                    APText(
-                        modifier = Modifier.padding(
-                            top = 20.dp
-                        ),
-                        text = stringResource(
-                            id = R.string.age
-                        ),
-                        fontType = FontType.Bold,
-                        fontSize = 20.sp
-                    )
-
-                    APTextField(
-                        modifier = Modifier
-                            .padding(
-                                top = 8.dp
-                            )
-                            .fillMaxWidth(),
-                        textFieldState = ageState,
-                        onValueChanged = { ageState.value = it },
-                        focusManager = focusManager,
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number
-                        )
-                    )
-
-                    val buttonAlphaState = animateFloatAsState(
-                        targetValue =
-                        if (nicknameState.value.isNotEmpty()
-                            && genderState.value != None
-                            && ageState.value.isNotEmpty()
-                        ) 1f
-                        else 0.3f
-                    )
-
                     GradientButton(
                         modifier = Modifier
                             .padding(
-                                top = 20.dp
+                                vertical = 20.dp
                             )
                             .alpha(buttonAlphaState.value)
                             .fillMaxWidth()
@@ -357,6 +368,7 @@ private fun LoginActivityContent(
                         }
                     )
                 }
+
                 CloseIcon(
                     modifier = Modifier
                         .padding(
