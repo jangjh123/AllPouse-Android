@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -82,8 +84,13 @@ dependencies {
 
     // Dagger-Hilt for dependency injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // Datastore for migration from SharedPreferences
     implementation "androidx.datastore:datastore-preferences:$data_store_version"
     implementation "androidx.datastore:datastore-preferences-core:$data_store_version"
+}
+
+kapt {
+    correctErrorTypes true
 }

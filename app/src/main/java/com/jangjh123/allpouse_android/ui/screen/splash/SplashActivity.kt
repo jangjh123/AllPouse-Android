@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -26,16 +27,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity
+import com.jangjh123.allpouse_android.ui.screen.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 var SCREEN_HEIGHT_DP = 705.dp
 var SCREEN_WIDTH_DP = 360.dp
-
+@AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
+    private val viewModel: SplashViewModel by viewModels()
+
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +50,7 @@ class SplashActivity : ComponentActivity() {
                 SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
                 lifecycleScope.launch {
                     delay(2000L)
-                    startActivity(Intent(this@SplashActivity, OnBoardingActivity::class.java))
+
                 }
             }
         }
