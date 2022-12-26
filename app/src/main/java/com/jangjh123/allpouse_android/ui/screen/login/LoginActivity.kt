@@ -198,7 +198,6 @@ private fun LoginActivityContent(
     onClickClose: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-    val bottomSheetScrollState = rememberScrollState()
 
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
@@ -225,26 +224,43 @@ private fun LoginActivityContent(
                         .fillMaxWidth()
                 ) {
 
-                    Image(
+                    Box(
                         modifier = Modifier
                             .padding(
                                 all = 24.dp
                             )
+                            .size(100.dp)
                             .clip(
                                 shape = CircleShape
                             )
-                            .size(100.dp)
                             .background(
                                 color = contentBackground()
                             )
                             .align(CenterHorizontally)
-                            .clickable {
-                                onClickProfileImage()
-                            },
-                        bitmap = imageState.value,
-                        contentDescription = "profileImage",
-                        contentScale = ContentScale.FillBounds
-                    )
+                    ) {
+                        APText(
+                            modifier = Modifier
+                                .align(Center),
+                            text = stringResource(
+                                id = R.string.profile_image
+                            ),
+                            fontSize = 10.sp
+                        )
+
+                        Image(
+                            modifier = Modifier
+                                .clip(
+                                    shape = CircleShape
+                                )
+                                .size(100.dp)
+                                .clickable {
+                                    onClickProfileImage()
+                                },
+                            bitmap = imageState.value,
+                            contentDescription = "profileImage",
+                            contentScale = ContentScale.FillBounds
+                        )
+                    }
 
                     APText(
                         text = stringResource(
