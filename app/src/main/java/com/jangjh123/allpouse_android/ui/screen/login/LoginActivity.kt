@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
+import androidx.core.view.WindowCompat
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
@@ -44,6 +44,13 @@ import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.launch
 
+sealed class InvalidDataState {
+    object NickName : InvalidDataState()
+    object Gender : InvalidDataState()
+    object Age : InvalidDataState()
+    object None : InvalidDataState()
+}
+
 class LoginActivity : ComponentActivity() {
     private lateinit var profileImageLauncher: ActivityResultLauncher<Intent>
     private lateinit var imageState: MutableState<ImageBitmap>
@@ -51,6 +58,7 @@ class LoginActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false) // for WindowInsets
 
         profileImageLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -69,12 +77,24 @@ class LoginActivity : ComponentActivity() {
                         confirmStateChange = { false }
                     )
                 val scope = rememberCoroutineScope()
-                val selectImageSourceDialogState = remember { mutableStateOf(false) }
+
+
                 imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
+                val nicknameState = remember { mutableStateOf("") }
+                val genderState = remember { mutableStateOf<Gender>(None) }
+                val ageState = remember { mutableStateOf("") }
+
+                val selectImageSourceDialogState = remember { mutableStateOf(false) }
+                val invalidDataDialogState =
+                    remember { mutableStateOf<InvalidDataState>(InvalidDataState.None) }
 
                 LoginActivityContent(
                     modalBottomSheetState = signUpBottomSheetState,
                     imageState = imageState,
+                    nicknameState = nicknameState,
+                    genderState = genderState,
+                    ageState = ageState,
+                    invalidDataDialogState = invalidDataDialogState,
                     onClickGoogleLogin = {
                         scope.launch {
                             signUpBottomSheetState.show()
@@ -100,11 +120,9 @@ class LoginActivity : ComponentActivity() {
 
                 if (selectImageSourceDialogState.value) {
                     Dialog(
-                        onDismissRequest = { selectImageSourceDialogState.value = false },
-                        properties = DialogProperties(
-                            dismissOnBackPress = true,
-                            dismissOnClickOutside = true
-                        )
+                        onDismissRequest = {
+                            selectImageSourceDialogState.value = false
+                        },
                     ) {
                         SelectImageSourceDialog(
                             onClickCamera = {
@@ -132,6 +150,33 @@ class LoginActivity : ComponentActivity() {
                         )
                     }
                 }
+
+                if (invalidDataDialogState.value != InvalidDataState.None) {
+                    Dialog(
+                        onDismissRequest = {
+                            selectImageSourceDialogState.value = false
+                        }
+                    ) {
+                        NoticeDialog(
+                            text = when (invalidDataDialogState.value) {
+                                InvalidDataState.NickName -> {
+                                    "닉네임을 입력해 주세요."
+                                }
+                                InvalidDataState.Gender -> {
+                                    "성별을 선택해 주세요."
+                                }
+                                InvalidDataState.Age -> {
+                                    "나이를 입력해 주세요."
+                                }
+                                InvalidDataState.None -> {
+                                    ""
+                                }
+                            }
+                        ) {
+                            invalidDataDialogState.value = InvalidDataState.None
+                        }
+                    }
+                }
             }
         }
     }
@@ -142,6 +187,10 @@ class LoginActivity : ComponentActivity() {
 private fun LoginActivityContent(
     modalBottomSheetState: ModalBottomSheetState,
     imageState: MutableState<ImageBitmap>,
+    nicknameState: MutableState<String>,
+    genderState: MutableState<Gender>,
+    ageState: MutableState<String>,
+    invalidDataDialogState: MutableState<InvalidDataState>,
     onClickGoogleLogin: () -> Unit,
     onClickKakaoLogin: () -> Unit,
     onClickProfileImage: () -> Unit,
@@ -157,37 +206,61 @@ private fun LoginActivityContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(background())
+                    .windowInsetsPadding(
+                        insets = WindowInsets.systemBars.only(
+                            sides = WindowInsetsSides.Vertical
+                        )
+                    )
+                    .imePadding()
             ) {
                 Column(
                     modifier = Modifier
                         .padding(
                             horizontal = 20.dp,
-                            vertical = 20.dp
+                        )
+                        .padding(
+                            top = 20.dp
                         )
                         .fillMaxWidth()
-                        .background(background())
                 ) {
 
-                    Image(
+                    Box(
                         modifier = Modifier
                             .padding(
                                 all = 24.dp
                             )
+                            .size(100.dp)
                             .clip(
                                 shape = CircleShape
                             )
-                            .size(100.dp)
                             .background(
                                 color = contentBackground()
                             )
                             .align(CenterHorizontally)
-                            .clickable {
-                                onClickProfileImage()
-                            },
-                        bitmap = imageState.value,
-                        contentDescription = "profileImage",
-                        contentScale = ContentScale.FillBounds
-                    )
+                    ) {
+                        APText(
+                            modifier = Modifier
+                                .align(Center),
+                            text = stringResource(
+                                id = R.string.profile_image
+                            ),
+                            fontSize = 10.sp
+                        )
+
+                        Image(
+                            modifier = Modifier
+                                .clip(
+                                    shape = CircleShape
+                                )
+                                .size(100.dp)
+                                .clickable {
+                                    onClickProfileImage()
+                                },
+                            bitmap = imageState.value,
+                            contentDescription = "profileImage",
+                            contentScale = ContentScale.FillBounds
+                        )
+                    }
 
                     APText(
                         text = stringResource(
@@ -196,8 +269,6 @@ private fun LoginActivityContent(
                         fontType = FontType.Bold,
                         fontSize = 20.sp
                     )
-
-                    val nicknameState = remember { mutableStateOf("") }
 
                     APTextField(
                         modifier = Modifier
@@ -216,13 +287,47 @@ private fun LoginActivityContent(
                                 top = 20.dp
                             ),
                         text = stringResource(
+                            id = R.string.age
+                        ),
+                        fontType = FontType.Bold,
+                        fontSize = 20.sp
+                    )
+
+                    APTextField(
+                        modifier = Modifier
+                            .padding(
+                                top = 8.dp
+                            )
+                            .fillMaxWidth(),
+                        textFieldState = ageState,
+                        onValueChanged = { ageState.value = it },
+                        focusManager = focusManager,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        )
+                    )
+
+                    val buttonAlphaState = animateFloatAsState(
+                        targetValue =
+                        if (nicknameState.value.isNotEmpty()
+                            && genderState.value != None
+                            && ageState.value.isNotEmpty()
+                        ) 1f
+                        else 0.3f
+                    )
+
+                    APText(
+                        modifier = Modifier
+                            .padding(
+                                top = 20.dp
+                            ),
+                        text = stringResource(
                             id = R.string.gender
                         ),
                         fontType = FontType.Bold,
                         fontSize = 20.sp
                     )
 
-                    val genderState = remember { mutableStateOf<Gender>(None) }
                     Row(
                         Modifier
                             .wrapContentSize()
@@ -254,45 +359,10 @@ private fun LoginActivityContent(
                         )
                     }
 
-                    APText(
-                        modifier = Modifier.padding(
-                            top = 20.dp
-                        ),
-                        text = stringResource(
-                            id = R.string.age
-                        ),
-                        fontType = FontType.Bold,
-                        fontSize = 20.sp
-                    )
-
-                    val ageState = remember { mutableStateOf("") }
-                    APTextField(
-                        modifier = Modifier
-                            .padding(
-                                top = 8.dp
-                            )
-                            .fillMaxWidth(),
-                        textFieldState = ageState,
-                        onValueChanged = { ageState.value = it },
-                        focusManager = focusManager,
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number
-                        )
-                    )
-
-                    val buttonAlphaState = animateFloatAsState(
-                        targetValue =
-                        if (nicknameState.value.isNotEmpty()
-                            && genderState.value != None
-                            && ageState.value.isNotEmpty()
-                        ) 1f
-                        else 0.3f
-                    )
-
                     GradientButton(
                         modifier = Modifier
                             .padding(
-                                top = 20.dp
+                                vertical = 20.dp
                             )
                             .alpha(buttonAlphaState.value)
                             .fillMaxWidth()
@@ -302,10 +372,19 @@ private fun LoginActivityContent(
                         ),
                         fontSize = 18.sp,
                         onClickButton = {
-                            onClickStartButton()
+                            if (nicknameState.value.isEmpty()) {
+                                invalidDataDialogState.value = InvalidDataState.NickName
+                            } else if (genderState.value == None) {
+                                invalidDataDialogState.value = InvalidDataState.Gender
+                            } else if (ageState.value.isEmpty() || ageState.value.toInt() > 99) {
+                                invalidDataDialogState.value = InvalidDataState.Age
+                            } else {
+                                onClickStartButton()
+                            }
                         }
                     )
                 }
+
                 CloseIcon(
                     modifier = Modifier
                         .padding(

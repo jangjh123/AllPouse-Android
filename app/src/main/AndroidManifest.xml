@@ -28,6 +28,7 @@
         <activity
             android:name="com.jangjh123.allpouse_android.ui.screen.login.LoginActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.AllPouseAndroid" />
         <activity
             android:name="com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity"

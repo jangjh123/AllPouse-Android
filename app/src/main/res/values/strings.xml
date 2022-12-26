@@ -44,6 +44,7 @@
     <string name="male">남성</string>
     <string name="female">여성</string>
     <string name="age">연령</string>
+    <string name="profile_image">프로필 이미지</string>
     <!--    SignUpScreen-->
     <!--    LoginActivity-->
 
