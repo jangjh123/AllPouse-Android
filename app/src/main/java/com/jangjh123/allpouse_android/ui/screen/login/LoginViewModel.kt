@@ -40,6 +40,10 @@ class LoginViewModel @Inject constructor(
                 when (response) {
                     is ResponseState.OnSuccess -> {
                         _signUpState.value = UiState.OnSuccess()
+                        repository.storeSignedValue(
+                                socialId = socialId,
+                        loginType = loginType
+                        )
                     }
                     is ResponseState.OnFailure -> {
                         _signUpState.value = UiState.OnFailure(

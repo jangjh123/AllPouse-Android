@@ -46,6 +46,7 @@ import com.jangjh123.allpouse_android.data.model.UiState
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
 import com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity
+import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.Coroutine
 import com.jangjh123.allpouse_android.util.addFocusCleaner
@@ -196,7 +197,7 @@ class LoginActivity : ComponentActivity() {
                     },
                     onClickStartButton = {
                         viewModel.signUp(
-                            socialId = socialId,
+                            socialId = "axdzc",
                             userName = nicknameState.value,
                             permission = "ROLE_USER",
                             age = ageState.value.toInt(),
@@ -218,7 +219,12 @@ class LoginActivity : ComponentActivity() {
 
                                     }
                                     is UiState.OnSuccess -> {
-
+                                        startActivity(
+                                            Intent(
+                                                this@LoginActivity,
+                                                MainActivity::class.java
+                                            )
+                                        )
                                     }
                                     is UiState.OnFailure -> {
                                         signUpErrorTextState.value = state.errorMessage.toString()
