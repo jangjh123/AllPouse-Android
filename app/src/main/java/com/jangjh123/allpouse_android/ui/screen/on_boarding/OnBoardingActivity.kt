@@ -4,17 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.BottomStart
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -27,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
@@ -155,13 +160,14 @@ private fun OnBoardingActivityContent(
             }
         }
 
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            activeColor = mainColor(),
-            inactiveColor = Color.LightGray,
+        CustomHorizontalPagerIndicator(
             modifier = Modifier
-                .align(BottomStart)
                 .padding(20.dp)
+                .align(BottomStart),
+            count = pagerState.pageCount,
+            state = pagerState,
+            focusedColor = mainColor(),
+            unfocusedColor = Color.LightGray
         )
 
         Text(
@@ -205,6 +211,68 @@ private fun OnBoardingActivityContent(
                 id = R.string.next
             ),
             fontColor = Color.White
+        )
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun CustomHorizontalPagerIndicator(
+    modifier: Modifier,
+    count: Int,
+    state: PagerState,
+    focusedColor: Color,
+    unfocusedColor: Color,
+) {
+    Row(
+        modifier = modifier
+    ) {
+        for (i in 0 until count) {
+            IndicatorSymbol(
+                currentItemIndex = state.currentPage,
+                symbolIndex = i,
+                focusedColor = focusedColor,
+                unfocusedColor = unfocusedColor
+            )
+        }
+    }
+}
+
+@Composable
+fun IndicatorSymbol(
+    currentItemIndex: Int,
+    symbolIndex: Int,
+    focusedColor: Color,
+    unfocusedColor: Color,
+) {
+    val widthState =
+        animateDpAsState(
+            targetValue =
+            if (currentItemIndex == symbolIndex) 16.dp
+            else 8.dp
+        )
+    val colorState =
+        animateColorAsState(
+            targetValue =
+            if (currentItemIndex == symbolIndex) focusedColor
+            else unfocusedColor
+        )
+
+    Box(
+        modifier = Modifier
+            .width(24.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .clip(
+                    shape = RoundedCornerShape(255.dp)
+                )
+                .width(widthState.value)
+                .height(8.dp)
+                .background(
+                    color = colorState.value
+                )
+                .align(Center)
         )
     }
 }
