@@ -36,29 +36,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.view.WindowCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
 import com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-sealed class InvalidDataState {
-    object NickName : InvalidDataState()
-    object Gender : InvalidDataState()
-    object Age : InvalidDataState()
-    object None : InvalidDataState()
-}
-
+@OptIn(ExperimentalMaterialApi::class)
 class LoginActivity : ComponentActivity() {
+    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
+    private lateinit var googleAccountState: MutableStateFlow<GoogleSignInAccount?>
     private lateinit var profileImageLauncher: ActivityResultLauncher<Intent>
     private lateinit var imageState: MutableState<ImageBitmap>
 
-    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false) // for WindowInsets
+
+        googleSignInLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { intent ->
+                if (intent.resultCode == RESULT_OK) {
+                    GoogleSignIn.getSignedInAccountFromIntent(intent.data)
+                        .getResult(ApiException::class.java).let { account ->
+                            googleAccountState.value = account
+                        }
+                }
+            }
 
         profileImageLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -70,16 +81,12 @@ class LoginActivity : ComponentActivity() {
 
         setContent {
             AllPouseAndroidTheme {
-                val signUpBottomSheetState =
-                    rememberModalBottomSheetState(
-                        initialValue = ModalBottomSheetValue.Hidden,
-                        skipHalfExpanded = true,
-                        confirmStateChange = { false }
-                    )
-                val scope = rememberCoroutineScope()
-
-
                 imageState = remember { mutableStateOf(ImageBitmap(1, 1)) }
+                val bottomSheetState = rememberModalBottomSheetState(
+                    initialValue = ModalBottomSheetValue.Hidden,
+                    skipHalfExpanded = true,
+                    confirmStateChange = { false }
+                )
                 val nicknameState = remember { mutableStateOf("") }
                 val genderState = remember { mutableStateOf<Gender>(None) }
                 val ageState = remember { mutableStateOf("") }
@@ -88,32 +95,59 @@ class LoginActivity : ComponentActivity() {
                 val invalidDataDialogState =
                     remember { mutableStateOf<InvalidDataState>(InvalidDataState.None) }
 
+                val scope = rememberCoroutineScope()
+
                 LoginActivityContent(
-                    modalBottomSheetState = signUpBottomSheetState,
+                    modalBottomSheetState = bottomSheetState,
                     imageState = imageState,
                     nicknameState = nicknameState,
                     genderState = genderState,
                     ageState = ageState,
                     invalidDataDialogState = invalidDataDialogState,
                     onClickGoogleLogin = {
+                        googleAccountState = MutableStateFlow(null)
+                        googleSignInLauncher.launch(
+                            GoogleSignIn.getClient(
+                                this@LoginActivity,
+                                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                    .requestEmail()
+                                    .build()
+                            ).signInIntent
+                        )
+
                         scope.launch {
-                            signUpBottomSheetState.show()
+                            googleAccountState.collectLatest { state ->
+                                if (state != null) {
+                                    bottomSheetState.show()
+                                    if (state.photoUrl != null) {
+                                        imageState.value = convertUriToBitmap(
+                                            contentResolver = contentResolver,
+                                            uri = state.photoUrl!!
+                                        ).asImageBitmap()
+                                    }
+                                }
+                            }
                         }
                     },
                     onClickKakaoLogin = {
                         scope.launch {
-                            signUpBottomSheetState.show()
+                            bottomSheetState.show()
                         }
                     },
                     onClickProfileImage = {
                         selectImageSourceDialogState.value = true
                     },
                     onClickStartButton = {
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@LoginActivity,
+                                MainActivity::class.java
+                            )
+                        )
                     },
                     onClickClose = {
                         scope.launch {
-                            signUpBottomSheetState.hide()
+                            bottomSheetState.hide()
                         }
                     }
                 )
@@ -128,8 +162,7 @@ class LoginActivity : ComponentActivity() {
                             onClickCamera = {
                                 profileImageLauncher.launch(
                                     Intent(
-                                        this@LoginActivity,
-                                        ImageCropActivity::class.java
+                                        this@LoginActivity, ImageCropActivity::class.java
                                     ).apply {
                                         putExtra("imageSource", "camera")
                                     }
@@ -150,7 +183,6 @@ class LoginActivity : ComponentActivity() {
                         )
                     }
                 }
-
                 if (invalidDataDialogState.value != InvalidDataState.None) {
                     Dialog(
                         onDismissRequest = {
@@ -162,11 +194,11 @@ class LoginActivity : ComponentActivity() {
                                 InvalidDataState.NickName -> {
                                     "닉네임을 입력해 주세요."
                                 }
-                                InvalidDataState.Gender -> {
-                                    "성별을 선택해 주세요."
-                                }
                                 InvalidDataState.Age -> {
                                     "나이를 입력해 주세요."
+                                }
+                                InvalidDataState.Gender -> {
+                                    "성별을 선택해 주세요."
                                 }
                                 InvalidDataState.None -> {
                                     ""
@@ -586,12 +618,6 @@ private fun LoginButton(
     }
 }
 
-sealed class Gender {
-    object None : Gender()
-    object Man : Gender()
-    object Woman : Gender()
-}
-
 @Composable
 private fun GenderButton(
     modifier: Modifier,
@@ -659,4 +685,17 @@ private fun DefaultPreview() {
     AllPouseAndroidTheme {
 //        SignUpModalBottomSheet()
     }
+}
+
+sealed class Gender {
+    object None : Gender()
+    object Man : Gender()
+    object Woman : Gender()
+}
+
+sealed class InvalidDataState {
+    object NickName : InvalidDataState()
+    object Age : InvalidDataState()
+    object Gender : InvalidDataState()
+    object None : InvalidDataState()
 }
