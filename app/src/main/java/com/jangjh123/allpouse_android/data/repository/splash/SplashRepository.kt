@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
-const val isTest = true
+//const val isTest = true
 
-//const val isTest = false
+const val isTest = false
 class SplashRepository(
     dataStore: DataStore<Preferences>
 ) {

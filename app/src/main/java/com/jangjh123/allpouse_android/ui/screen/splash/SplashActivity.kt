@@ -13,6 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.Center
@@ -49,6 +50,7 @@ var SCREEN_WIDTH_DP = 360.dp
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
+    private val noticeDialogState = mutableStateOf(false)
 
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,43 +58,48 @@ class SplashActivity : ComponentActivity() {
 
         // todo : onNewVersionExist
 
-        lifecycleScope.launch {
-            viewModel.signInState.collectLatest { state ->
-                when (state) {
-                    is SignInState.Loading -> {
-                        lifecycleScope.launch {
-                            delay(1000L)
-                            viewModel.signIn()
+        if (!isNetworkEnabled()) {
+            noticeDialogState.value = true
+        } else {
+            lifecycleScope.launch {
+                viewModel.signInState.collectLatest { state ->
+                    when (state) {
+                        is SignInState.Loading -> {
+                            lifecycleScope.launch {
+                                delay(1000L)
+                                viewModel.signIn()
+                            }
                         }
-                    }
-                    is SignInState.OnSuccess -> {
-                        startActivity(
-                            Intent(
-                                this@SplashActivity,
-                                MainActivity::class.java
+                        is SignInState.OnSuccess -> {
+                            startActivity(
+                                Intent(
+                                    this@SplashActivity,
+                                    MainActivity::class.java
+                                )
                             )
-                        )
-                    }
-                    is SignInState.OnFailure -> {
-                        startActivity(
-                            Intent(
-                                this@SplashActivity,
-                                OnBoardingActivity::class.java
+                        }
+                        is SignInState.OnFailure -> {
+                            startActivity(
+                                Intent(
+                                    this@SplashActivity,
+                                    OnBoardingActivity::class.java
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
         }
 
+
+
         setContent {
             AllPouseAndroidTheme {
-                val noticeDialogState = remember { mutableStateOf(false) }
                 SplashActivityContent()
                 SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
                 SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
 
-                if (isNetworkEnabled()) {
+                if (noticeDialogState.value) {
                     Dialog(
                         onDismissRequest = {
                             noticeDialogState.value = false
