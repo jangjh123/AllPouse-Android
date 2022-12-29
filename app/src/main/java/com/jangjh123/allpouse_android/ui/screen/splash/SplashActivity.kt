@@ -13,9 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -33,6 +31,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.data.model.UiState
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.NoticeDialog
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
@@ -61,16 +60,15 @@ class SplashActivity : ComponentActivity() {
         if (!isNetworkEnabled()) {
             noticeDialogState.value = true
         } else {
+            viewModel.signIn()
             lifecycleScope.launch {
+                delay(1000L)
                 viewModel.signInState.collectLatest { state ->
                     when (state) {
-                        is SignInState.Loading -> {
-                            lifecycleScope.launch {
-                                delay(1000L)
-                                viewModel.signIn()
-                            }
+                        is UiState.Loading -> {
+
                         }
-                        is SignInState.OnSuccess -> {
+                        is UiState.OnSuccess -> {
                             startActivity(
                                 Intent(
                                     this@SplashActivity,
@@ -78,7 +76,7 @@ class SplashActivity : ComponentActivity() {
                                 )
                             )
                         }
-                        is SignInState.OnFailure -> {
+                        is UiState.OnFailure -> {
                             startActivity(
                                 Intent(
                                     this@SplashActivity,
@@ -90,8 +88,6 @@ class SplashActivity : ComponentActivity() {
                 }
             }
         }
-
-
 
         setContent {
             AllPouseAndroidTheme {

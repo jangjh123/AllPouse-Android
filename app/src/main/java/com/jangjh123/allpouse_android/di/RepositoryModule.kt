@@ -3,6 +3,7 @@ package com.jangjh123.allpouse_android.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.jangjh123.allpouse_android.data.remote.NetworkHelper
+import com.jangjh123.allpouse_android.data.repository.login.LoginRepository
 import com.jangjh123.allpouse_android.data.repository.splash.SplashRepository
 import dagger.Module
 import dagger.Provides
@@ -19,4 +20,11 @@ object RepositoryModule {
     fun provideSplashRepository(
         dataStore: DataStore<Preferences>
     ) = SplashRepository(dataStore)
+
+    @ViewModelScoped
+    @Provides
+    fun provideLoginRepository(
+        networkHelper: NetworkHelper,
+        dataStore: DataStore<Preferences>
+    ) = LoginRepository(networkHelper, dataStore)
 }

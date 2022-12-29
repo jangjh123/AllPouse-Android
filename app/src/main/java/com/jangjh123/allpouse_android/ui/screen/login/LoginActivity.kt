@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -41,23 +42,27 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.data.model.UiState
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
 import com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity
-import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
+import com.jangjh123.allpouse_android.util.Coroutine
 import com.jangjh123.allpouse_android.util.addFocusCleaner
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.util.getImageBitmapFromUrl
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
+@AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
+    private val viewModel: LoginViewModel by viewModels()
     private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
     private lateinit var googleAccountState: MutableStateFlow<GoogleSignInAccount?>
     private lateinit var profileImageLauncher: ActivityResultLauncher<Intent>
@@ -93,6 +98,8 @@ class LoginActivity : ComponentActivity() {
                     skipHalfExpanded = true,
                     confirmStateChange = { false }
                 )
+                var socialId = ""
+                var loginType = ""
                 val nicknameState = remember { mutableStateOf("") }
                 val genderState = remember { mutableStateOf<Gender>(None) }
                 val ageState = remember { mutableStateOf("") }
@@ -101,6 +108,8 @@ class LoginActivity : ComponentActivity() {
                 val invalidDataDialogState =
                     remember { mutableStateOf<InvalidDataState>(InvalidDataState.None) }
                 val socialLoginErrorDialogState = remember { mutableStateOf(false) }
+                val signUpErrorDialogState = remember { mutableStateOf(false) }
+                val signUpErrorTextState = remember { mutableStateOf("") }
 
                 val scope = rememberCoroutineScope()
 
@@ -112,6 +121,7 @@ class LoginActivity : ComponentActivity() {
                     ageState = ageState,
                     invalidDataDialogState = invalidDataDialogState,
                     onClickGoogleLogin = {
+                        loginType = "google"
                         googleAccountState = MutableStateFlow(null)
                         googleSignInLauncher.launch(
                             GoogleSignIn.getClient(
@@ -125,6 +135,7 @@ class LoginActivity : ComponentActivity() {
                         scope.launch {
                             googleAccountState.collectLatest { googleAccount ->
                                 if (googleAccount != null) {
+                                    socialId = googleAccount.id.toString()
                                     if (googleAccount.photoUrl != null) {
                                         getImageBitmapFromUrl(
                                             context = this@LoginActivity,
@@ -140,11 +151,13 @@ class LoginActivity : ComponentActivity() {
                         }
                     },
                     onClickKakaoLogin = {
+                        loginType = "kakaotalk"
                         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@LoginActivity)) {
                             UserApiClient.instance.loginWithKakaoTalk(this@LoginActivity) { token, _ ->
                                 if (token != null) {
                                     UserApiClient.instance.me { user, _ ->
                                         if (user != null) {
+                                            socialId = user.id.toString()
                                             setInfoWithKakaoProfile(
                                                 kakaoUser = user,
                                                 nicknameState = nicknameState,
@@ -164,6 +177,7 @@ class LoginActivity : ComponentActivity() {
                                 if (token != null) {
                                     UserApiClient.instance.me { user, _ ->
                                         if (user != null) {
+                                            socialId = user.id.toString()
                                             setInfoWithKakaoProfile(
                                                 kakaoUser = user,
                                                 nicknameState = nicknameState,
@@ -181,12 +195,38 @@ class LoginActivity : ComponentActivity() {
                         selectImageSourceDialogState.value = true
                     },
                     onClickStartButton = {
-                        startActivity(
-                            Intent(
-                                this@LoginActivity,
-                                MainActivity::class.java
-                            )
+                        viewModel.signUp(
+                            socialId = socialId,
+                            userName = nicknameState.value,
+                            permission = "ROLE_USER",
+                            age = ageState.value.toInt(),
+                            gender = when (genderState.value) {
+                                Man -> {
+                                    "Man"
+                                }
+                                else -> {
+                                    "Woman"
+                                }
+                            },
+                            loginType = loginType
                         )
+
+                        Coroutine.io {
+                            viewModel.signUpState.collectLatest { state ->
+                                when (state) {
+                                    is UiState.Loading -> {
+
+                                    }
+                                    is UiState.OnSuccess -> {
+
+                                    }
+                                    is UiState.OnFailure -> {
+                                        signUpErrorTextState.value = state.errorMessage.toString()
+                                        signUpErrorDialogState.value = true
+                                    }
+                                }
+                            }
+                        }
                     },
                     onClickClose = {
                         scope.launch {
@@ -264,6 +304,19 @@ class LoginActivity : ComponentActivity() {
                             ),
                         ) {
                             socialLoginErrorDialogState.value = false
+                        }
+                    }
+                }
+                if (signUpErrorDialogState.value) {
+                    Dialog(
+                        onDismissRequest = {
+                            signUpErrorDialogState.value = false
+                        }
+                    ) {
+                        NoticeDialog(
+                            text = signUpErrorTextState.value
+                        ) {
+                            signUpErrorDialogState.value = false
                         }
                     }
                 }
