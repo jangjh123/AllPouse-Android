@@ -30,6 +30,7 @@ import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentSta
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.ReviewContent
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.theme.*
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import kotlinx.coroutines.launch
 
 sealed class ContentState {

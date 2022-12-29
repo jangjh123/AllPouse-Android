@@ -5,6 +5,9 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 33
 
@@ -19,6 +22,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "NATIVE_APP_KEY", properties['kakao_app_key']
     }
 
     buildTypes {
@@ -68,6 +73,15 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    // Coil for image loading
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+    // Google Login
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
+
+    // Kakao Login
+    implementation "com.kakao.sdk:v2-user:2.12.0"
 
     // Retrofit2 for network request
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

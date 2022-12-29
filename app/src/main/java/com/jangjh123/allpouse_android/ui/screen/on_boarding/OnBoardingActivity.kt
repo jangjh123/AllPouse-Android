@@ -37,7 +37,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.FontType
-import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.login.LoginActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
@@ -151,8 +151,7 @@ private fun OnBoardingActivityContent(
                                     .align(CenterHorizontally),
                                 text = item.third,
                                 fontSize = 16.sp,
-                                fontColor = Color.LightGray,
-                                textAlign = TextAlign.Center
+                                fontColor = Color.LightGray
                             )
                         }
                     }

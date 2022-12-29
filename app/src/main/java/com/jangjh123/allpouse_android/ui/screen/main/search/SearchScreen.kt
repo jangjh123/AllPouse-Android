@@ -28,8 +28,8 @@ import androidx.navigation.NavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.APTextField
-import com.jangjh123.allpouse_android.ui.component.addFocusCleaner
-import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.addFocusCleaner
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.main.search.SearchKeywordType.Popular
 import com.jangjh123.allpouse_android.ui.screen.main.search.SearchKeywordType.Recent
 import com.jangjh123.allpouse_android.ui.theme.*

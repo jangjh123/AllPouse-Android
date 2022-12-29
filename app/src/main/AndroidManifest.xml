@@ -33,6 +33,17 @@
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.AllPouseAndroid" />
         <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="oauth"
+                    android:scheme="kakao04db247a2eb55f28582a650e69095f1e" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity"
             android:exported="false"
             android:noHistory="true"

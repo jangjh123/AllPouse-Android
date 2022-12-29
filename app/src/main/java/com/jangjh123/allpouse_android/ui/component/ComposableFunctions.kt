@@ -44,6 +44,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.screen.main.board.DummyPost
 import com.jangjh123.allpouse_android.ui.screen.main.board.dummyPosts
 import com.jangjh123.allpouse_android.ui.theme.*
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 
 sealed class FontType {
     object Light : FontType()
@@ -92,7 +93,7 @@ fun APText(
         ),
         textAlign = textAlign.let {
             textAlign
-        } ?: TextAlign.Start,
+        } ?: TextAlign.Center,
         letterSpacing = letterSpacing.let {
             letterSpacing
         } ?: (-0.5).sp,
