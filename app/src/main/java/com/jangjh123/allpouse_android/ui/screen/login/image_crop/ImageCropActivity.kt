@@ -97,7 +97,9 @@ class ImageCropActivity : ComponentActivity() {
 
                 if (needPermissionDialogState.value) {
                     Dialog(
-                        onDismissRequest = { needPermissionDialogState.value = false },
+                        onDismissRequest = {
+                            needPermissionDialogState.value = false
+                        },
                         properties = DialogProperties(
                             dismissOnBackPress = true,
                             dismissOnClickOutside = true
@@ -117,7 +119,9 @@ class ImageCropActivity : ComponentActivity() {
 
                 if (imageLoadErrorDialogState.value) {
                     Dialog(
-                        onDismissRequest = { imageLoadErrorDialogState.value = false },
+                        onDismissRequest = {
+                            imageLoadErrorDialogState.value = false
+                        },
                         properties = DialogProperties(
                             dismissOnBackPress = true,
                             dismissOnClickOutside = true

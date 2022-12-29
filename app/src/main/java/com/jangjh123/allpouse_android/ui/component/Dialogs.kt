@@ -149,6 +149,7 @@ fun SelectImageSourceDialog(
 @Composable
 fun NoticeDialog(
     text: String,
+    buttonText: String? = null,
     onClickConfirm: () -> Unit
 ) {
     DefaultDialog(
@@ -186,7 +187,9 @@ fun NoticeDialog(
                 APText(
                     modifier = Modifier
                         .align(Center),
-                    text = stringResource(
+                    text = buttonText.let {
+                        it
+                    } ?: stringResource(
                         id = R.string.confirm
                     )
                 )

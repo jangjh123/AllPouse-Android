@@ -17,7 +17,6 @@ object RepositoryModule {
     @ViewModelScoped
     @Provides
     fun provideSplashRepository(
-        networkHelper: NetworkHelper,
         dataStore: DataStore<Preferences>
-    ) = SplashRepository(networkHelper, dataStore)
+    ) = SplashRepository(dataStore)
 }
