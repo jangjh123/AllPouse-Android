@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.theme.subBackground
 import com.jangjh123.allpouse_android.ui.theme.subTextColor
 

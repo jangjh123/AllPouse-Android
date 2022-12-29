@@ -46,6 +46,12 @@ import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
 import com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
+import com.jangjh123.allpouse_android.util.addFocusCleaner
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.getImageBitmapFromUrl
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -94,6 +100,7 @@ class LoginActivity : ComponentActivity() {
                 val selectImageSourceDialogState = remember { mutableStateOf(false) }
                 val invalidDataDialogState =
                     remember { mutableStateOf<InvalidDataState>(InvalidDataState.None) }
+                val socialLoginErrorDialogState = remember { mutableStateOf(false) }
 
                 val scope = rememberCoroutineScope()
 
@@ -116,22 +123,58 @@ class LoginActivity : ComponentActivity() {
                         )
 
                         scope.launch {
-                            googleAccountState.collectLatest { state ->
-                                if (state != null) {
-                                    bottomSheetState.show()
-                                    if (state.photoUrl != null) {
-                                        imageState.value = convertUriToBitmap(
-                                            contentResolver = contentResolver,
-                                            uri = state.photoUrl!!
-                                        ).asImageBitmap()
+                            googleAccountState.collectLatest { googleAccount ->
+                                if (googleAccount != null) {
+                                    if (googleAccount.photoUrl != null) {
+                                        getImageBitmapFromUrl(
+                                            context = this@LoginActivity,
+                                            url = googleAccount.photoUrl.toString(),
+                                            onSuccess = { result ->
+                                                imageState.value = result
+                                            }
+                                        )
                                     }
+                                    bottomSheetState.show()
                                 }
                             }
                         }
                     },
                     onClickKakaoLogin = {
-                        scope.launch {
-                            bottomSheetState.show()
+                        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@LoginActivity)) {
+                            UserApiClient.instance.loginWithKakaoTalk(this@LoginActivity) { token, _ ->
+                                if (token != null) {
+                                    UserApiClient.instance.me { user, _ ->
+                                        if (user != null) {
+                                            setInfoWithKakaoProfile(
+                                                kakaoUser = user,
+                                                nicknameState = nicknameState,
+                                                genderState = genderState
+                                            )
+                                        }
+                                        scope.launch {
+                                            bottomSheetState.show()
+                                        }
+                                    }
+                                } else {
+                                    socialLoginErrorDialogState.value = true
+                                }
+                            }
+                        } else {
+                            UserApiClient.instance.loginWithKakaoAccount(this@LoginActivity) { token: OAuthToken?, _ ->
+                                if (token != null) {
+                                    UserApiClient.instance.me { user, _ ->
+                                        if (user != null) {
+                                            setInfoWithKakaoProfile(
+                                                kakaoUser = user,
+                                                nicknameState = nicknameState,
+                                                genderState = genderState
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    socialLoginErrorDialogState.value = true
+                                }
+                            }
                         }
                     },
                     onClickProfileImage = {
@@ -209,6 +252,48 @@ class LoginActivity : ComponentActivity() {
                         }
                     }
                 }
+                if (socialLoginErrorDialogState.value) {
+                    Dialog(
+                        onDismissRequest = {
+                            socialLoginErrorDialogState.value = false
+                        }
+                    ) {
+                        NoticeDialog(
+                            text = stringResource(
+                                id = R.string.social_login_error
+                            ),
+                        ) {
+                            socialLoginErrorDialogState.value = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setInfoWithKakaoProfile(
+        kakaoUser: User,
+        nicknameState: MutableState<String>,
+        genderState: MutableState<Gender>
+    ) {
+        getImageBitmapFromUrl(
+            context = this@LoginActivity,
+            url = kakaoUser.kakaoAccount?.profile?.profileImageUrl.toString(),
+            onSuccess = { kakaoProfileImage ->
+                imageState.value = kakaoProfileImage
+            }
+        )
+        nicknameState.value =
+            kakaoUser.kakaoAccount?.profile?.nickname.toString()
+        genderState.value = when (kakaoUser.kakaoAccount?.gender) {
+            com.kakao.sdk.user.model.Gender.MALE -> {
+                Man
+            }
+            com.kakao.sdk.user.model.Gender.FEMALE -> {
+                Woman
+            }
+            else -> {
+                None
             }
         }
     }

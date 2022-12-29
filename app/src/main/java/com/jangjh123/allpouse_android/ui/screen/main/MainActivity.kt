@@ -34,7 +34,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.board.BoardScreen
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen

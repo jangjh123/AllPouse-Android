@@ -48,6 +48,9 @@ import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
+import com.jangjh123.allpouse_android.util.convertUriToBitmap
+import com.jangjh123.allpouse_android.util.startCamera
+import com.jangjh123.allpouse_android.util.startGallery
 import kotlin.math.roundToInt
 
 class ImageCropActivity : ComponentActivity() {

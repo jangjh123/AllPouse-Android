@@ -29,7 +29,7 @@ import com.jangjh123.allpouse_android.ui.component.APAppendedText
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.DummyComment.DummyReviewComment
 import com.jangjh123.allpouse_android.ui.component.FontType
-import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.detail.review_detail.dummyReviewComments
 import com.jangjh123.allpouse_android.ui.screen.main.home.dummyAds
 import com.jangjh123.allpouse_android.ui.screen.main.my_info.my_history.DummyHistoryPeriod.*

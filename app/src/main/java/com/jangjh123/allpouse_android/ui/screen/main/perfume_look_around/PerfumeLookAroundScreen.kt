@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.Keyword
-import com.jangjh123.allpouse_android.ui.component.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.main.home.dummyTasteKeyword
 import com.jangjh123.allpouse_android.ui.screen.main.perfume_look_around.PerfumeLookAroundMode.UserChoice
 import com.jangjh123.allpouse_android.ui.screen.main.perfume_look_around.PerfumeLookAroundMode.UserDefault
