@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -23,13 +22,10 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.jangjh123.allpouse_android.ui.screen.login.Gender
-import com.kakao.sdk.user.UserApiClient
-import kotlinx.coroutines.launch
 import java.io.File
 
 fun Modifier.addFocusCleaner(
-    focusManager: FocusManager
+    focusManager: FocusManager,
 ) =
     this.pointerInput(Unit) {
         detectTapGestures {
@@ -38,7 +34,7 @@ fun Modifier.addFocusCleaner(
     }
 
 fun Modifier.clickableWithoutRipple(
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) = this.clickable(
     interactionSource = MutableInteractionSource(),
     indication = null
@@ -48,7 +44,7 @@ fun Modifier.clickableWithoutRipple(
 
 fun convertUriToBitmap(
     contentResolver: ContentResolver,
-    uri: Uri
+    uri: Uri,
 ): Bitmap {
     return if (Build.VERSION.SDK_INT < 28) {
         MediaStore.Images.Media.getBitmap(
@@ -62,7 +58,7 @@ fun convertUriToBitmap(
 
 fun startCamera(
     context: Context,
-    cameraLauncher: ActivityResultLauncher<Uri>
+    cameraLauncher: ActivityResultLauncher<Uri>,
 ): Uri {
     val photoFile = File.createTempFile(
         "IMG_",
@@ -76,7 +72,7 @@ fun startCamera(
 }
 
 fun startGallery(
-    galleryLauncher: ActivityResultLauncher<PickVisualMediaRequest>
+    galleryLauncher: ActivityResultLauncher<PickVisualMediaRequest>,
 ) {
     galleryLauncher.launch(PickVisualMediaRequest())
 }
@@ -84,7 +80,7 @@ fun startGallery(
 fun getImageBitmapFromUrl(
     context: Context,
     url: String,
-    onSuccess:(ImageBitmap) -> Unit
+    onSuccess: (ImageBitmap) -> Unit,
 ) {
     ImageLoader(context).enqueue(
         ImageRequest.Builder(context)

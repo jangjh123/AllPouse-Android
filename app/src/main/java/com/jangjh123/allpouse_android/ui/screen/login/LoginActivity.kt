@@ -48,9 +48,9 @@ import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
 import com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
 import com.jangjh123.allpouse_android.ui.theme.*
-import com.jangjh123.allpouse_android.util.Coroutine
 import com.jangjh123.allpouse_android.util.addFocusCleaner
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
+import com.jangjh123.allpouse_android.util.collectScope
 import com.jangjh123.allpouse_android.util.getImageBitmapFromUrl
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
@@ -112,7 +112,7 @@ class LoginActivity : ComponentActivity() {
                 val signUpErrorDialogState = remember { mutableStateOf(false) }
                 val signUpErrorTextState = remember { mutableStateOf("") }
 
-                val scope = rememberCoroutineScope()
+                val composeScope = rememberCoroutineScope()
 
                 LoginActivityContent(
                     modalBottomSheetState = bottomSheetState,
@@ -133,7 +133,7 @@ class LoginActivity : ComponentActivity() {
                             ).signInIntent
                         )
 
-                        scope.launch {
+                        collectScope {
                             googleAccountState.collectLatest { googleAccount ->
                                 if (googleAccount != null) {
                                     socialId = googleAccount.id.toString()
@@ -146,7 +146,9 @@ class LoginActivity : ComponentActivity() {
                                             }
                                         )
                                     }
-                                    bottomSheetState.show()
+                                    composeScope.launch {
+                                        bottomSheetState.show()
+                                    }
                                 }
                             }
                         }
@@ -165,7 +167,7 @@ class LoginActivity : ComponentActivity() {
                                                 genderState = genderState
                                             )
                                         }
-                                        scope.launch {
+                                        composeScope.launch {
                                             bottomSheetState.show()
                                         }
                                     }
@@ -212,7 +214,7 @@ class LoginActivity : ComponentActivity() {
                             loginType = loginType
                         )
 
-                        Coroutine.io {
+                        collectScope {
                             viewModel.signUpState.collectLatest { state ->
                                 when (state) {
                                     is UiState.Loading -> {
@@ -227,7 +229,8 @@ class LoginActivity : ComponentActivity() {
                                         )
                                     }
                                     is UiState.OnFailure -> {
-                                        signUpErrorTextState.value = state.errorMessage.toString()
+                                        signUpErrorTextState.value =
+                                            state.errorMessage.toString()
                                         signUpErrorDialogState.value = true
                                     }
                                 }
@@ -235,7 +238,7 @@ class LoginActivity : ComponentActivity() {
                         }
                     },
                     onClickClose = {
-                        scope.launch {
+                        composeScope.launch {
                             bottomSheetState.hide()
                         }
                     }
@@ -333,7 +336,7 @@ class LoginActivity : ComponentActivity() {
     private fun setInfoWithKakaoProfile(
         kakaoUser: User,
         nicknameState: MutableState<String>,
-        genderState: MutableState<Gender>
+        genderState: MutableState<Gender>,
     ) {
         getImageBitmapFromUrl(
             context = this@LoginActivity,
@@ -371,7 +374,7 @@ private fun LoginActivityContent(
     onClickKakaoLogin: () -> Unit,
     onClickProfileImage: () -> Unit,
     onClickStartButton: () -> Unit,
-    onClickClose: () -> Unit
+    onClickClose: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -767,7 +770,7 @@ private fun GenderButton(
     modifier: Modifier,
     gender: String,
     onClickGenderButton: () -> Unit,
-    genderState: MutableState<Gender>
+    genderState: MutableState<Gender>,
 ) {
     val buttonColorState =
         animateColorAsState(

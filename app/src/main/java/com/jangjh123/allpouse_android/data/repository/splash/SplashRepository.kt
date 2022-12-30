@@ -2,7 +2,7 @@ package com.jangjh123.allpouse_android.data.repository.splash
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.jangjh123.allpouse_android.util.Coroutine
+import com.jangjh123.allpouse_android.util.ioScope
 import com.jangjh123.data_store.LOGIN_TYPE
 import com.jangjh123.data_store.SOCIAL_ID
 import kotlinx.coroutines.Dispatchers.IO
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class SplashRepository(
-    dataStore: DataStore<Preferences>
+    dataStore: DataStore<Preferences>,
 ) {
     private val socialIdFlow = dataStore.data.map { preferences ->
         preferences[SOCIAL_ID] ?: ""
@@ -23,9 +23,9 @@ class SplashRepository(
 
     fun getStoredValue(
         onSuccess: () -> Unit,
-        onFailure: () -> Unit
+        onFailure: () -> Unit,
     ) {
-        Coroutine.io {
+        ioScope {
             if (socialIdFlow.first().isNotEmpty()
                 && loginTypeFlow.first().isNotEmpty()
             ) {
