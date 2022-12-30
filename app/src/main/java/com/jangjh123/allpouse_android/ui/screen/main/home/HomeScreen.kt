@@ -3,6 +3,7 @@ package com.jangjh123.allpouse_android.ui.screen.main.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -98,781 +99,789 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen() {
-    val scrollState = rememberScrollState()
     val adPagerState = rememberPagerState()
     val localDensity = LocalDensity.current
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
-            .background(
-                color = background()
-            )
     ) {
-        val screenWidth = SCREEN_WIDTH_DP
-        val calculatedHeight = (screenWidth / 16F) * 9F
-
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-        ) {
-            val adPagerScope = rememberCoroutineScope()
-            HorizontalPager(
+        item {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(calculatedHeight),
-                state = adPagerState,
-                count = dummyAds.size
-            ) { idx ->
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    painter = painterResource(
-                        id = dummyAds[idx]
-                    ),
-                    contentDescription = "adBannerImage",
-                    contentScale = ContentScale.FillHeight
-                )
-            }
-
-
-            Box(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clip(
-                        shape = RoundedCornerShape(20.dp)
-                    )
-                    .width(48.dp)
-                    .height(24.dp)
+                    .fillMaxSize()
                     .background(
-                        color = darkFilter()
+                        color = background()
                     )
-                    .align(Alignment.BottomEnd)
             ) {
+                val screenWidth = SCREEN_WIDTH_DP
+                val calculatedHeight = (screenWidth / 16F) * 9F
+
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize()
+                ) {
+                    val adPagerScope = rememberCoroutineScope()
+                    HorizontalPager(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(calculatedHeight),
+                        state = adPagerState,
+                        count = dummyAds.size
+                    ) { idx ->
+                        Image(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            painter = painterResource(
+                                id = dummyAds[idx]
+                            ),
+                            contentDescription = "adBannerImage",
+                            contentScale = ContentScale.FillHeight
+                        )
+                    }
+
+
+                    Box(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clip(
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .width(48.dp)
+                            .height(24.dp)
+                            .background(
+                                color = darkFilter()
+                            )
+                            .align(Alignment.BottomEnd)
+                    ) {
+                        APText(
+                            modifier = Modifier
+                                .align(Center),
+                            text = "${adPagerState.currentPage + 1} / ${adPagerState.pageCount}",
+                            fontColor = Color.White,
+                            fontSize = 12.sp
+                        )
+                    }
+
+                    LaunchedEffect(null) {
+                        adPagerScope.launch {
+                            while (true) {
+                                delay(3000L)
+                                if (adPagerState.currentPage == dummyAds.lastIndex) {
+                                    adPagerState.animateScrollToPage(0)
+                                } else {
+                                    adPagerState.animateScrollToPage(adPagerState.currentPage + 1)
+                                }
+                            }
+                        }
+                    }
+                }
+
                 APText(
-                    modifier = Modifier
-                        .align(Center),
-                    text = "${adPagerState.currentPage + 1} / ${adPagerState.pageCount}",
-                    fontColor = Color.White,
-                    fontSize = 12.sp
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 16.dp
+                    ),
+                    text = stringResource(
+                        id = R.string.taste_keyword
+                    ),
+                    fontSize = 20.sp,
+                    fontType = FontType.Bold
                 )
-            }
 
-            LaunchedEffect(null) {
-                adPagerScope.launch {
-                    while (true) {
-                        delay(3000L)
-                        if (adPagerState.currentPage == dummyAds.lastIndex) {
-                            adPagerState.animateScrollToPage(0)
-                        } else {
-                            adPagerState.animateScrollToPage(adPagerState.currentPage + 1)
+                LazyRow(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(
+                            horizontal = 10.dp
+                        )
+                ) {
+                    items(dummyTasteKeyword) { tasteKeyword ->
+                        Keyword(
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = 4.dp
+                                ),
+                            tasteKeyword
+                        )
+                    }
+
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = 4.dp
+                                )
+                                .clip(
+                                    shape = RoundedCornerShape(24.dp)
+                                )
+                                .width(100.dp)
+                                .height(36.dp)
+                                .background(contentBackground())
+                        ) {
+                            Row(modifier = Modifier.align(Center)) {
+                                Icon(
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .align(CenterVertically),
+                                    painter = painterResource(
+                                        id = R.drawable.ic_edit
+                                    ),
+                                    contentDescription = "editKeyword",
+                                    tint = subTextColor()
+                                )
+
+                                APText(
+                                    modifier = Modifier.padding(4.dp),
+                                    text = stringResource(
+                                        id = R.string.edit
+                                    ),
+                                    fontColor = subTextColor()
+                                )
+                            }
                         }
                     }
                 }
-            }
-        }
 
-        APText(
-            modifier = Modifier.padding(
-                horizontal = 12.dp,
-                vertical = 16.dp
-            ),
-            text = stringResource(
-                id = R.string.taste_keyword
-            ),
-            fontSize = 20.sp,
-            fontType = FontType.Bold
-        )
-
-        LazyRow(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(
-                    horizontal = 10.dp
+                Spacer(
+                    modifier = Modifier
+                        .height(12.dp)
                 )
-        ) {
-            items(dummyTasteKeyword) { tasteKeyword ->
-                Keyword(
+
+                APAppendedText(
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 16.dp
+                    ),
+                    annotatedString = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = mainTextColor()
+                            )
+                        ) {
+                            append("지호")
+                        }
+
+                        withStyle(
+                            style = SpanStyle(
+                                color = subTextColor()
+                            )
+                        ) {
+                            append(
+                                stringResource(
+                                    id = R.string.perfumes_recommended
+                                )
+                            )
+                        }
+                    },
+                    fontSize = 20.sp,
+                    fontType = FontType.Bold
+                )
+
+                val itemHeight = remember { mutableStateOf(0.dp) }
+
+                LazyRow(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(
+                            horizontal = 8.dp
+                        )
+                ) {
+                    items(dummyPerfumesForYou) { perfume ->
+                        Box(
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .width(160.dp)
+                                .padding(
+                                    horizontal = 4.dp
+                                )
+                                .clip(
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                                .background(
+                                    color = subBackground()
+                                )
+                                .onGloballyPositioned { coordinates ->
+                                    itemHeight.value = with(localDensity) {
+                                        coordinates.size.height.toDp()
+                                    }
+                                }
+                        ) {
+                            Column(modifier = Modifier.fillMaxSize()) {
+                                Image(
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 8.dp,
+                                            start = 8.dp,
+                                            end = 8.dp
+                                        )
+                                        .size(160.dp)
+                                        .clip(
+                                            shape = RoundedCornerShape(12.dp)
+                                        )
+                                        .background(contentBackground())
+                                        .padding(10.dp),
+                                    painter = painterResource(
+                                        id = perfume.image
+                                    ),
+                                    contentDescription = "perfumeImage",
+                                    contentScale = ContentScale.FillBounds
+                                )
+                                APText(
+                                    modifier = Modifier.padding(
+                                        top = 4.dp,
+                                        start = 10.dp,
+                                        end = 10.dp
+                                    ),
+                                    text = perfume.perfumeName,
+                                    fontColor = mainTextColor(),
+                                    fontSize = 14.sp
+                                )
+                                APText(
+                                    modifier = Modifier
+                                        .padding(
+                                            horizontal = 10.dp
+                                        ),
+                                    text = perfume.brandName,
+                                    fontColor = subTextColor(),
+                                    fontSize = 12.sp
+                                )
+                                APAppendedText(
+                                    modifier = Modifier
+                                        .padding(
+                                            horizontal = 10.dp
+                                        )
+                                        .padding(
+                                            bottom = 8.dp
+                                        ),
+                                    annotatedString = buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = subTextColor(),
+                                                fontSize = 12.sp
+                                            )
+                                        ) {
+                                            append("5개 중")
+                                            append(" ")
+                                        }
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = mainColor(),
+                                                fontSize = 12.sp
+                                            )
+                                        ) {
+                                            append("${perfume.keywordCount}")
+                                        }
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = subTextColor(),
+                                                fontSize = 12.sp
+                                            )
+                                        ) {
+                                            append(" ")
+                                            append("개")
+                                            append(" ")
+                                            append("일치")
+                                        }
+                                    })
+                            }
+                        }
+                    }
+
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .width(136.dp)
+                                .height(itemHeight.value)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .align(Center)
+                                    .wrapContentSize()
+                            ) {
+                                Icon(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .align(Alignment.CenterHorizontally),
+                                    painter = painterResource(
+                                        id = R.drawable.ic_arrow_foward
+                                    ),
+                                    tint = subTextColor(),
+                                    contentDescription = "goForMorePerfumes"
+                                )
+
+                                APText(
+                                    modifier = Modifier.padding(4.dp),
+                                    text = stringResource(
+                                        id = R.string.show_more
+                                    ),
+                                    fontColor = subTextColor()
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .height(12.dp)
+                )
+                APAppendedText(
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 16.dp
+                    ),
+                    annotatedString = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = mainTextColor()
+                            )
+                        ) {
+                            append(
+                                stringResource(
+                                    id = R.string.app_name
+                                )
+                            )
+                        }
+
+                        withStyle(
+                            style = SpanStyle(
+                                color = subTextColor()
+                            )
+                        ) {
+                            append(" ")
+                            append(
+                                stringResource(
+                                    id = R.string.best_post
+                                )
+                            )
+                        }
+                    },
+                    fontSize = 20.sp,
+                    fontType = FontType.Bold
+                )
+
+                PostWithBoardName(
                     modifier = Modifier
                         .padding(
-                            horizontal = 4.dp
+                            horizontal = 12.dp
                         ),
-                    tasteKeyword
+                    "조향사게시판",
+                    postName = "첫 번째 테스트 포스트",
+                    like = 33
                 )
-            }
-
-            item {
-                Box(
+                PostWithBoardName(
                     modifier = Modifier
                         .padding(
-                            horizontal = 4.dp
+                            horizontal = 12.dp
+                        ),
+                    "조향사게시판",
+                    postName = "두 번째 테스트 포스트",
+                    like = 31
+                )
+                PostWithBoardName(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 12.dp
+                        ),
+                    "자유게시판",
+                    postName = "세 번째 테스트 포스트",
+                    like = 22
+                )
+                PostWithBoardName(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 12.dp
+                        ),
+                    "자유게시판",
+                    postName = "네 번째 테스트 포스트",
+                    like = 19
+                )
+                PostWithBoardName(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 12.dp
+                        ),
+                    "조향사게시판",
+                    postName = "다섯 번째 테스트 포스트",
+                    like = 15
+                )
+
+                RoundedCornerButton(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    text = stringResource(
+                        id = R.string.go_for_more_posts
+                    )
+                ) {
+
+                }
+
+
+                Spacer(
+                    modifier = Modifier
+                        .height(12.dp)
+                )
+
+                APText(
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 16.dp
+                    ),
+                    text = stringResource(R.string.age_gender_best, 20, "남성"),
+                    fontSize = 20.sp,
+                    fontType = FontType.Bold
+                )
+
+                LazyRow(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(
+                            horizontal = 8.dp
                         )
-                        .clip(
-                            shape = RoundedCornerShape(24.dp)
+                ) {
+                    items(dummyPerfumesForYou) { perfume ->
+                        Box(
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .width(160.dp)
+                                .padding(
+                                    horizontal = 4.dp
+                                )
+                                .clip(
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                                .background(
+                                    color = subBackground()
+                                )
+                                .onGloballyPositioned { coordinates ->
+                                    itemHeight.value = with(localDensity) {
+                                        PERFUME_ITEM_HEIGHT = coordinates.size.height.toDp()
+                                        coordinates.size.height.toDp()
+                                    }
+                                }
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            ) {
+                                Image(
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 8.dp,
+                                            start = 8.dp,
+                                            end = 8.dp
+                                        )
+                                        .size(160.dp)
+                                        .clip(
+                                            shape = RoundedCornerShape(12.dp)
+                                        )
+                                        .background(contentBackground())
+                                        .padding(10.dp),
+                                    painter = painterResource(
+                                        id = perfume.image
+                                    ),
+                                    contentDescription = "perfumeImage",
+                                    contentScale = ContentScale.FillBounds
+                                )
+                                APText(
+                                    modifier = Modifier.padding(
+                                        top = 4.dp,
+                                        start = 10.dp,
+                                        end = 10.dp
+                                    ),
+                                    text = perfume.perfumeName,
+                                    fontColor = mainTextColor(),
+                                    fontSize = 14.sp
+                                )
+                                APText(
+                                    modifier = Modifier
+                                        .padding(
+                                            horizontal = 10.dp
+                                        ),
+                                    text = perfume.brandName,
+                                    fontColor = subTextColor(),
+                                    fontSize = 12.sp
+                                )
+                                APAppendedText(
+                                    modifier = Modifier
+                                        .padding(
+                                            horizontal = 10.dp
+                                        )
+                                        .padding(
+                                            bottom = 8.dp
+                                        ),
+                                    annotatedString = buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = subTextColor(),
+                                                fontSize = 12.sp
+                                            )
+                                        ) {
+                                            append("5개 중")
+                                            append(" ")
+                                        }
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = mainColor(),
+                                                fontSize = 12.sp
+                                            )
+                                        ) {
+                                            append("${perfume.keywordCount}")
+                                        }
+                                        withStyle(
+                                            style = SpanStyle(
+                                                color = subTextColor(),
+                                                fontSize = 12.sp
+                                            )
+                                        ) {
+                                            append(" ")
+                                            append("개")
+                                            append(" ")
+                                            append("일치")
+                                        }
+                                    })
+                            }
+                        }
+                    }
+
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .width(136.dp)
+                                .height(itemHeight.value)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .align(Center)
+                                    .wrapContentSize()
+                            ) {
+                                Icon(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .align(Alignment.CenterHorizontally),
+                                    painter = painterResource(
+                                        id = R.drawable.ic_arrow_foward
+                                    ),
+                                    tint = subTextColor(),
+                                    contentDescription = "goForMorePerfumes"
+                                )
+
+                                APText(
+                                    modifier = Modifier.padding(4.dp),
+                                    text = stringResource(
+                                        id = R.string.show_more
+                                    ),
+                                    fontColor = subTextColor()
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .height(12.dp)
+                )
+
+                APText(
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 16.dp
+                    ),
+                    text = stringResource(id = R.string.popular_brands),
+                    fontSize = 20.sp,
+                    fontType = FontType.Bold
+                )
+
+                Brand(
+                    modifier = Modifier
+                        .padding(
+                            vertical = 4.dp,
+                            horizontal = 12.dp
+                        ),
+                    brandName = "Versace",
+                    brandImage = painterResource(
+                        id = R.drawable.brand_test_0
+                    ),
+                    brandPerfumeCount = 13,
+                    brandHit = 312
+                ) {
+
+                }
+
+                Brand(
+                    modifier = Modifier
+                        .padding(
+                            vertical = 4.dp,
+                            horizontal = 12.dp
+                        ),
+                    brandName = "Chanel",
+                    brandImage = painterResource(
+                        id = R.drawable.brand_test_1
+                    ),
+                    brandPerfumeCount = 18,
+                    brandHit = 221
+                ) {
+
+                }
+
+                Brand(
+                    modifier = Modifier
+                        .padding(
+                            vertical = 4.dp,
+                            horizontal = 12.dp
+                        ),
+                    brandName = "Lamborghini",
+                    brandImage = painterResource(
+                        id = R.drawable.brand_test_2
+                    ),
+                    brandPerfumeCount = 3,
+                    brandHit = 123
+                ) {
+
+                }
+
+                RoundedCornerButton(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    text = stringResource(
+                        id = R.string.go_for_more_brands
+                    )
+                ) {
+
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .height(12.dp)
+                )
+
+                APText(
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 16.dp
+                    ),
+                    text = stringResource(
+                        id = R.string.popular_perfumes
+                    ),
+                    fontSize = 20.sp,
+                    fontType = FontType.Bold
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = 12.dp
                         )
-                        .width(100.dp)
+                ) {
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_0,
+                        perfumeName = "TestPerfume0",
+                        brandName = "Samsung"
+                    )
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_1,
+                        perfumeName = "TestPerfume1",
+                        brandName = "Google"
+                    )
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_2,
+                        perfumeName = "TestPerfume2",
+                        brandName = "Nokia"
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = 12.dp
+                        )
+                ) {
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_0,
+                        perfumeName = "TestPerfume0",
+                        brandName = "Samsung"
+                    )
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_1,
+                        perfumeName = "TestPerfume1",
+                        brandName = "Google"
+                    )
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_2,
+                        perfumeName = "TestPerfume2",
+                        brandName = "Nokia"
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = 12.dp
+                        )
+                ) {
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_0,
+                        perfumeName = "TestPerfume0",
+                        brandName = "Samsung"
+                    )
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_1,
+                        perfumeName = "TestPerfume1",
+                        brandName = "Google"
+                    )
+                    PopularPerfume(
+                        modifier = Modifier.weight(1f),
+                        image = R.drawable.perfume_test_2,
+                        perfumeName = "TestPerfume2",
+                        brandName = "Nokia"
+                    )
+                }
+
+                RoundedCornerButton(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    text = stringResource(
+                        id = R.string.go_for_more_perfumes
+                    )
+                ) {
+
+                }
+
+                Spacer(
+                    modifier = Modifier
                         .height(36.dp)
-                        .background(contentBackground())
-                ) {
-                    Row(modifier = Modifier.align(Center)) {
-                        Icon(
-                            modifier = Modifier
-                                .size(16.dp)
-                                .align(CenterVertically),
-                            painter = painterResource(
-                                id = R.drawable.ic_edit
-                            ),
-                            contentDescription = "editKeyword",
-                            tint = subTextColor()
-                        )
-
-                        APText(
-                            modifier = Modifier.padding(4.dp),
-                            text = stringResource(
-                                id = R.string.edit
-                            ),
-                            fontColor = subTextColor()
-                        )
-                    }
-                }
+                )
             }
         }
 
-        Spacer(
-            modifier = Modifier
-                .height(12.dp)
-        )
-
-        APAppendedText(
-            modifier = Modifier.padding(
-                horizontal = 12.dp,
-                vertical = 16.dp
-            ),
-            annotatedString = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = mainTextColor()
-                    )
-                ) {
-                    append("지호")
-                }
-
-                withStyle(
-                    style = SpanStyle(
-                        color = subTextColor()
-                    )
-                ) {
-                    append(
-                        stringResource(
-                            id = R.string.perfumes_recommended
-                        )
-                    )
-                }
-            },
-            fontSize = 20.sp,
-            fontType = FontType.Bold
-        )
-
-        val itemHeight = remember { mutableStateOf(0.dp) }
-
-        LazyRow(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(
-                    horizontal = 8.dp
-                )
-        ) {
-            items(dummyPerfumesForYou) { perfume ->
-                Box(
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .width(160.dp)
-                        .padding(
-                            horizontal = 4.dp
-                        )
-                        .clip(
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .background(
-                            color = subBackground()
-                        )
-                        .onGloballyPositioned { coordinates ->
-                            itemHeight.value = with(localDensity) {
-                                coordinates.size.height.toDp()
-                            }
-                        }
-                ) {
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        Image(
-                            modifier = Modifier
-                                .padding(
-                                    top = 8.dp,
-                                    start = 8.dp,
-                                    end = 8.dp
-                                )
-                                .size(160.dp)
-                                .clip(
-                                    shape = RoundedCornerShape(12.dp)
-                                )
-                                .background(contentBackground())
-                                .padding(10.dp),
-                            painter = painterResource(
-                                id = perfume.image
-                            ),
-                            contentDescription = "perfumeImage",
-                            contentScale = ContentScale.FillBounds
-                        )
-                        APText(
-                            modifier = Modifier.padding(
-                                top = 4.dp,
-                                start = 10.dp,
-                                end = 10.dp
-                            ),
-                            text = perfume.perfumeName,
-                            fontColor = mainTextColor(),
-                            fontSize = 14.sp
-                        )
-                        APText(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 10.dp
-                                ),
-                            text = perfume.brandName,
-                            fontColor = subTextColor(),
-                            fontSize = 12.sp
-                        )
-                        APAppendedText(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 10.dp
-                                )
-                                .padding(
-                                    bottom = 8.dp
-                                ),
-                            annotatedString = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = subTextColor(),
-                                        fontSize = 12.sp
-                                    )
-                                ) {
-                                    append("5개 중")
-                                    append(" ")
-                                }
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = mainColor(),
-                                        fontSize = 12.sp
-                                    )
-                                ) {
-                                    append("${perfume.keywordCount}")
-                                }
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = subTextColor(),
-                                        fontSize = 12.sp
-                                    )
-                                ) {
-                                    append(" ")
-                                    append("개")
-                                    append(" ")
-                                    append("일치")
-                                }
-                            })
-                    }
-                }
-            }
-
-            item {
-                Box(
-                    modifier = Modifier
-                        .width(136.dp)
-                        .height(itemHeight.value)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .align(Center)
-                            .wrapContentSize()
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .align(Alignment.CenterHorizontally),
-                            painter = painterResource(
-                                id = R.drawable.ic_arrow_foward
-                            ),
-                            tint = subTextColor(),
-                            contentDescription = "goForMorePerfumes"
-                        )
-
-                        APText(
-                            modifier = Modifier.padding(4.dp),
-                            text = stringResource(
-                                id = R.string.show_more
-                            ),
-                            fontColor = subTextColor()
-                        )
-                    }
-                }
-            }
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(12.dp)
-        )
-        APAppendedText(
-            modifier = Modifier.padding(
-                horizontal = 12.dp,
-                vertical = 16.dp
-            ),
-            annotatedString = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = mainTextColor()
-                    )
-                ) {
-                    append(
-                        stringResource(
-                            id = R.string.app_name
-                        )
-                    )
-                }
-
-                withStyle(
-                    style = SpanStyle(
-                        color = subTextColor()
-                    )
-                ) {
-                    append(" ")
-                    append(
-                        stringResource(
-                            id = R.string.best_post
-                        )
-                    )
-                }
-            },
-            fontSize = 20.sp,
-            fontType = FontType.Bold
-        )
-
-        PostWithBoardName(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp
-                ),
-            "조향사게시판",
-            postName = "첫 번째 테스트 포스트",
-            like = 33
-        )
-        PostWithBoardName(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp
-                ),
-            "조향사게시판",
-            postName = "두 번째 테스트 포스트",
-            like = 31
-        )
-        PostWithBoardName(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp
-                ),
-            "자유게시판",
-            postName = "세 번째 테스트 포스트",
-            like = 22
-        )
-        PostWithBoardName(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp
-                ),
-            "자유게시판",
-            postName = "네 번째 테스트 포스트",
-            like = 19
-        )
-        PostWithBoardName(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp
-                ),
-            "조향사게시판",
-            postName = "다섯 번째 테스트 포스트",
-            like = 15
-        )
-
-        RoundedCornerButton(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth()
-                .height(50.dp),
-            text = stringResource(
-                id = R.string.go_for_more_posts
-            )
-        ) {
-
-        }
-
-
-        Spacer(
-            modifier = Modifier
-                .height(12.dp)
-        )
-
-        APText(
-            modifier = Modifier.padding(
-                horizontal = 12.dp,
-                vertical = 16.dp
-            ),
-            text = stringResource(R.string.age_gender_best, 20, "남성"),
-            fontSize = 20.sp,
-            fontType = FontType.Bold
-        )
-
-        LazyRow(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(
-                    horizontal = 8.dp
-                )
-        ) {
-            items(dummyPerfumesForYou) { perfume ->
-                Box(
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .width(160.dp)
-                        .padding(
-                            horizontal = 4.dp
-                        )
-                        .clip(
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .background(
-                            color = subBackground()
-                        )
-                        .onGloballyPositioned { coordinates ->
-                            itemHeight.value = with(localDensity) {
-                                PERFUME_ITEM_HEIGHT = coordinates.size.height.toDp()
-                                coordinates.size.height.toDp()
-                            }
-                        }
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        Image(
-                            modifier = Modifier
-                                .padding(
-                                    top = 8.dp,
-                                    start = 8.dp,
-                                    end = 8.dp
-                                )
-                                .size(160.dp)
-                                .clip(
-                                    shape = RoundedCornerShape(12.dp)
-                                )
-                                .background(contentBackground())
-                                .padding(10.dp),
-                            painter = painterResource(
-                                id = perfume.image
-                            ),
-                            contentDescription = "perfumeImage",
-                            contentScale = ContentScale.FillBounds
-                        )
-                        APText(
-                            modifier = Modifier.padding(
-                                top = 4.dp,
-                                start = 10.dp,
-                                end = 10.dp
-                            ),
-                            text = perfume.perfumeName,
-                            fontColor = mainTextColor(),
-                            fontSize = 14.sp
-                        )
-                        APText(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 10.dp
-                                ),
-                            text = perfume.brandName,
-                            fontColor = subTextColor(),
-                            fontSize = 12.sp
-                        )
-                        APAppendedText(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 10.dp
-                                )
-                                .padding(
-                                    bottom = 8.dp
-                                ),
-                            annotatedString = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = subTextColor(),
-                                        fontSize = 12.sp
-                                    )
-                                ) {
-                                    append("5개 중")
-                                    append(" ")
-                                }
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = mainColor(),
-                                        fontSize = 12.sp
-                                    )
-                                ) {
-                                    append("${perfume.keywordCount}")
-                                }
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = subTextColor(),
-                                        fontSize = 12.sp
-                                    )
-                                ) {
-                                    append(" ")
-                                    append("개")
-                                    append(" ")
-                                    append("일치")
-                                }
-                            })
-                    }
-                }
-            }
-
-            item {
-                Box(
-                    modifier = Modifier
-                        .width(136.dp)
-                        .height(itemHeight.value)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .align(Center)
-                            .wrapContentSize()
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .align(Alignment.CenterHorizontally),
-                            painter = painterResource(
-                                id = R.drawable.ic_arrow_foward
-                            ),
-                            tint = subTextColor(),
-                            contentDescription = "goForMorePerfumes"
-                        )
-
-                        APText(
-                            modifier = Modifier.padding(4.dp),
-                            text = stringResource(
-                                id = R.string.show_more
-                            ),
-                            fontColor = subTextColor()
-                        )
-                    }
-                }
-            }
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(12.dp)
-        )
-
-        APText(
-            modifier = Modifier.padding(
-                horizontal = 12.dp,
-                vertical = 16.dp
-            ),
-            text = stringResource(id = R.string.popular_brands),
-            fontSize = 20.sp,
-            fontType = FontType.Bold
-        )
-
-        Brand(
-            modifier = Modifier
-                .padding(
-                    vertical = 4.dp,
-                    horizontal = 12.dp
-                ),
-            brandName = "Versace",
-            brandImage = painterResource(
-                id = R.drawable.brand_test_0
-            ),
-            brandPerfumeCount = 13,
-            brandHit = 312
-        ) {
-
-        }
-
-        Brand(
-            modifier = Modifier
-                .padding(
-                    vertical = 4.dp,
-                    horizontal = 12.dp
-                ),
-            brandName = "Chanel",
-            brandImage = painterResource(
-                id = R.drawable.brand_test_1
-            ),
-            brandPerfumeCount = 18,
-            brandHit = 221
-        ) {
-
-        }
-
-        Brand(
-            modifier = Modifier
-                .padding(
-                    vertical = 4.dp,
-                    horizontal = 12.dp
-                ),
-            brandName = "Lamborghini",
-            brandImage = painterResource(
-                id = R.drawable.brand_test_2
-            ),
-            brandPerfumeCount = 3,
-            brandHit = 123
-        ) {
-
-        }
-
-        RoundedCornerButton(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth()
-                .height(50.dp),
-            text = stringResource(
-                id = R.string.go_for_more_brands
-            )
-        ) {
-
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(12.dp)
-        )
-
-        APText(
-            modifier = Modifier.padding(
-                horizontal = 12.dp,
-                vertical = 16.dp
-            ),
-            text = stringResource(
-                id = R.string.popular_perfumes
-            ),
-            fontSize = 20.sp,
-            fontType = FontType.Bold
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 12.dp
-                )
-        ) {
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_0,
-                perfumeName = "TestPerfume0",
-                brandName = "Samsung"
-            )
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_1,
-                perfumeName = "TestPerfume1",
-                brandName = "Google"
-            )
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_2,
-                perfumeName = "TestPerfume2",
-                brandName = "Nokia"
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 12.dp
-                )
-        ) {
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_0,
-                perfumeName = "TestPerfume0",
-                brandName = "Samsung"
-            )
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_1,
-                perfumeName = "TestPerfume1",
-                brandName = "Google"
-            )
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_2,
-                perfumeName = "TestPerfume2",
-                brandName = "Nokia"
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 12.dp
-                )
-        ) {
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_0,
-                perfumeName = "TestPerfume0",
-                brandName = "Samsung"
-            )
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_1,
-                perfumeName = "TestPerfume1",
-                brandName = "Google"
-            )
-            PopularPerfume(
-                modifier = Modifier.weight(1f),
-                image = R.drawable.perfume_test_2,
-                perfumeName = "TestPerfume2",
-                brandName = "Nokia"
-            )
-        }
-
-        RoundedCornerButton(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth()
-                .height(50.dp),
-            text = stringResource(
-                id = R.string.go_for_more_perfumes
-            )
-        ) {
-
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(36.dp)
-        )
+        // todo : paging
     }
 }
+
 
 @Composable
 fun PopularPerfume(
     modifier: Modifier,
     image: Int,
     perfumeName: String,
-    brandName: String
+    brandName: String,
 ) {
     Column(
         modifier = modifier
