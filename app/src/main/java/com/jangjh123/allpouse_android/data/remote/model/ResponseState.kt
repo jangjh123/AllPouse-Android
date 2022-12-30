@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.data.model
+package com.jangjh123.allpouse_android.data.remote.model
 
 sealed class ResponseState {
     data class OnSuccess(val data: Any? = null) : ResponseState()

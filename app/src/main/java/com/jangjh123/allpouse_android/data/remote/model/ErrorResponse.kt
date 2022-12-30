@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.data.model
+package com.jangjh123.allpouse_android.data.remote.model
 
 data class ErrorResponse(
     val success: Boolean,

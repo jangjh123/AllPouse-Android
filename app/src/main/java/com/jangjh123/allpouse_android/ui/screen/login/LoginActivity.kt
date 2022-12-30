@@ -197,7 +197,7 @@ class LoginActivity : ComponentActivity() {
                     },
                     onClickStartButton = {
                         viewModel.signUp(
-                            socialId = "axdzc",
+                            socialId = socialId,
                             userName = nicknameState.value,
                             permission = "ROLE_USER",
                             age = ageState.value.toInt(),
