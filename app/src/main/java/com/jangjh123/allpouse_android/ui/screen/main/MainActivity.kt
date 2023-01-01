@@ -3,6 +3,7 @@ package com.jangjh123.allpouse_android.ui.screen.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -34,7 +35,6 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.board.BoardScreen
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
@@ -44,8 +44,13 @@ import com.jangjh123.allpouse_android.ui.screen.main.search.SearchScreen
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import com.jangjh123.allpouse_android.ui.theme.mainColor
+import com.jangjh123.allpouse_android.util.clickableWithoutRipple
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

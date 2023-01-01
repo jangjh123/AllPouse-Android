@@ -36,13 +36,21 @@ class LoginRepository(
             ).enqueue(object : APCallback<JsonObject>() {
                 override fun onSuccess(data: JsonObject) {
                     ioScope {
-                        send(ResponseState.OnSuccess(data = null))
+                        send(
+                            ResponseState.OnSuccess(
+                                data = null
+                            )
+                        )
                     }
                 }
 
                 override fun onFailure(errorMessage: String) {
                     ioScope {
-                        send(ResponseState.OnFailure(errorMessage = errorMessage))
+                        send(
+                            ResponseState.OnFailure(
+                                errorMessage = errorMessage
+                            )
+                        )
                     }
                 }
             })

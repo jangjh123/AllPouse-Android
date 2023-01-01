@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,14 +26,19 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.data.model.Perfume
 import com.jangjh123.allpouse_android.ui.component.*
+import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
+import com.jangjh123.allpouse_android.util.collectScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 val dummyAds = listOf(
@@ -47,11 +50,7 @@ val dummyAds = listOf(
 )
 
 val dummyTasteKeyword = listOf(
-    "남성적인",
-    "고급스러운",
-    "시크한",
-    "오래 가는",
-    "대용량"
+    "남성적인", "고급스러운", "시크한", "오래 가는", "대용량"
 )
 
 data class DummyRecommended(
@@ -63,34 +62,15 @@ data class DummyRecommended(
 
 val dummyPerfumesForYou = listOf(
     DummyRecommended(
-        R.drawable.perfume_test_0,
-        "Test0",
-        "Hexadecimal",
-        5
-    ),
-    DummyRecommended(
-        R.drawable.perfume_test_1,
-        "Test1",
-        "color values",
-        5
-    ),
-    DummyRecommended(
-        R.drawable.perfume_test_2,
-        "Test2",
-        "supported in",
-        4
-    ),
-    DummyRecommended(
-        R.drawable.perfume_test_0,
-        "Test0",
-        "all browsers.",
-        4
-    ),
-    DummyRecommended(
-        R.drawable.perfume_test_1,
-        "Test1",
-        "Hexadecimal",
-        3
+        R.drawable.perfume_test_0, "Test0", "Hexadecimal", 5
+    ), DummyRecommended(
+        R.drawable.perfume_test_1, "Test1", "color values", 5
+    ), DummyRecommended(
+        R.drawable.perfume_test_2, "Test2", "supported in", 4
+    ), DummyRecommended(
+        R.drawable.perfume_test_0, "Test0", "all browsers.", 4
+    ), DummyRecommended(
+        R.drawable.perfume_test_1, "Test1", "Hexadecimal", 3
     )
 )
 
@@ -101,10 +81,25 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 fun HomeScreen() {
     val adPagerState = rememberPagerState()
     val localDensity = LocalDensity.current
+    val viewModel = composableActivityViewModel<MainViewModel>()
+    getActivity().collectScope {
+        viewModel.recommendedPerfumeListState.collectLatest { state ->
+            when (state) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.OnSuccess -> {
+
+                }
+                is UiState.OnFailure -> {
+
+                }
+            }
+        }
+    }
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         item {
             Column(
@@ -118,8 +113,7 @@ fun HomeScreen() {
                 val calculatedHeight = (screenWidth / 16F) * 9F
 
                 Box(
-                    modifier = Modifier
-                        .wrapContentSize()
+                    modifier = Modifier.wrapContentSize()
                 ) {
                     val adPagerScope = rememberCoroutineScope()
                     HorizontalPager(
@@ -130,8 +124,7 @@ fun HomeScreen() {
                         count = dummyAds.size
                     ) { idx ->
                         Image(
-                            modifier = Modifier
-                                .fillMaxSize(),
+                            modifier = Modifier.fillMaxSize(),
                             painter = painterResource(
                                 id = dummyAds[idx]
                             ),
@@ -155,8 +148,7 @@ fun HomeScreen() {
                             .align(Alignment.BottomEnd)
                     ) {
                         APText(
-                            modifier = Modifier
-                                .align(Center),
+                            modifier = Modifier.align(Center),
                             text = "${adPagerState.currentPage + 1} / ${adPagerState.pageCount}",
                             fontColor = Color.White,
                             fontSize = 12.sp
@@ -179,14 +171,10 @@ fun HomeScreen() {
 
                 APText(
                     modifier = Modifier.padding(
-                        horizontal = 12.dp,
-                        vertical = 16.dp
-                    ),
-                    text = stringResource(
+                        horizontal = 12.dp, vertical = 16.dp
+                    ), text = stringResource(
                         id = R.string.taste_keyword
-                    ),
-                    fontSize = 20.sp,
-                    fontType = FontType.Bold
+                    ), fontSize = 20.sp, fontType = FontType.Bold
                 )
 
                 LazyRow(
@@ -198,11 +186,9 @@ fun HomeScreen() {
                 ) {
                     items(dummyTasteKeyword) { tasteKeyword ->
                         Keyword(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 4.dp
-                                ),
-                            tasteKeyword
+                            modifier = Modifier.padding(
+                                horizontal = 4.dp
+                            ), tasteKeyword
                         )
                     }
 
@@ -232,11 +218,9 @@ fun HomeScreen() {
                                 )
 
                                 APText(
-                                    modifier = Modifier.padding(4.dp),
-                                    text = stringResource(
+                                    modifier = Modifier.padding(4.dp), text = stringResource(
                                         id = R.string.edit
-                                    ),
-                                    fontColor = subTextColor()
+                                    ), fontColor = subTextColor()
                                 )
                             }
                         }
@@ -244,16 +228,13 @@ fun HomeScreen() {
                 }
 
                 Spacer(
-                    modifier = Modifier
-                        .height(12.dp)
+                    modifier = Modifier.height(12.dp)
                 )
 
                 APAppendedText(
                     modifier = Modifier.padding(
-                        horizontal = 12.dp,
-                        vertical = 16.dp
-                    ),
-                    annotatedString = buildAnnotatedString {
+                        horizontal = 12.dp, vertical = 16.dp
+                    ), annotatedString = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
                                 color = mainTextColor()
@@ -273,23 +254,23 @@ fun HomeScreen() {
                                 )
                             )
                         }
-                    },
-                    fontSize = 20.sp,
-                    fontType = FontType.Bold
+                    }, fontSize = 20.sp, fontType = FontType.Bold
                 )
 
                 val itemHeight = remember { mutableStateOf(0.dp) }
-
-                LazyRow(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(
-                            horizontal = 8.dp
-                        )
-                ) {
-                    items(dummyPerfumesForYou) { perfume ->
-                        Box(
-                            modifier = Modifier
+                val s =
+                    viewModel.recommendedPerfumeListState.collectAsState(initial = UiState.Loading)
+                if (s.value is UiState.OnSuccess) {
+                    LazyRow(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(
+                                horizontal = 8.dp
+                            )
+                    ) {
+                        items((s.value as UiState.OnSuccess).data as List<*>) { perfume ->
+                            perfume as Perfume
+                            Box(modifier = Modifier
                                 .wrapContentHeight()
                                 .width(160.dp)
                                 .padding(
@@ -305,60 +286,57 @@ fun HomeScreen() {
                                     itemHeight.value = with(localDensity) {
                                         coordinates.size.height.toDp()
                                     }
-                                }
-                        ) {
-                            Column(modifier = Modifier.fillMaxSize()) {
-                                Image(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 8.dp,
-                                            start = 8.dp,
-                                            end = 8.dp
-                                        )
-                                        .size(160.dp)
-                                        .clip(
-                                            shape = RoundedCornerShape(12.dp)
-                                        )
-                                        .background(contentBackground())
-                                        .padding(10.dp),
-                                    painter = painterResource(
-                                        id = perfume.image
-                                    ),
-                                    contentDescription = "perfumeImage",
-                                    contentScale = ContentScale.FillBounds
-                                )
-                                APText(
-                                    modifier = Modifier.padding(
-                                        top = 4.dp,
-                                        start = 10.dp,
-                                        end = 10.dp
-                                    ),
-                                    text = perfume.perfumeName,
-                                    fontColor = mainTextColor(),
-                                    fontSize = 14.sp
-                                )
-                                APText(
-                                    modifier = Modifier
-                                        .padding(
+                                }) {
+                                Column(modifier = Modifier.fillMaxSize()) {
+                                    Image(
+                                        modifier = Modifier
+                                            .padding(
+                                                top = 8.dp, start = 8.dp, end = 8.dp
+                                            )
+                                            .size(160.dp)
+                                            .clip(
+                                                shape = RoundedCornerShape(12.dp)
+                                            )
+                                            .background(contentBackground())
+                                            .padding(10.dp),
+                                        painter = if (perfume.imagePath != null) {
+                                            rememberAsyncImagePainter(
+                                                model = perfume.imagePath.first()
+                                            )
+                                        } else {
+                                            painterResource(
+                                                id = R.drawable.ad_banner_0
+                                            )
+                                        },
+                                        contentDescription = "perfumeImage",
+                                        contentScale = ContentScale.FillBounds
+                                    )
+                                    APText(
+                                        modifier = Modifier.padding(
+                                            top = 4.dp, start = 10.dp, end = 10.dp
+                                        ),
+                                        text = perfume.perfumeName,
+                                        fontColor = mainTextColor(),
+                                        fontSize = 14.sp
+                                    )
+                                    APText(
+                                        modifier = Modifier.padding(
                                             horizontal = 10.dp
                                         ),
-                                    text = perfume.brandName,
-                                    fontColor = subTextColor(),
-                                    fontSize = 12.sp
-                                )
-                                APAppendedText(
-                                    modifier = Modifier
+                                        text = perfume.brandName,
+                                        fontColor = subTextColor(),
+                                        fontSize = 12.sp
+                                    )
+                                    APAppendedText(modifier = Modifier
                                         .padding(
                                             horizontal = 10.dp
                                         )
                                         .padding(
                                             bottom = 8.dp
-                                        ),
-                                    annotatedString = buildAnnotatedString {
+                                        ), annotatedString = buildAnnotatedString {
                                         withStyle(
                                             style = SpanStyle(
-                                                color = subTextColor(),
-                                                fontSize = 12.sp
+                                                color = subTextColor(), fontSize = 12.sp
                                             )
                                         ) {
                                             append("5개 중")
@@ -366,16 +344,14 @@ fun HomeScreen() {
                                         }
                                         withStyle(
                                             style = SpanStyle(
-                                                color = mainColor(),
-                                                fontSize = 12.sp
+                                                color = mainColor(), fontSize = 12.sp
                                             )
                                         ) {
-                                            append("${perfume.keywordCount}")
+                                            append("${perfume.id}")
                                         }
                                         withStyle(
                                             style = SpanStyle(
-                                                color = subTextColor(),
-                                                fontSize = 12.sp
+                                                color = subTextColor(), fontSize = 12.sp
                                             )
                                         ) {
                                             append(" ")
@@ -384,54 +360,51 @@ fun HomeScreen() {
                                             append("일치")
                                         }
                                     })
+                                }
                             }
                         }
-                    }
 
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .width(136.dp)
-                                .height(itemHeight.value)
-                        ) {
-                            Column(
+                        item {
+                            Box(
                                 modifier = Modifier
-                                    .align(Center)
-                                    .wrapContentSize()
+                                    .width(136.dp)
+                                    .height(itemHeight.value)
                             ) {
-                                Icon(
+                                Column(
                                     modifier = Modifier
-                                        .size(36.dp)
-                                        .align(Alignment.CenterHorizontally),
-                                    painter = painterResource(
-                                        id = R.drawable.ic_arrow_foward
-                                    ),
-                                    tint = subTextColor(),
-                                    contentDescription = "goForMorePerfumes"
-                                )
+                                        .align(Center)
+                                        .wrapContentSize()
+                                ) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(36.dp)
+                                            .align(Alignment.CenterHorizontally),
+                                        painter = painterResource(
+                                            id = R.drawable.ic_arrow_foward
+                                        ),
+                                        tint = subTextColor(),
+                                        contentDescription = "goForMorePerfumes"
+                                    )
 
-                                APText(
-                                    modifier = Modifier.padding(4.dp),
-                                    text = stringResource(
-                                        id = R.string.show_more
-                                    ),
-                                    fontColor = subTextColor()
-                                )
+                                    APText(
+                                        modifier = Modifier.padding(4.dp), text = stringResource(
+                                            id = R.string.show_more
+                                        ), fontColor = subTextColor()
+                                    )
+                                }
                             }
                         }
                     }
                 }
 
+
                 Spacer(
-                    modifier = Modifier
-                        .height(12.dp)
+                    modifier = Modifier.height(12.dp)
                 )
                 APAppendedText(
                     modifier = Modifier.padding(
-                        horizontal = 12.dp,
-                        vertical = 16.dp
-                    ),
-                    annotatedString = buildAnnotatedString {
+                        horizontal = 12.dp, vertical = 16.dp
+                    ), annotatedString = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
                                 color = mainTextColor()
@@ -456,55 +429,33 @@ fun HomeScreen() {
                                 )
                             )
                         }
-                    },
-                    fontSize = 20.sp,
-                    fontType = FontType.Bold
+                    }, fontSize = 20.sp, fontType = FontType.Bold
                 )
 
                 PostWithBoardName(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 12.dp
-                        ),
-                    "조향사게시판",
-                    postName = "첫 번째 테스트 포스트",
-                    like = 33
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp
+                    ), "조향사게시판", postName = "첫 번째 테스트 포스트", like = 33
                 )
                 PostWithBoardName(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 12.dp
-                        ),
-                    "조향사게시판",
-                    postName = "두 번째 테스트 포스트",
-                    like = 31
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp
+                    ), "조향사게시판", postName = "두 번째 테스트 포스트", like = 31
                 )
                 PostWithBoardName(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 12.dp
-                        ),
-                    "자유게시판",
-                    postName = "세 번째 테스트 포스트",
-                    like = 22
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp
+                    ), "자유게시판", postName = "세 번째 테스트 포스트", like = 22
                 )
                 PostWithBoardName(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 12.dp
-                        ),
-                    "자유게시판",
-                    postName = "네 번째 테스트 포스트",
-                    like = 19
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp
+                    ), "자유게시판", postName = "네 번째 테스트 포스트", like = 19
                 )
                 PostWithBoardName(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 12.dp
-                        ),
-                    "조향사게시판",
-                    postName = "다섯 번째 테스트 포스트",
-                    like = 15
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp
+                    ), "조향사게시판", postName = "다섯 번째 테스트 포스트", like = 15
                 )
 
                 RoundedCornerButton(
@@ -521,14 +472,12 @@ fun HomeScreen() {
 
 
                 Spacer(
-                    modifier = Modifier
-                        .height(12.dp)
+                    modifier = Modifier.height(12.dp)
                 )
 
                 APText(
                     modifier = Modifier.padding(
-                        horizontal = 12.dp,
-                        vertical = 16.dp
+                        horizontal = 12.dp, vertical = 16.dp
                     ),
                     text = stringResource(R.string.age_gender_best, 20, "남성"),
                     fontSize = 20.sp,
@@ -543,36 +492,31 @@ fun HomeScreen() {
                         )
                 ) {
                     items(dummyPerfumesForYou) { perfume ->
-                        Box(
-                            modifier = Modifier
-                                .wrapContentHeight()
-                                .width(160.dp)
-                                .padding(
-                                    horizontal = 4.dp
-                                )
-                                .clip(
-                                    shape = RoundedCornerShape(12.dp)
-                                )
-                                .background(
-                                    color = subBackground()
-                                )
-                                .onGloballyPositioned { coordinates ->
-                                    itemHeight.value = with(localDensity) {
-                                        PERFUME_ITEM_HEIGHT = coordinates.size.height.toDp()
-                                        coordinates.size.height.toDp()
-                                    }
+                        Box(modifier = Modifier
+                            .wrapContentHeight()
+                            .width(160.dp)
+                            .padding(
+                                horizontal = 4.dp
+                            )
+                            .clip(
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .background(
+                                color = subBackground()
+                            )
+                            .onGloballyPositioned { coordinates ->
+                                itemHeight.value = with(localDensity) {
+                                    PERFUME_ITEM_HEIGHT = coordinates.size.height.toDp()
+                                    coordinates.size.height.toDp()
                                 }
-                        ) {
+                            }) {
                             Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
+                                modifier = Modifier.fillMaxSize()
                             ) {
                                 Image(
                                     modifier = Modifier
                                         .padding(
-                                            top = 8.dp,
-                                            start = 8.dp,
-                                            end = 8.dp
+                                            top = 8.dp, start = 8.dp, end = 8.dp
                                         )
                                         .size(160.dp)
                                         .clip(
@@ -588,61 +532,53 @@ fun HomeScreen() {
                                 )
                                 APText(
                                     modifier = Modifier.padding(
-                                        top = 4.dp,
-                                        start = 10.dp,
-                                        end = 10.dp
+                                        top = 4.dp, start = 10.dp, end = 10.dp
                                     ),
                                     text = perfume.perfumeName,
                                     fontColor = mainTextColor(),
                                     fontSize = 14.sp
                                 )
                                 APText(
-                                    modifier = Modifier
-                                        .padding(
-                                            horizontal = 10.dp
-                                        ),
+                                    modifier = Modifier.padding(
+                                        horizontal = 10.dp
+                                    ),
                                     text = perfume.brandName,
                                     fontColor = subTextColor(),
                                     fontSize = 12.sp
                                 )
-                                APAppendedText(
-                                    modifier = Modifier
-                                        .padding(
-                                            horizontal = 10.dp
+                                APAppendedText(modifier = Modifier
+                                    .padding(
+                                        horizontal = 10.dp
+                                    )
+                                    .padding(
+                                        bottom = 8.dp
+                                    ), annotatedString = buildAnnotatedString {
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = subTextColor(), fontSize = 12.sp
                                         )
-                                        .padding(
-                                            bottom = 8.dp
-                                        ),
-                                    annotatedString = buildAnnotatedString {
-                                        withStyle(
-                                            style = SpanStyle(
-                                                color = subTextColor(),
-                                                fontSize = 12.sp
-                                            )
-                                        ) {
-                                            append("5개 중")
-                                            append(" ")
-                                        }
-                                        withStyle(
-                                            style = SpanStyle(
-                                                color = mainColor(),
-                                                fontSize = 12.sp
-                                            )
-                                        ) {
-                                            append("${perfume.keywordCount}")
-                                        }
-                                        withStyle(
-                                            style = SpanStyle(
-                                                color = subTextColor(),
-                                                fontSize = 12.sp
-                                            )
-                                        ) {
-                                            append(" ")
-                                            append("개")
-                                            append(" ")
-                                            append("일치")
-                                        }
-                                    })
+                                    ) {
+                                        append("5개 중")
+                                        append(" ")
+                                    }
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = mainColor(), fontSize = 12.sp
+                                        )
+                                    ) {
+                                        append("${perfume.keywordCount}")
+                                    }
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = subTextColor(), fontSize = 12.sp
+                                        )
+                                    ) {
+                                        append(" ")
+                                        append("개")
+                                        append(" ")
+                                        append("일치")
+                                    }
+                                })
                             }
                         }
                     }
@@ -670,11 +606,9 @@ fun HomeScreen() {
                                 )
 
                                 APText(
-                                    modifier = Modifier.padding(4.dp),
-                                    text = stringResource(
+                                    modifier = Modifier.padding(4.dp), text = stringResource(
                                         id = R.string.show_more
-                                    ),
-                                    fontColor = subTextColor()
+                                    ), fontColor = subTextColor()
                                 )
                             }
                         }
@@ -682,14 +616,12 @@ fun HomeScreen() {
                 }
 
                 Spacer(
-                    modifier = Modifier
-                        .height(12.dp)
+                    modifier = Modifier.height(12.dp)
                 )
 
                 APText(
                     modifier = Modifier.padding(
-                        horizontal = 12.dp,
-                        vertical = 16.dp
+                        horizontal = 12.dp, vertical = 16.dp
                     ),
                     text = stringResource(id = R.string.popular_brands),
                     fontSize = 20.sp,
@@ -697,49 +629,31 @@ fun HomeScreen() {
                 )
 
                 Brand(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 4.dp,
-                            horizontal = 12.dp
-                        ),
-                    brandName = "Versace",
-                    brandImage = painterResource(
+                    modifier = Modifier.padding(
+                        vertical = 4.dp, horizontal = 12.dp
+                    ), brandName = "Versace", brandImage = painterResource(
                         id = R.drawable.brand_test_0
-                    ),
-                    brandPerfumeCount = 13,
-                    brandHit = 312
+                    ), brandPerfumeCount = 13, brandHit = 312
                 ) {
 
                 }
 
                 Brand(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 4.dp,
-                            horizontal = 12.dp
-                        ),
-                    brandName = "Chanel",
-                    brandImage = painterResource(
+                    modifier = Modifier.padding(
+                        vertical = 4.dp, horizontal = 12.dp
+                    ), brandName = "Chanel", brandImage = painterResource(
                         id = R.drawable.brand_test_1
-                    ),
-                    brandPerfumeCount = 18,
-                    brandHit = 221
+                    ), brandPerfumeCount = 18, brandHit = 221
                 ) {
 
                 }
 
                 Brand(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 4.dp,
-                            horizontal = 12.dp
-                        ),
-                    brandName = "Lamborghini",
-                    brandImage = painterResource(
+                    modifier = Modifier.padding(
+                        vertical = 4.dp, horizontal = 12.dp
+                    ), brandName = "Lamborghini", brandImage = painterResource(
                         id = R.drawable.brand_test_2
-                    ),
-                    brandPerfumeCount = 3,
-                    brandHit = 123
+                    ), brandPerfumeCount = 3, brandHit = 123
                 ) {
 
                 }
@@ -757,20 +671,15 @@ fun HomeScreen() {
                 }
 
                 Spacer(
-                    modifier = Modifier
-                        .height(12.dp)
+                    modifier = Modifier.height(12.dp)
                 )
 
                 APText(
                     modifier = Modifier.padding(
-                        horizontal = 12.dp,
-                        vertical = 16.dp
-                    ),
-                    text = stringResource(
+                        horizontal = 12.dp, vertical = 16.dp
+                    ), text = stringResource(
                         id = R.string.popular_perfumes
-                    ),
-                    fontSize = 20.sp,
-                    fontType = FontType.Bold
+                    ), fontSize = 20.sp, fontType = FontType.Bold
                 )
 
                 Row(
@@ -865,8 +774,7 @@ fun HomeScreen() {
                 }
 
                 Spacer(
-                    modifier = Modifier
-                        .height(36.dp)
+                    modifier = Modifier.height(36.dp)
                 )
             }
         }
@@ -884,8 +792,7 @@ fun PopularPerfume(
     brandName: String,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         Image(
             modifier = Modifier
@@ -894,22 +801,14 @@ fun PopularPerfume(
                     shape = RoundedCornerShape(12.dp)
                 )
                 .background(contentBackground())
-                .padding(10.dp),
-            painter = painterResource(
+                .padding(10.dp), painter = painterResource(
                 id = image
-            ),
-            contentDescription = "perfumeImage",
-            contentScale = ContentScale.FillBounds
+            ), contentDescription = "perfumeImage", contentScale = ContentScale.FillBounds
         )
         APText(
             modifier = Modifier.padding(
-                top = 4.dp,
-                start = 8.dp,
-                end = 8.dp
-            ),
-            text = perfumeName,
-            fontColor = mainTextColor(),
-            fontSize = 12.sp
+                top = 4.dp, start = 8.dp, end = 8.dp
+            ), text = perfumeName, fontColor = mainTextColor(), fontSize = 12.sp
         )
         APText(
             modifier = Modifier
@@ -918,10 +817,7 @@ fun PopularPerfume(
                 )
                 .padding(
                     bottom = 8.dp
-                ),
-            text = brandName,
-            fontColor = subTextColor(),
-            fontSize = 10.sp
+                ), text = brandName, fontColor = subTextColor(), fontSize = 10.sp
         )
     }
 }
