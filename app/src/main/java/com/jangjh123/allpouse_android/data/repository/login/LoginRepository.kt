@@ -10,8 +10,6 @@ import com.jangjh123.allpouse_android.data.remote.model.ResponseState
 import com.jangjh123.allpouse_android.util.ioScope
 import com.jangjh123.data_store.LOGIN_TYPE
 import com.jangjh123.data_store.SOCIAL_ID
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
 
 class LoginRepository(
     private val networkHelper: NetworkHelper,
@@ -24,7 +22,9 @@ class LoginRepository(
         age: Int,
         gender: String,
         loginType: String,
-    ) = callbackFlow {
+        onSuccess: (ResponseState.OnSuccess) -> Unit,
+        onFailure: (ResponseState.OnFailure) -> Unit
+    ) {
         networkHelper.client()
             .signUp(
                 socialId = socialId,
@@ -35,18 +35,21 @@ class LoginRepository(
                 loginType = loginType
             ).enqueue(object : APCallback<JsonObject>() {
                 override fun onSuccess(data: JsonObject) {
-                    ioScope {
-                        send(ResponseState.OnSuccess(data = null))
-                    }
+                    onSuccess(
+                        ResponseState.OnSuccess(
+                            data = null
+                        )
+                    )
                 }
 
                 override fun onFailure(errorMessage: String) {
-                    ioScope {
-                        send(ResponseState.OnFailure(errorMessage = errorMessage))
-                    }
+                    onFailure(
+                        ResponseState.OnFailure(
+                            errorMessage = errorMessage
+                        )
+                    )
                 }
             })
-        awaitClose()
     }
 
     fun storeSignedValue(
