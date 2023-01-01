@@ -6,7 +6,7 @@ data class Perfume(
     val brandId: Int,
     val brandName: String,
     val id: Int,
-    val imagePath: List<String>?,
+    val imagePath: List<String>? = null,
     @SerializedName(value = "subject")
     val perfumeName: String
 )

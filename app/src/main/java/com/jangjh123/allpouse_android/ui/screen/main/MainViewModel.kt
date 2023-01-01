@@ -3,6 +3,7 @@ package com.jangjh123.allpouse_android.ui.screen.main
 import androidx.lifecycle.ViewModel
 import com.jangjh123.allpouse_android.data.model.Brand
 import com.jangjh123.allpouse_android.data.model.Perfume
+import com.jangjh123.allpouse_android.data.model.Post
 import com.jangjh123.allpouse_android.data.remote.NoParameterRequiredData
 import com.jangjh123.allpouse_android.data.repository.main.MainRepository
 import com.jangjh123.allpouse_android.ui.component.UiState
@@ -32,7 +33,7 @@ class MainViewModel @Inject constructor(
                     "api/v1/perfume"
                 }
                 is NoParameterRequiredData.BestPostList -> {
-                    ""
+                    "api/v1/post/popular"
                 }
                 is NoParameterRequiredData.AgeGenderPopularPerfumeList -> {
                     ""
@@ -50,8 +51,7 @@ class MainViewModel @Inject constructor(
                     Perfume::class.java
                 }
                 is NoParameterRequiredData.BestPostList -> {
-                    String::class.java
-                    // todo : will be changed
+                    Post::class.java
                 }
                 is NoParameterRequiredData.AgeGenderPopularPerfumeList -> {
                     String::class.java
