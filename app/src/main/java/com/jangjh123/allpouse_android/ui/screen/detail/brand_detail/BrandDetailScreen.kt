@@ -79,85 +79,85 @@ fun BrandDetailScreen() {
                 fontType = FontType.Bold
             )
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                with(dummyPerfumesForYou) {
-                    Perfume(
-                        modifier = Modifier
-                            .padding(
-                                start = 12.dp,
-                                end = 6.dp
-                            )
-                            .padding(
-                                vertical = 12.dp
-                            )
-                            .weight(0.5f),
-                        perfumeName = get(0).perfumeName,
-                        brandName = get(0).brandName,
-                        image = painterResource(
-                            id = get(0).image
-                        ),
-                        keywordCount = get(0).keywordCount
-                    )
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            ) {
+//                with(dummyPerfumesForYou) {
+//                    Perfume(
+//                        modifier = Modifier
+//                            .padding(
+//                                start = 12.dp,
+//                                end = 6.dp
+//                            )
+//                            .padding(
+//                                vertical = 12.dp
+//                            )
+//                            .weight(0.5f),
+//                        perfumeName = get(0).perfumeName,
+//                        brandName = get(0).brandName,
+//                        image = painterResource(
+//                            id = get(0).image
+//                        ),
+//                        keywordCount = get(0).keywordCount
+//                    )
+//
+//                    Perfume(
+//                        modifier = Modifier
+//                            .padding(
+//                                start = 6.dp,
+//                                end = 12.dp
+//                            )
+//                            .padding(
+//                                vertical = 12.dp
+//                            )
+//                            .weight(0.5f),
+//                        perfumeName = get(1).perfumeName,
+//                        brandName = get(1).brandName,
+//                        image = painterResource(
+//                            id = get(1).image
+//                        ),
+//                        keywordCount = get(1).keywordCount
+//                    )
+//                }
+//            }
 
-                    Perfume(
-                        modifier = Modifier
-                            .padding(
-                                start = 6.dp,
-                                end = 12.dp
-                            )
-                            .padding(
-                                vertical = 12.dp
-                            )
-                            .weight(0.5f),
-                        perfumeName = get(1).perfumeName,
-                        brandName = get(1).brandName,
-                        image = painterResource(
-                            id = get(1).image
-                        ),
-                        keywordCount = get(1).keywordCount
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                with(dummyPerfumesForYou) {
-                    Perfume(
-                        modifier = Modifier
-                            .padding(
-                                start = 12.dp,
-                                end = 6.dp
-                            )
-                            .weight(0.5f),
-                        perfumeName = get(2).perfumeName,
-                        brandName = get(2).brandName,
-                        image = painterResource(
-                            id = get(2).image
-                        ),
-                        keywordCount = get(2).keywordCount
-                    )
-
-                    Perfume(
-                        modifier = Modifier
-                            .padding(
-                                start = 6.dp,
-                                end = 12.dp
-                            )
-                            .weight(0.5f),
-                        perfumeName = get(3).perfumeName,
-                        brandName = get(3).brandName,
-                        image = painterResource(
-                            id = get(3).image
-                        ),
-                        keywordCount = get(3).keywordCount
-                    )
-                }
-            }
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            ) {
+//                with(dummyPerfumesForYou) {
+//                    Perfume(
+//                        modifier = Modifier
+//                            .padding(
+//                                start = 12.dp,
+//                                end = 6.dp
+//                            )
+//                            .weight(0.5f),
+//                        perfumeName = get(2).perfumeName,
+//                        brandName = get(2).brandName,
+//                        image = painterResource(
+//                            id = get(2).image
+//                        ),
+//                        keywordCount = get(2).keywordCount
+//                    )
+//
+//                    Perfume(
+//                        modifier = Modifier
+//                            .padding(
+//                                start = 6.dp,
+//                                end = 12.dp
+//                            )
+//                            .weight(0.5f),
+//                        perfumeName = get(3).perfumeName,
+//                        brandName = get(3).brandName,
+//                        image = painterResource(
+//                            id = get(3).image
+//                        ),
+//                        keywordCount = get(3).keywordCount
+//                    )
+//                }
+//            }
 
             RoundedCornerButton(
                 modifier = Modifier

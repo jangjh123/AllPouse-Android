@@ -16,11 +16,35 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: MainRepository
 ) : ViewModel() {
+    private val _userTasteKeywordListState = MutableStateFlow<UiState>(UiState.Loading)
+    val userTasteKeywordListState: StateFlow<UiState>
+        get() = _userTasteKeywordListState
+
     private val _recommendedPerfumeListState = MutableStateFlow<UiState>(UiState.Loading)
     val recommendedPerfumeListState: StateFlow<UiState>
         get() = _recommendedPerfumeListState
 
-    fun getNoParameterRequiredData(
+    private val _bestPostListState = MutableStateFlow<UiState>(UiState.Loading)
+    val bestPostListState: StateFlow<UiState>
+        get() = _bestPostListState
+
+    private val _ageGenderPopularPerfumeListState = MutableStateFlow<UiState>(UiState.Loading)
+    val ageGenderPopularPerfumeListState: StateFlow<UiState>
+        get() = _ageGenderPopularPerfumeListState
+
+    private val _popularBrandListState = MutableStateFlow<UiState>(UiState.Loading)
+    val popularBrandListState: StateFlow<UiState>
+        get() = _popularBrandListState
+
+    fun getHomeScreenData() {
+//                getNoParameterRequiredData(_userTasteKeywordListState, NoParameterRequiredData.UserTasteKeywordList)
+        getNoParameterRequiredData(_recommendedPerfumeListState, NoParameterRequiredData.RecommendedPerfumeList)
+        getNoParameterRequiredData(_bestPostListState, NoParameterRequiredData.BestPostList)
+//        getNoParameterRequiredData(_ageGenderPopularPerfumeListState, NoParameterRequiredData.AgeGenderPopularPerfumeList)
+        getNoParameterRequiredData(_popularBrandListState, NoParameterRequiredData.PopularBrandList)
+    }
+
+    private fun getNoParameterRequiredData(
         state: MutableStateFlow<UiState>,
         data: NoParameterRequiredData
     ) {

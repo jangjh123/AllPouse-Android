@@ -1,5 +1,6 @@
 package com.jangjh123.allpouse_android.data.remote.model
 
+import android.util.Log
 import com.google.gson.Gson
 import com.jangjh123.allpouse_android.data.remote.NETWORK_ERROR_MESSAGE
 import com.jangjh123.allpouse_android.data.remote.UNKNOWN_ERROR_MESSAGE
@@ -12,6 +13,7 @@ abstract class APCallback<T> : Callback<T> {
     protected abstract fun onFailure(errorMessage: String)
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
+        Log.d("ResponseCode", response.code().toString())
         if (response.body() != null) {
             onSuccess(response.body()!!)
         } else {

@@ -187,126 +187,126 @@ fun ReviewDetailScreen() {
             color = subBackground()
         )
 
-        Row(
-            modifier = Modifier
-                .align(CenterHorizontally)
-        ) {
-            Perfume(
-                modifier = Modifier
-                    .padding(8.dp),
-                perfumeName = "테스트 향수",
-                brandName = "테스트 브랜드",
-                image = painterResource(
-                    id = R.drawable.perfume_test_0
-                ),
-                keywordCount = 3
-            )
-
-            Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(CenterVertically)
-            ) {
-                val startWhenResumeValue0 = remember { mutableStateOf(false) }
-                val startWhenResumeValue1 = remember { mutableStateOf(false) }
-                val startWhenResumeValue2 = remember { mutableStateOf(false) }
-                val startWhenResumeValue3 = remember { mutableStateOf(false) }
-                val startWhenResumeValue4 = remember { mutableStateOf(false) }
-                val value0 =
-                    animateDpAsState(
-                        targetValue =
-                        if (startWhenResumeValue0.value) 80.dp
-                        else 0.dp
-                    )
-                val value1 =
-                    animateDpAsState(
-                        targetValue =
-                        if (startWhenResumeValue1.value) 60.dp
-                        else 0.dp
-                    )
-                val value2 =
-                    animateDpAsState(
-                        targetValue =
-                        if (startWhenResumeValue2.value) 90.dp
-                        else 0.dp
-                    )
-                val value3 =
-                    animateDpAsState(
-                        targetValue =
-                        if (startWhenResumeValue3.value) 40.dp
-                        else 0.dp
-                    )
-                val value4 =
-                    animateDpAsState(
-                        targetValue =
-                        if (startWhenResumeValue4.value) 70.dp
-                        else 0.dp
-                    )
-
-                LaunchedEffect(null) { // Test-Only
-                    scope.launch {
-                        delay(100L)
-                        startWhenResumeValue0.value = true
-                        delay(90L)
-                        startWhenResumeValue1.value = true
-                        delay(80L)
-                        startWhenResumeValue2.value = true
-                        delay(70L)
-                        startWhenResumeValue3.value = true
-                        delay(60L)
-                        startWhenResumeValue4.value = true
-                    }
-                }
-
-                AnimatedSpecValueBar(
-                    modifier = Modifier,
-                    specName = "지속력",
-                    specValue = value0
-                )
-                AnimatedSpecValueBar(
-                    modifier = Modifier
-                        .padding(
-                            top = 8.dp
-                        ),
-                    specName = "테스트",
-                    specValue = value1
-                )
-                AnimatedSpecValueBar(
-                    modifier = Modifier
-                        .padding(
-                            top = 8.dp
-                        ),
-                    specName = "시원함",
-                    specValue = value2
-                )
-                AnimatedSpecValueBar(
-                    modifier = Modifier
-                        .padding(
-                            top = 8.dp
-                        ),
-                    specName = "따뜻함",
-                    specValue = value3
-                )
-                AnimatedSpecValueBar(
-                    modifier = Modifier
-                        .padding(
-                            top = 8.dp
-                        ),
-                    specName = "가성비",
-                    specValue = value4
-                )
-
-                APText(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .align(CenterHorizontally),
-                    text = "4.32",
-                    fontType = FontType.Bold,
-                    fontSize = 24.sp,
-                    fontColor = mainColor()
-                )
-            }
-        }
+//        Row(
+//            modifier = Modifier
+//                .align(CenterHorizontally)
+//        ) {
+//            Perfume(
+//                modifier = Modifier
+//                    .padding(8.dp),
+//                perfumeName = "테스트 향수",
+//                brandName = "테스트 브랜드",
+//                imagePath = painterResource(
+//                    id = R.drawable.perfume_test_0
+//                ),
+//                keywordCount = 3
+//            )
+//
+//            Column(
+//                modifier = Modifier
+//                    .padding(8.dp)
+//                    .align(CenterVertically)
+//            ) {
+//                val startWhenResumeValue0 = remember { mutableStateOf(false) }
+//                val startWhenResumeValue1 = remember { mutableStateOf(false) }
+//                val startWhenResumeValue2 = remember { mutableStateOf(false) }
+//                val startWhenResumeValue3 = remember { mutableStateOf(false) }
+//                val startWhenResumeValue4 = remember { mutableStateOf(false) }
+//                val value0 =
+//                    animateDpAsState(
+//                        targetValue =
+//                        if (startWhenResumeValue0.value) 80.dp
+//                        else 0.dp
+//                    )
+//                val value1 =
+//                    animateDpAsState(
+//                        targetValue =
+//                        if (startWhenResumeValue1.value) 60.dp
+//                        else 0.dp
+//                    )
+//                val value2 =
+//                    animateDpAsState(
+//                        targetValue =
+//                        if (startWhenResumeValue2.value) 90.dp
+//                        else 0.dp
+//                    )
+//                val value3 =
+//                    animateDpAsState(
+//                        targetValue =
+//                        if (startWhenResumeValue3.value) 40.dp
+//                        else 0.dp
+//                    )
+//                val value4 =
+//                    animateDpAsState(
+//                        targetValue =
+//                        if (startWhenResumeValue4.value) 70.dp
+//                        else 0.dp
+//                    )
+//
+//                LaunchedEffect(null) { // Test-Only
+//                    scope.launch {
+//                        delay(100L)
+//                        startWhenResumeValue0.value = true
+//                        delay(90L)
+//                        startWhenResumeValue1.value = true
+//                        delay(80L)
+//                        startWhenResumeValue2.value = true
+//                        delay(70L)
+//                        startWhenResumeValue3.value = true
+//                        delay(60L)
+//                        startWhenResumeValue4.value = true
+//                    }
+//                }
+//
+//                AnimatedSpecValueBar(
+//                    modifier = Modifier,
+//                    specName = "지속력",
+//                    specValue = value0
+//                )
+//                AnimatedSpecValueBar(
+//                    modifier = Modifier
+//                        .padding(
+//                            top = 8.dp
+//                        ),
+//                    specName = "테스트",
+//                    specValue = value1
+//                )
+//                AnimatedSpecValueBar(
+//                    modifier = Modifier
+//                        .padding(
+//                            top = 8.dp
+//                        ),
+//                    specName = "시원함",
+//                    specValue = value2
+//                )
+//                AnimatedSpecValueBar(
+//                    modifier = Modifier
+//                        .padding(
+//                            top = 8.dp
+//                        ),
+//                    specName = "따뜻함",
+//                    specValue = value3
+//                )
+//                AnimatedSpecValueBar(
+//                    modifier = Modifier
+//                        .padding(
+//                            top = 8.dp
+//                        ),
+//                    specName = "가성비",
+//                    specValue = value4
+//                )
+//
+//                APText(
+//                    modifier = Modifier
+//                        .padding(8.dp)
+//                        .align(CenterHorizontally),
+//                    text = "4.32",
+//                    fontType = FontType.Bold,
+//                    fontSize = 24.sp,
+//                    fontColor = mainColor()
+//                )
+//            }
+//        }
 
         HorizontalPager(
             modifier = Modifier

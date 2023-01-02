@@ -45,9 +45,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.screen.main.board.DummyPost
-import com.jangjh123.allpouse_android.ui.screen.main.board.dummyPosts
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 
@@ -393,47 +393,43 @@ fun Perfume(
     modifier: Modifier,
     perfumeName: String,
     brandName: String,
-    image: Painter,
+    imagePath: String,
     keywordCount: Int
 ) {
-    Box(
+    Column(
         modifier = modifier
-            .wrapContentHeight()
-            .width(160.dp)
             .clip(
                 shape = RoundedCornerShape(12.dp)
             )
+            .width(160.dp)
+            .height(220.dp)
             .background(
                 color = subBackground()
-            )
+            ),
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
+        AsyncImage(
+            modifier = Modifier
+                .padding(8.dp)
+                .size(144.dp)
+                .clip(
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .background(contentBackground())
+                .padding(8.dp),
+            model = imagePath,
+            contentDescription = "perfumeImage",
+            contentScale = ContentScale.FillBounds
+        )
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .height(60.dp)
         ) {
-            Image(
-                modifier = Modifier
-                    .padding(
-                        top = 8.dp,
-                        start = 8.dp,
-                        end = 8.dp
-                    )
-                    .size(160.dp)
-                    .clip(
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .background(contentBackground())
-                    .padding(10.dp),
-                painter = image,
-                contentDescription = "perfumeImage",
-                contentScale = ContentScale.FillBounds
-            )
             APText(
                 modifier = Modifier
                     .padding(
-                        top = 4.dp,
-                        start = 10.dp,
-                        end = 10.dp
+                        horizontal = 8.dp
                     ),
                 text = perfumeName,
                 fontColor = mainTextColor(),
@@ -442,25 +438,22 @@ fun Perfume(
             APText(
                 modifier = Modifier
                     .padding(
-                        horizontal = 10.dp
+                        horizontal = 8.dp
                     ),
                 text = brandName,
                 fontColor = subTextColor(),
-                fontSize = 12.sp
+                fontSize = 10.sp
             )
             APAppendedText(
                 modifier = Modifier
                     .padding(
-                        horizontal = 10.dp
-                    )
-                    .padding(
-                        bottom = 8.dp
+                        horizontal = 8.dp
                     ),
                 annotatedString = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(
                             color = subTextColor(),
-                            fontSize = 12.sp
+                            fontSize = 10.sp
                         )
                     ) {
                         append("5개 중")
@@ -469,7 +462,7 @@ fun Perfume(
                     withStyle(
                         style = SpanStyle(
                             color = mainColor(),
-                            fontSize = 12.sp
+                            fontSize = 10.sp
                         )
                     ) {
                         append("$keywordCount")
@@ -477,7 +470,7 @@ fun Perfume(
                     withStyle(
                         style = SpanStyle(
                             color = subTextColor(),
-                            fontSize = 12.sp
+                            fontSize = 10.sp
                         )
                     ) {
                         append(" ")
@@ -1316,8 +1309,11 @@ inline fun <reified VM : ViewModel> composableActivityViewModel(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Post(
+    Perfume(
         modifier = Modifier,
-        post = dummyPosts[0]
+        perfumeName = "테스트",
+        brandName = "테스트",
+        imagePath = "https://miro.medium.com/max/720/1*iLQTWoBb1zMnl-SWdHmzvw.webp",
+        keywordCount = 2
     )
 }

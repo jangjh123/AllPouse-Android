@@ -119,26 +119,26 @@ fun SearchResultScreen() {
                         horizontal = 8.dp
                     )
             ) {
-                items(dummyPerfumesForYou) { perfume ->
-                    Perfume(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = 4.dp
-                            )
-                            .clip(
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(
-                                color = subBackground()
-                            ),
-                        perfumeName = perfume.perfumeName,
-                        brandName = perfume.brandName,
-                        image = painterResource(
-                            id = perfume.image
-                        ),
-                        keywordCount = perfume.keywordCount
-                    )
-                }
+//                items(dummyPerfumesForYou) { perfume ->
+//                    Perfume(
+//                        modifier = Modifier
+//                            .padding(
+//                                horizontal = 4.dp
+//                            )
+//                            .clip(
+//                                shape = RoundedCornerShape(12.dp)
+//                            )
+//                            .background(
+//                                color = subBackground()
+//                            ),
+//                        perfumeName = perfume.perfumeName,
+//                        brandName = perfume.brandName,
+//                        image = painterResource(
+//                            id = perfume.image
+//                        ),
+//                        keywordCount = perfume.keywordCount
+//                    )
+//                }
 
                 item {
                     Box(
