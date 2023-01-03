@@ -14,8 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: MainRepository
+    private val repository: MainRepository,
 ) : ViewModel() {
+    private val _adBannerListState = MutableStateFlow<UiState>(UiState.Loading)
+    val adBannerListState: StateFlow<UiState>
+        get() = _adBannerListState
+
     private val _userTasteKeywordListState = MutableStateFlow<UiState>(UiState.Loading)
     val userTasteKeywordListState: StateFlow<UiState>
         get() = _userTasteKeywordListState
@@ -36,18 +40,31 @@ class MainViewModel @Inject constructor(
     val popularBrandListState: StateFlow<UiState>
         get() = _popularBrandListState
 
-    fun getHomeScreenData() {
-//                getNoParameterRequiredData(_userTasteKeywordListState, NoParameterRequiredData.UserTasteKeywordList)
-        getNoParameterRequiredData(_recommendedPerfumeListState, NoParameterRequiredData.RecommendedPerfumeList)
-        getNoParameterRequiredData(_bestPostListState, NoParameterRequiredData.BestPostList)
-//        getNoParameterRequiredData(_ageGenderPopularPerfumeListState, NoParameterRequiredData.AgeGenderPopularPerfumeList)
-        getNoParameterRequiredData(_popularBrandListState, NoParameterRequiredData.PopularBrandList)
+    fun getHomeScreenData(
+        data: NoParameterRequiredData,
+    ) {
+        getNoParameterRequiredData(when (data) {
+            is NoParameterRequiredData.RecommendedPerfumeList -> {
+                _recommendedPerfumeListState
+            }
+            is NoParameterRequiredData.BestPostList -> {
+                _bestPostListState
+            }
+            is NoParameterRequiredData.PopularBrandList -> {
+                _popularBrandListState
+            }
+            else -> {
+                _recommendedPerfumeListState
+                // not working, will be changed
+            }
+        }, data)
     }
 
     private fun getNoParameterRequiredData(
         state: MutableStateFlow<UiState>,
-        data: NoParameterRequiredData
+        data: NoParameterRequiredData,
     ) {
+        state.value = UiState.Loading
         repository.getData(
             url = when (data) {
                 is NoParameterRequiredData.UserTasteKeywordList -> {

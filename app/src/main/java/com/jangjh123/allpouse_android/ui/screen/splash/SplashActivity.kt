@@ -60,33 +60,33 @@ class SplashActivity : ComponentActivity() {
         if (!isNetworkEnabled()) {
             noticeDialogState.value = true
         } else {
-            viewModel.signIn()
-            lifecycleScope.launch {
-                delay(1000L)
-                viewModel.signInState.collectLatest { state ->
-                    when (state) {
-                        is UiState.Loading -> {
-
-                        }
-                        is UiState.OnSuccess -> {
+//            viewModel.signIn()
+//            lifecycleScope.launch {
+//                delay(1000L)
+//                viewModel.signInState.collectLatest { state ->
+//                    when (state) {
+//                        is UiState.Loading -> {
+//
+//                        }
+//                        is UiState.OnSuccess -> {
                             startActivity(
                                 Intent(
                                     this@SplashActivity,
                                     MainActivity::class.java
                                 )
                             )
-                        }
-                        is UiState.OnFailure -> {
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    OnBoardingActivity::class.java
-                                )
-                            )
-                        }
-                    }
-                }
-            }
+//                        }
+//                        is UiState.OnFailure -> {
+//                            startActivity(
+//                                Intent(
+//                                    this@SplashActivity,
+//                                    OnBoardingActivity::class.java
+//                                )
+//                            )
+//                        }
+//                    }
+//                }
+//            }
         }
 
         setContent {

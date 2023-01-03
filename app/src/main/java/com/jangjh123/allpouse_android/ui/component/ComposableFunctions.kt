@@ -254,7 +254,7 @@ fun APTextField(
     onValueChanged: (String) -> Unit,
     focusManager: FocusManager,
     keyboardOptions: KeyboardOptions? = null,
-    singleLine: Boolean? = null
+    singleLine: Boolean? = null,
 ) {
     CompositionLocalProvider(LocalTextSelectionColors.provides(textSelectionColor())) {
         TextField(
@@ -281,7 +281,7 @@ fun RoundedCornerButton(
     text: String,
     backgroundColor: Color? = null,
     fontColor: Color? = null,
-    onClickButton: () -> Unit
+    onClickButton: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -317,7 +317,7 @@ fun RoundedCornerIconButton(
     fontColor: Color? = null,
     icon: Painter,
     iconTint: Color? = null,
-    onClickButton: () -> Unit
+    onClickButton: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -376,7 +376,7 @@ fun textFieldColors() = TextFieldDefaults.textFieldColors(
 
 @Composable
 fun CloseIcon(
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Icon(
         modifier = modifier,
@@ -394,7 +394,7 @@ fun Perfume(
     perfumeName: String,
     brandName: String,
     imagePath: String,
-    keywordCount: Int
+    keywordCount: Int,
 ) {
     Column(
         modifier = modifier
@@ -672,21 +672,21 @@ sealed class DummyComment {
         val date: String,
         val userProfileImage: Int,
         val body: String,
-        val commentsInComment: ArrayList<DummyCommentInReviewComment>
+        val commentsInComment: ArrayList<DummyCommentInReviewComment>,
     ) : DummyComment()
 
     data class DummyCommentInReviewComment(
         val userName: String,
         val date: String,
         val userProfileImage: Int,
-        val body: String
+        val body: String,
     ) : DummyComment()
 
     data class DummyPostComment(
         val authorName: String,
         val authorImage: Int,
         val date: String,
-        val body: String
+        val body: String,
     ) : DummyComment()
 }
 
@@ -694,7 +694,7 @@ sealed class DummyComment {
 @Composable
 fun Comment(
     modifier: Modifier,
-    comment: DummyComment
+    comment: DummyComment,
 ) {
     when (comment) {
         is DummyComment.DummyReviewComment -> {
@@ -892,7 +892,7 @@ fun Comment(
 @Composable
 fun Keyword(
     modifier: Modifier,
-    keyword: String
+    keyword: String,
 ) {
     Box(
         modifier = modifier
@@ -919,7 +919,7 @@ fun Brand(
     brandImage: Painter,
     brandPerfumeCount: Int,
     brandHit: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -1117,7 +1117,7 @@ fun PostWithBoardName(
 @Composable
 fun Post(
     modifier: Modifier,
-    post: DummyPost
+    post: DummyPost,
 ) {
     Column(
         modifier = modifier
@@ -1277,7 +1277,7 @@ fun Post(
 @Composable
 fun BackButton(
     modifier: Modifier,
-    onClickBackButton: () -> Unit
+    onClickBackButton: () -> Unit,
 ) {
     Icon(
         modifier = modifier
@@ -1293,12 +1293,58 @@ fun BackButton(
 }
 
 @Composable
+fun RetryBlock(
+    modifier: Modifier,
+    onClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(24.dp)
+                .align(CenterHorizontally),
+            painter = painterResource(
+                id = R.drawable.ic_error),
+            contentDescription = "no_result_icon",
+            tint = subTextColor()
+        )
+
+        APText(
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(
+                    top = 8.dp
+                ),
+            text = stringResource(
+                id = R.string.error_occurred),
+            fontColor = subTextColor(),
+            fontSize = 12.sp
+        )
+
+        APText(
+            modifier = Modifier
+                .padding(
+                    top = 8.dp
+                )
+                .clickableWithoutRipple {
+                    onClick()
+                }
+                .align(CenterHorizontally),
+            text = stringResource(
+                id = R.string.retry),
+            fontColor = mainColor()
+        )
+    }
+}
+
+@Composable
 fun getActivity() = LocalContext.current as ComponentActivity
 
 @Composable
 inline fun <reified VM : ViewModel> composableActivityViewModel(
     key: String? = null,
-    factory: ViewModelProvider.Factory? = null
+    factory: ViewModelProvider.Factory? = null,
 ): VM = viewModel(
     VM::class.java,
     getActivity(),
@@ -1309,11 +1355,8 @@ inline fun <reified VM : ViewModel> composableActivityViewModel(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Perfume(
-        modifier = Modifier,
-        perfumeName = "테스트",
-        brandName = "테스트",
-        imagePath = "https://miro.medium.com/max/720/1*iLQTWoBb1zMnl-SWdHmzvw.webp",
-        keywordCount = 2
-    )
+    RetryBlock(
+        modifier = Modifier) {
+
+    }
 }

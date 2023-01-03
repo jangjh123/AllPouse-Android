@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +33,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.data.model.Perfume
+import com.jangjh123.allpouse_android.data.remote.NoParameterRequiredData
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
@@ -79,7 +81,12 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 fun HomeScreen() {
     val adPagerState = rememberPagerState()
     val viewModel = composableActivityViewModel<MainViewModel>()
-    viewModel.getHomeScreenData()
+
+    with(viewModel) {
+        getHomeScreenData(NoParameterRequiredData.RecommendedPerfumeList)
+        getHomeScreenData(NoParameterRequiredData.BestPostList)
+        getHomeScreenData(NoParameterRequiredData.PopularBrandList)
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -258,16 +265,13 @@ fun HomeScreen() {
                         )
                     when (recommendedPerfumeListState.value) {
                         is UiState.Loading -> {
-
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .align(Center),
+                                color = mainColor()
+                            )
                         }
                         is UiState.OnSuccess -> {
-//                            LazyRow(
-//                                modifier = Modifier
-//                                    .wrapContentSize(),
-//                                contentPadding = PaddingValues(
-//                                    horizontal = 12.dp
-//                                )
-//                            ) {
                             LazyRow(
                                 modifier = Modifier
                                     .background(
@@ -324,7 +328,11 @@ fun HomeScreen() {
                             }
                         }
                         is UiState.OnFailure -> {
-
+                            RetryBlock(
+                                modifier = Modifier
+                                    .align(Center)) {
+                                viewModel.getHomeScreenData(NoParameterRequiredData.RecommendedPerfumeList)
+                            }
                         }
                     }
                 }
