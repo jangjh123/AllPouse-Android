@@ -1,5 +1,6 @@
 package com.jangjh123.allpouse_android.ui.component
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,10 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -31,6 +29,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
@@ -40,9 +39,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.screen.main.board.DummyPost
-import com.jangjh123.allpouse_android.ui.screen.main.board.dummyPosts
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 
@@ -249,7 +251,7 @@ fun APTextField(
     onValueChanged: (String) -> Unit,
     focusManager: FocusManager,
     keyboardOptions: KeyboardOptions? = null,
-    singleLine: Boolean? = null
+    singleLine: Boolean? = null,
 ) {
     CompositionLocalProvider(LocalTextSelectionColors.provides(textSelectionColor())) {
         TextField(
@@ -276,7 +278,7 @@ fun RoundedCornerButton(
     text: String,
     backgroundColor: Color? = null,
     fontColor: Color? = null,
-    onClickButton: () -> Unit
+    onClickButton: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -312,7 +314,7 @@ fun RoundedCornerIconButton(
     fontColor: Color? = null,
     icon: Painter,
     iconTint: Color? = null,
-    onClickButton: () -> Unit
+    onClickButton: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -371,7 +373,7 @@ fun textFieldColors() = TextFieldDefaults.textFieldColors(
 
 @Composable
 fun CloseIcon(
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     Icon(
         modifier = modifier,
@@ -388,47 +390,43 @@ fun Perfume(
     modifier: Modifier,
     perfumeName: String,
     brandName: String,
-    image: Painter,
-    keywordCount: Int
+    imagePath: String,
+    keywordCount: Int,
 ) {
-    Box(
+    Column(
         modifier = modifier
-            .wrapContentHeight()
-            .width(160.dp)
             .clip(
                 shape = RoundedCornerShape(12.dp)
             )
+            .width(160.dp)
+            .height(220.dp)
             .background(
                 color = subBackground()
-            )
+            ),
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
+        AsyncImage(
+            modifier = Modifier
+                .padding(8.dp)
+                .size(144.dp)
+                .clip(
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .background(contentBackground())
+                .padding(8.dp),
+            model = imagePath,
+            contentDescription = "perfumeImage",
+            contentScale = ContentScale.FillBounds
+        )
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .height(60.dp)
         ) {
-            Image(
-                modifier = Modifier
-                    .padding(
-                        top = 8.dp,
-                        start = 8.dp,
-                        end = 8.dp
-                    )
-                    .size(160.dp)
-                    .clip(
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    .background(contentBackground())
-                    .padding(10.dp),
-                painter = image,
-                contentDescription = "perfumeImage",
-                contentScale = ContentScale.FillBounds
-            )
             APText(
                 modifier = Modifier
                     .padding(
-                        top = 4.dp,
-                        start = 10.dp,
-                        end = 10.dp
+                        horizontal = 8.dp
                     ),
                 text = perfumeName,
                 fontColor = mainTextColor(),
@@ -437,25 +435,22 @@ fun Perfume(
             APText(
                 modifier = Modifier
                     .padding(
-                        horizontal = 10.dp
+                        horizontal = 8.dp
                     ),
                 text = brandName,
                 fontColor = subTextColor(),
-                fontSize = 12.sp
+                fontSize = 10.sp
             )
             APAppendedText(
                 modifier = Modifier
                     .padding(
-                        horizontal = 10.dp
-                    )
-                    .padding(
-                        bottom = 8.dp
+                        horizontal = 8.dp
                     ),
                 annotatedString = buildAnnotatedString {
                     withStyle(
                         style = SpanStyle(
                             color = subTextColor(),
-                            fontSize = 12.sp
+                            fontSize = 10.sp
                         )
                     ) {
                         append("5개 중")
@@ -464,7 +459,7 @@ fun Perfume(
                     withStyle(
                         style = SpanStyle(
                             color = mainColor(),
-                            fontSize = 12.sp
+                            fontSize = 10.sp
                         )
                     ) {
                         append("$keywordCount")
@@ -472,7 +467,7 @@ fun Perfume(
                     withStyle(
                         style = SpanStyle(
                             color = subTextColor(),
-                            fontSize = 12.sp
+                            fontSize = 10.sp
                         )
                     ) {
                         append(" ")
@@ -674,21 +669,21 @@ sealed class DummyComment {
         val date: String,
         val userProfileImage: Int,
         val body: String,
-        val commentsInComment: ArrayList<DummyCommentInReviewComment>
+        val commentsInComment: ArrayList<DummyCommentInReviewComment>,
     ) : DummyComment()
 
     data class DummyCommentInReviewComment(
         val userName: String,
         val date: String,
         val userProfileImage: Int,
-        val body: String
+        val body: String,
     ) : DummyComment()
 
     data class DummyPostComment(
         val authorName: String,
         val authorImage: Int,
         val date: String,
-        val body: String
+        val body: String,
     ) : DummyComment()
 }
 
@@ -696,7 +691,7 @@ sealed class DummyComment {
 @Composable
 fun Comment(
     modifier: Modifier,
-    comment: DummyComment
+    comment: DummyComment,
 ) {
     when (comment) {
         is DummyComment.DummyReviewComment -> {
@@ -894,7 +889,7 @@ fun Comment(
 @Composable
 fun Keyword(
     modifier: Modifier,
-    keyword: String
+    keyword: String,
 ) {
     Box(
         modifier = modifier
@@ -918,10 +913,10 @@ fun Keyword(
 fun Brand(
     modifier: Modifier,
     brandName: String,
-    brandImage: Painter,
+    brandImage: String,
     brandPerfumeCount: Int,
     brandHit: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -936,6 +931,7 @@ fun Brand(
             .clickable {
                 onClick()
             }
+
     ) {
         Box(
             modifier = Modifier
@@ -948,17 +944,16 @@ fun Brand(
                     color = Color.White
                 )
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .clip(
                         shape = RoundedCornerShape(12.dp)
                     )
                     .padding(12.dp)
                     .align(Center),
-                painter = brandImage,
+                model = brandImage,
                 contentDescription = "brandLogoImage",
-                contentScale = ContentScale.Inside
-            )
+                contentScale = ContentScale.Inside)
         }
 
         Column(
@@ -1027,7 +1022,7 @@ fun PostWithBoardName(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .height(40.dp)
             .clip(
                 shape = RoundedCornerShape(12.dp)
             )
@@ -1044,7 +1039,8 @@ fun PostWithBoardName(
                     )
                     .padding(
                         vertical = 8.dp
-                    ),
+                    )
+                    .align(CenterVertically),
                 text = board,
                 fontSize = 10.sp,
                 fontColor = mainColor()
@@ -1119,7 +1115,7 @@ fun PostWithBoardName(
 @Composable
 fun Post(
     modifier: Modifier,
-    post: DummyPost
+    post: DummyPost,
 ) {
     Column(
         modifier = modifier
@@ -1279,7 +1275,7 @@ fun Post(
 @Composable
 fun BackButton(
     modifier: Modifier,
-    onClickBackButton: () -> Unit
+    onClickBackButton: () -> Unit,
 ) {
     Icon(
         modifier = modifier
@@ -1294,11 +1290,81 @@ fun BackButton(
     )
 }
 
+@Composable
+fun RetryBlock(
+    modifier: Modifier,
+    onClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(24.dp)
+                .align(CenterHorizontally),
+            painter = painterResource(
+                id = R.drawable.ic_error),
+            contentDescription = "no_result_icon",
+            tint = subTextColor()
+        )
+
+        APText(
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .padding(
+                    top = 8.dp
+                ),
+            text = stringResource(
+                id = R.string.error_occurred),
+            fontColor = subTextColor(),
+            fontSize = 12.sp
+        )
+
+        APText(
+            modifier = Modifier
+                .padding(
+                    top = 8.dp
+                )
+                .clickableWithoutRipple {
+                    onClick()
+                }
+                .align(CenterHorizontally),
+            text = stringResource(
+                id = R.string.retry),
+            fontColor = mainColor()
+        )
+    }
+}
+
+@Composable
+fun Loading(
+    modifier: Modifier,
+) {
+    CircularProgressIndicator(
+        modifier = modifier,
+        color = mainColor()
+    )
+}
+
+@Composable
+fun getActivity() = LocalContext.current as ComponentActivity
+
+@Composable
+inline fun <reified VM : ViewModel> composableActivityViewModel(
+    key: String? = null,
+    factory: ViewModelProvider.Factory? = null,
+): VM = viewModel(
+    VM::class.java,
+    getActivity(),
+    key,
+    factory
+)
+
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    Post(
-        modifier = Modifier,
-        post = dummyPosts[0]
-    )
+    RetryBlock(
+        modifier = Modifier) {
+
+    }
 }

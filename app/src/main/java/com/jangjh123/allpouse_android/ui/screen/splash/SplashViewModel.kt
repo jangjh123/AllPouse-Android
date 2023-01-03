@@ -1,7 +1,7 @@
 package com.jangjh123.allpouse_android.ui.screen.splash
 
 import androidx.lifecycle.ViewModel
-import com.jangjh123.allpouse_android.data.model.UiState
+import com.jangjh123.allpouse_android.ui.component.UiState
 import com.jangjh123.allpouse_android.data.repository.splash.SplashRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

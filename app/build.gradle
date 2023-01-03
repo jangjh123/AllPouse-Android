@@ -103,6 +103,10 @@ dependencies {
     // Datastore for migration from SharedPreferences
     implementation "androidx.datastore:datastore-preferences:$data_store_version"
     implementation "androidx.datastore:datastore-preferences-core:$data_store_version"
+
+    // Paging 3 for pagination
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
 }
 
 kapt {

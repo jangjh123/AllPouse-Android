@@ -42,7 +42,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.data.model.UiState
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.login.Gender.*
 import com.jangjh123.allpouse_android.ui.screen.login.image_crop.ImageCropActivity

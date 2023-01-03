@@ -25,6 +25,8 @@
     <string name="need_permission">%s 권한이 필요합니다.</string>
     <string name="network_disabled">네트워크에 연결되어 있지 않습니다.</string>
     <string name="quit">종료</string>
+    <string name="error_occurred">오류가 발생했습니다.</string>
+    <string name="retry">재시도</string>
 
     <!--    OnboardingActivity-->
     <string name="center_text_page_0">나를 위한 향수.</string>

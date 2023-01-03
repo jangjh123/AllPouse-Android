@@ -31,7 +31,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.data.model.UiState
+import com.jangjh123.allpouse_android.ui.component.UiState
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.NoticeDialog
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
@@ -60,33 +60,33 @@ class SplashActivity : ComponentActivity() {
         if (!isNetworkEnabled()) {
             noticeDialogState.value = true
         } else {
-            viewModel.signIn()
-            lifecycleScope.launch {
-                delay(1000L)
-                viewModel.signInState.collectLatest { state ->
-                    when (state) {
-                        is UiState.Loading -> {
-
-                        }
-                        is UiState.OnSuccess -> {
+//            viewModel.signIn()
+//            lifecycleScope.launch {
+//                delay(1000L)
+//                viewModel.signInState.collectLatest { state ->
+//                    when (state) {
+//                        is UiState.Loading -> {
+//
+//                        }
+//                        is UiState.OnSuccess -> {
                             startActivity(
                                 Intent(
                                     this@SplashActivity,
                                     MainActivity::class.java
                                 )
                             )
-                        }
-                        is UiState.OnFailure -> {
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    OnBoardingActivity::class.java
-                                )
-                            )
-                        }
-                    }
-                }
-            }
+//                        }
+//                        is UiState.OnFailure -> {
+//                            startActivity(
+//                                Intent(
+//                                    this@SplashActivity,
+//                                    OnBoardingActivity::class.java
+//                                )
+//                            )
+//                        }
+//                    }
+//                }
+//            }
         }
 
         setContent {

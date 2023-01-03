@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.data.model
+package com.jangjh123.allpouse_android.ui.component
 
 sealed class UiState {
     object Loading : UiState()
