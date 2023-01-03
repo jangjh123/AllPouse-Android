@@ -174,25 +174,22 @@ fun HomeScreen() {
 
                 LazyRow(
                     modifier = Modifier
-                        .wrapContentSize()
-                        .padding(
-                            horizontal = 10.dp
-                        )
+                        .wrapContentSize(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(
+                        horizontal = 12.dp
+                    )
                 ) {
                     items(dummyTasteKeyword) { tasteKeyword ->
                         Keyword(
-                            modifier = Modifier.padding(
-                                horizontal = 4.dp
-                            ), tasteKeyword
+                            modifier = Modifier,
+                            tasteKeyword
                         )
                     }
 
                     item {
                         Box(
                             modifier = Modifier
-                                .padding(
-                                    horizontal = 4.dp
-                                )
                                 .clip(
                                     shape = RoundedCornerShape(24.dp)
                                 )
