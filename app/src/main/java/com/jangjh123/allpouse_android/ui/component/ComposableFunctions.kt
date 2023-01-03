@@ -913,7 +913,7 @@ fun Keyword(
 fun Brand(
     modifier: Modifier,
     brandName: String,
-    brandImage: Painter,
+    brandImage: String,
     brandPerfumeCount: Int,
     brandHit: Int,
     onClick: () -> Unit,
@@ -931,6 +931,7 @@ fun Brand(
             .clickable {
                 onClick()
             }
+
     ) {
         Box(
             modifier = Modifier
@@ -943,17 +944,16 @@ fun Brand(
                     color = Color.White
                 )
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .clip(
                         shape = RoundedCornerShape(12.dp)
                     )
                     .padding(12.dp)
                     .align(Center),
-                painter = brandImage,
+                model = brandImage,
                 contentDescription = "brandLogoImage",
-                contentScale = ContentScale.Inside
-            )
+                contentScale = ContentScale.Inside)
         }
 
         Column(

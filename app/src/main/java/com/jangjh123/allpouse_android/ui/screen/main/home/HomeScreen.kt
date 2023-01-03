@@ -31,6 +31,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.data.model.Brand
 import com.jangjh123.allpouse_android.data.model.Perfume
 import com.jangjh123.allpouse_android.data.model.PostWithBoardName
 import com.jangjh123.allpouse_android.data.remote.NoParameterRequiredData
@@ -582,46 +583,67 @@ fun HomeScreen() {
                 fontType = FontType.Bold
             )
 
-            Brand(
-                modifier = Modifier.padding(
-                    vertical = 4.dp, horizontal = 12.dp
-                ), brandName = "Versace", brandImage = painterResource(
-                    id = R.drawable.brand_test_0
-                ), brandPerfumeCount = 13, brandHit = 312
-            ) {
-
-            }
-
-            Brand(
-                modifier = Modifier.padding(
-                    vertical = 4.dp, horizontal = 12.dp
-                ), brandName = "Chanel", brandImage = painterResource(
-                    id = R.drawable.brand_test_1
-                ), brandPerfumeCount = 18, brandHit = 221
-            ) {
-
-            }
-
-            Brand(
-                modifier = Modifier.padding(
-                    vertical = 4.dp, horizontal = 12.dp
-                ), brandName = "Lamborghini", brandImage = painterResource(
-                    id = R.drawable.brand_test_2
-                ), brandPerfumeCount = 3, brandHit = 123
-            ) {
-
-            }
-
-            RoundedCornerButton(
+            Box(
                 modifier = Modifier
-                    .padding(12.dp)
                     .fillMaxWidth()
-                    .height(50.dp),
-                text = stringResource(
-                    id = R.string.go_for_more_brands
-                )
+                    .heightIn(
+                        min = 200.dp
+                    )
             ) {
+                val popularBrandListState = viewModel.popularBrandListState.collectAsState(
+                    initial = UiState.Loading
+                )
 
+                when (popularBrandListState.value) {
+                    is UiState.Loading -> {
+                        Loading(
+                            modifier = Modifier
+                                .align(Center)
+                        )
+                    }
+                    is UiState.OnSuccess -> {
+                        Column(
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = 12.dp
+                                ),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            repeat(3) { index ->
+                                (((popularBrandListState.value as UiState.OnSuccess).data as List<*>)[index] as Brand).also { brand ->
+                                    brand.imagePath?.get(0)?.let {
+                                        Brand(
+                                            modifier = Modifier,
+                                            brandName = brand.name,
+                                            brandImage = it,
+                                            brandPerfumeCount = brand.id,
+                                            brandHit = brand.id) {
+                                        }
+                                    }
+                                }
+                            }
+
+                            RoundedCornerButton(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                                text = stringResource(
+                                    id = R.string.go_for_more_brands
+                                )
+                            ) {
+
+                            }
+                        }
+                    }
+                    is UiState.OnFailure -> {
+                        RetryBlock(modifier = Modifier
+                            .align(Center)) {
+                            viewModel.getHomeScreenData(
+                                data = NoParameterRequiredData.PopularBrandList
+                            )
+                        }
+                    }
+                }
             }
 
             Spacer(
