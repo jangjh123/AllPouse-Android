@@ -4,6 +4,7 @@ package com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -13,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -29,20 +31,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.data.model.PerfumeDetail
+import com.jangjh123.allpouse_android.data.model.PerfumeInfo
+import com.jangjh123.allpouse_android.data.model.Review
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.InformationContent
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.ReviewContent
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PerfumeDetailActivity : ComponentActivity() {
+    private val viewModel: PerfumeDetailViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.getPerfumeDetailScreenData(8) // todo test perfume id
+
         setContent {
             AllPouseAndroidTheme {
-                PerfumeDetailActivityContent()
+                PerfumeDetailActivityContent(
+                    perfumeDetailDataState = viewModel.perfumeDetailDataState,
+                    onClickRetry = {
+                        viewModel.getPerfumeDetailScreenData(8)
+                    }
+                )
             }
         }
     }
@@ -54,7 +72,10 @@ sealed class ContentState {
 }
 
 @Composable
-fun PerfumeDetailActivityContent() {
+fun PerfumeDetailActivityContent(
+    perfumeDetailDataState: StateFlow<UiState>,
+    onClickRetry: () -> Unit
+) {
     val scrollState = rememberScrollState()
     val nameSpaceHeightState = remember { mutableStateOf(0) }
     val contentState = remember { mutableStateOf<ContentState>(InformationContent) }
@@ -69,174 +90,212 @@ fun PerfumeDetailActivityContent() {
             else 0f
         )
     val scope = rememberCoroutineScope()
+    val perfumeDetailData = perfumeDetailDataState.collectAsState().value
 
-    Box {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(
-                    state = scrollState
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = background()
+            )
+    ) {
+        when (perfumeDetailData) {
+            is UiState.OnLoading -> {
+                Loading(
+                    modifier = Modifier
+                        .align(Center)
                 )
-                .background(
-                    color = subBackground()
-                )
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(SCREEN_HEIGHT_DP * 0.3f)
-                    .background(
-                        color = contentBackground()
-                    )
-            ) {
-                Image(
+            }
+            is UiState.OnSuccess -> {
+                val perfumeInfo = (perfumeDetailData.data as PerfumeDetail).perfumeInfo
+                val highRecommendReviews = perfumeDetailData.data.highRecommendReviews
+                val perfumerReviews = perfumeDetailData.data.perfumerReviews
+                val userReviews = perfumeDetailData.data.userReviews
+
+                Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(20.dp),
-                    painter = painterResource(
-                        id = R.drawable.perfume_test_0
-                    ),
-                    contentDescription = "perfumeImage"
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(
-                        start = 12.dp
-                    )
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .onGloballyPositioned { coordinates ->
-                        nameSpaceHeightState.value = coordinates.size.height
-                    }
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .height(12.dp)
-                )
-                APText(
-                    text = "테스트 향수 1996 Reissue",
-                    fontSize = 24.sp,
-                    fontType = FontType.Bold
-                )
-                APText(
-                    text = "테스트 브랜드",
-                    fontSize = 12.sp,
-                    fontColor = subTextColor()
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(12.dp)
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .clip(
-                        shape = RoundedCornerShape(
-                            topStart = 36.dp,
-                            topEnd = 36.dp
+                        .verticalScroll(
+                            state = scrollState
                         )
-                    )
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .background(
-                        color = background()
-                    )
-            ) {
-
-                Row(
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .align(CenterHorizontally)
-                        .padding(24.dp)
+                        .background(
+                            color = subBackground()
+                        )
                 ) {
-                    ContentButton(
+                    Box(
                         modifier = Modifier
-                            .weight(0.5f),
-                        content = stringResource(
-                            id = R.string.perfume_information
-                        ),
-                        contentState = contentState
+                            .fillMaxWidth()
+                            .height(SCREEN_HEIGHT_DP * 0.3f)
+                            .background(
+                                color = contentBackground()
+                            )
                     ) {
-                        contentState.value = InformationContent
+                        Image(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(20.dp),
+                            painter = painterResource(
+                                id = R.drawable.perfume_test_0
+                            ),
+                            contentDescription = "perfumeImage"
+                        )
                     }
 
+                    Column(
+                        modifier = Modifier
+                            .padding(
+                                start = 12.dp
+                            )
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .onGloballyPositioned { coordinates ->
+                                nameSpaceHeightState.value = coordinates.size.height
+                            }
+                    ) {
+                        Spacer(
+                            modifier = Modifier
+                                .height(12.dp)
+                        )
+                        APText(
+                            text = perfumeInfo.perfumeName,
+                            fontSize = 24.sp,
+                            fontType = FontType.Bold
+                        )
+                        APText(
+                            text = perfumeInfo.brandName,
+                            fontSize = 12.sp,
+                            fontColor = subTextColor()
+                        )
+                        Spacer(
+                            modifier = Modifier
+                                .height(12.dp)
+                        )
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .clip(
+                                shape = RoundedCornerShape(
+                                    topStart = 36.dp,
+                                    topEnd = 36.dp
+                                )
+                            )
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .background(
+                                color = background()
+                            )
+                    ) {
+
+                        Row(
+                            modifier = Modifier
+                                .wrapContentWidth()
+                                .align(CenterHorizontally)
+                                .padding(24.dp)
+                        ) {
+                            ContentButton(
+                                modifier = Modifier
+                                    .weight(0.5f),
+                                content = stringResource(
+                                    id = R.string.perfume_information
+                                ),
+                                contentState = contentState
+                            ) {
+                                contentState.value = InformationContent
+                            }
+
+                            Spacer(
+                                modifier = Modifier
+                                    .width(12.dp)
+                            )
+
+                            ContentButton(
+                                modifier = Modifier
+                                    .weight(0.5f),
+                                content = stringResource(
+                                    id = R.string.perfume_review
+                                ),
+                                contentState = contentState
+                            ) {
+                                contentState.value = ReviewContent
+                            }
+                        }
+
+                        when (contentState.value) {
+                            InformationContent -> {
+                                PerfumeDetailInformationContent(
+                                    perfumeInfo = perfumeInfo
+                                )
+                            }
+                            ReviewContent -> {
+                                PerfumeDetailReviewsContent(
+                                    highRecommendReviews = highRecommendReviews,
+                                    perfumerReviews = perfumerReviews,
+                                    userReviews = userReviews
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .alpha(newNameSpaceAlphaState.value)
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(
+                            color = subBackground()
+                        )
+                        .clickableWithoutRipple {
+                            scope.launch {
+                                scrollState.scrollTo(0)
+                            }
+                        }
+                ) {
                     Spacer(
                         modifier = Modifier
-                            .width(12.dp)
+                            .height(12.dp)
                     )
-
-                    ContentButton(
+                    APText(
                         modifier = Modifier
-                            .weight(0.5f),
-                        content = stringResource(
-                            id = R.string.perfume_review
-                        ),
-                        contentState = contentState
-                    ) {
-                        contentState.value = ReviewContent
-                    }
-                }
-
-                when (contentState.value) {
-                    InformationContent -> {
-                        PerfumeDetailInformationContent()
-                    }
-                    ReviewContent -> {
-                        PerfumeDetailReviewsContent()
-                    }
+                            .padding(
+                                start = 12.dp
+                            ),
+                        text = perfumeInfo.perfumeName,
+                        fontSize = 24.sp,
+                        fontType = FontType.Bold
+                    )
+                    APText(
+                        modifier = Modifier
+                            .padding(
+                                start = 12.dp
+                            ),
+                        text = perfumeInfo.brandName,
+                        fontSize = 12.sp,
+                        fontColor = subTextColor()
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(12.dp)
+                    )
                 }
             }
-        }
-
-        Column(
-            modifier = Modifier
-                .alpha(newNameSpaceAlphaState.value)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(
-                    color = subBackground()
-                )
-                .clickableWithoutRipple {
-                    scope.launch {
-                        scrollState.scrollTo(0)
-                    }
+            is UiState.OnFailure -> {
+                RetryBlock(
+                    modifier = Modifier
+                        .align(Center)
+                ) {
+                    onClickRetry()
                 }
-        ) {
-            Spacer(
-                modifier = Modifier
-                    .height(12.dp)
-            )
-            APText(
-                modifier = Modifier
-                    .padding(
-                        start = 12.dp
-                    ),
-                text = "테스트 향수 1996 Reissue",
-                fontSize = 24.sp,
-                fontType = FontType.Bold
-            )
-            APText(
-                modifier = Modifier
-                    .padding(
-                        start = 12.dp
-                    ),
-                text = "테스트 브랜드",
-                fontSize = 12.sp,
-                fontColor = subTextColor()
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(12.dp)
-            )
+            }
         }
     }
 }
 
 @Composable
-private fun PerfumeDetailInformationContent() {
+private fun PerfumeDetailInformationContent(
+    perfumeInfo: PerfumeInfo? // todo will be changed
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -250,7 +309,11 @@ private fun PerfumeDetailInformationContent() {
 }
 
 @Composable
-private fun PerfumeDetailReviewsContent() {
+private fun PerfumeDetailReviewsContent(
+    highRecommendReviews: List<Review>?,
+    perfumerReviews: List<Review>?,
+    userReviews: List<Review>?
+) {
     Column(
         modifier = Modifier
             .padding(
@@ -338,22 +401,30 @@ private fun PerfumeDetailReviewsContent() {
             fontType = FontType.Bold
         )
 
-        Review(
-            modifier = Modifier,
-            score = 4.32f,
-            perfumeName = "TestPerfume",
-            image = painterResource(
-                id = R.drawable.perfume_test_1
-            ),
-            title = "Test Title",
-            body = "Test Body",
-            author = "Test Author",
-            authorImage = painterResource(
-                id = R.drawable.ad_banner_2
-            ),
-            hit = 6554,
-            recommend = 32
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            highRecommendReviews.let { reviews ->
+                reviews?.forEach { review ->
+                    Review(
+                        modifier = Modifier,
+                        score = 4.32f,
+                        perfumeName = review.perfumeName,
+                        image = review.images?.get(0) ?: "",
+                        title = review.reviewTitle,
+                        body = review.content,
+                        author = review.userName,
+                        authorImage = painterResource(
+                            id = R.drawable.ad_banner_2
+                        ),
+                        hit = review.hitCount,
+                        recommend = review.recommendCount
+                    )
+                }
+            }
+        }
 
         Spacer(
             modifier = Modifier
@@ -394,65 +465,30 @@ private fun PerfumeDetailReviewsContent() {
             fontType = FontType.Bold
         )
 
-        Review(
+        Column(
             modifier = Modifier
-                .padding(
-                    vertical = 4.dp
-                ),
-            score = 4.32f,
-            perfumeName = "TestPerfume",
-            image = painterResource(
-                id = R.drawable.perfume_test_1
-            ),
-            title = "Test Title",
-            body = "Test Body",
-            author = "Test Author",
-            authorImage = painterResource(
-                id = R.drawable.ad_banner_2
-            ),
-            hit = 6554,
-            recommend = 32
-        )
-
-        Review(
-            modifier = Modifier
-                .padding(
-                    vertical = 4.dp
-                ),
-            score = 4.32f,
-            perfumeName = "TestPerfume",
-            image = painterResource(
-                id = R.drawable.perfume_test_1
-            ),
-            title = "Test Title",
-            body = "Test Body",
-            author = "Test Author",
-            authorImage = painterResource(
-                id = R.drawable.ad_banner_2
-            ),
-            hit = 6554,
-            recommend = 32
-        )
-
-        Review(
-            modifier = Modifier
-                .padding(
-                    vertical = 4.dp
-                ),
-            score = 4.32f,
-            perfumeName = "TestPerfume",
-            image = painterResource(
-                id = R.drawable.perfume_test_1
-            ),
-            title = "Test Title",
-            body = "Test Body",
-            author = "Test Author",
-            authorImage = painterResource(
-                id = R.drawable.ad_banner_2
-            ),
-            hit = 6554,
-            recommend = 32
-        )
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            perfumerReviews.let { reviews ->
+                reviews?.forEach { review ->
+                    Review(
+                        modifier = Modifier,
+                        score = 4.32f,
+                        perfumeName = review.perfumeName,
+                        image = review.images?.get(0) ?: "",
+                        title = review.reviewTitle,
+                        body = review.content,
+                        author = review.userName,
+                        authorImage = painterResource(
+                            id = R.drawable.ad_banner_2
+                        ),
+                        hit = review.hitCount,
+                        recommend = review.recommendCount
+                    )
+                }
+            }
+        }
 
         RoundedCornerButton(
             modifier = Modifier
@@ -510,64 +546,30 @@ private fun PerfumeDetailReviewsContent() {
             fontType = FontType.Bold
         )
 
-        Review(
+        Column(
             modifier = Modifier
-                .padding(
-                    vertical = 4.dp
-                ),
-            score = 4.32f,
-            perfumeName = "TestPerfume",
-            image = painterResource(
-                id = R.drawable.perfume_test_1
-            ),
-            title = "Test Title",
-            body = "Test Body",
-            author = "Test Author",
-            authorImage = painterResource(
-                id = R.drawable.ad_banner_2
-            ),
-            hit = 6554,
-            recommend = 32
-        )
-
-        Review(
-            modifier = Modifier
-                .padding(
-                    vertical = 4.dp
-                ),
-            score = 4.32f,
-            perfumeName = "TestPerfume",
-            image = painterResource(
-                id = R.drawable.perfume_test_1
-            ),
-            title = "Test Title",
-            body = "Test Body",
-            author = "Test Author",
-            authorImage = painterResource(
-                id = R.drawable.ad_banner_2
-            ),
-            hit = 6554,
-            recommend = 32
-        )
-
-        Review(
-            modifier = Modifier
-                .padding(
-                    vertical = 4.dp
-                ),
-            score = 4.32f,
-            perfumeName = "TestPerfume",
-            image = painterResource(
-                id = R.drawable.perfume_test_1
-            ),
-            title = "Test Title",
-            body = "Test Body",
-            author = "Test Author",
-            authorImage = painterResource
-                (id = R.drawable.ad_banner_2),
-            hit = 6554,
-            recommend = 32
-        )
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            userReviews.let { reviews ->
+                reviews?.forEach { review ->
+                    Review(
+                        modifier = Modifier,
+                        score = 4.32f,
+                        perfumeName = review.perfumeName,
+                        image = review.images?.get(0) ?: "",
+                        title = review.reviewTitle,
+                        body = review.content,
+                        author = review.userName,
+                        authorImage = painterResource(
+                            id = R.drawable.ad_banner_2
+                        ),
+                        hit = review.hitCount,
+                        recommend = review.recommendCount
+                    )
+                }
+            }
+        }
 
         RoundedCornerButton(
             modifier = Modifier
@@ -644,5 +646,4 @@ private fun ContentButton(
 @Preview(showBackground = true)
 @Composable
 private fun PerfumeDetailReviewsPreview() {
-    PerfumeDetailReviewsContent()
 }

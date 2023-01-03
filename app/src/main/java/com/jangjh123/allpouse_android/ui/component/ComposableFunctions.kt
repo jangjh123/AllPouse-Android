@@ -489,7 +489,7 @@ fun Review(
     modifier: Modifier,
     score: Float,
     perfumeName: String,
-    image: Painter,
+    image: String,
     title: String,
     body: String,
     author: String, // User
@@ -559,7 +559,7 @@ fun Review(
             }
 
             Row {
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .padding(4.dp)
                         .clip(
@@ -570,7 +570,7 @@ fun Review(
                         .background(
                             color = contentBackground()
                         ),
-                    painter = image,
+                    model = image,
                     contentDescription = "reviewImage",
                     contentScale = ContentScale.FillBounds
                 )

@@ -13,6 +13,7 @@ abstract class APCallback<T> : Callback<T> {
     protected abstract fun onFailure(errorMessage: String)
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
+        Log.d("RequestURL", call.request().url.toString())
         Log.d("ResponseCode", response.code().toString())
         Log.d("ResponseBody", response.body().toString())
         if (response.body() != null) {
