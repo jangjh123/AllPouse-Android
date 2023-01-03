@@ -2,13 +2,12 @@ package com.jangjh123.allpouse_android.ui.screen.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jangjh123.allpouse_android.data.remote.model.ResponseState
+import com.jangjh123.allpouse_android.data.model.UiState
 import com.jangjh123.allpouse_android.data.repository.login.LoginRepository
 import com.jangjh123.allpouse_android.ui.component.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,22 +35,19 @@ class LoginViewModel @Inject constructor(
                 age = age,
                 gender = gender,
                 loginType = loginType,
-            ).collectLatest { response ->
-                when (response) {
-                    is ResponseState.OnSuccess -> {
-                        _signUpState.value = UiState.OnSuccess()
-                        repository.storeSignedValue(
-                                socialId = socialId,
+                onSuccess = {
+                    _signUpState.value = UiState.OnSuccess()
+                    repository.storeSignedValue(
+                        socialId = socialId,
                         loginType = loginType
-                        )
-                    }
-                    is ResponseState.OnFailure -> {
-                        _signUpState.value = UiState.OnFailure(
-                            errorMessage = response.errorMessage
-                        )
-                    }
+                    )
+                },
+                onFailure = { response ->
+                    _signUpState.value = UiState.OnFailure(
+                        errorMessage = response.errorMessage
+                    )
                 }
-            }
+            )
         }
     }
 }
