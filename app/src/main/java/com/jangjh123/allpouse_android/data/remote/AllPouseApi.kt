@@ -2,10 +2,7 @@ package com.jangjh123.allpouse_android.data.remote
 
 import com.google.gson.JsonObject
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface AllPouseApi {
     @POST("sign-api/sign-in?")
@@ -27,5 +24,10 @@ interface AllPouseApi {
     @GET
     fun fetchDataByUrl(
         @Url url: String
+    ): Call<JsonObject>
+
+    @GET("api/v1/perfume/{perfumeId}")
+    fun fetchPerfumeDetail(
+        @Path("perfumeId") perfumeId: Int,
     ): Call<JsonObject>
 }

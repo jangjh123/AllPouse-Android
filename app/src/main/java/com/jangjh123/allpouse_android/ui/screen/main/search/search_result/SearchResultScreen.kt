@@ -192,65 +192,65 @@ fun SearchResultScreen() {
                         horizontal = 12.dp
                     )
             ) {
-                Review(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 4.dp
-                        ),
-                    score = 4.32f,
-                    perfumeName = "TestPerfume",
-                    image = painterResource(
-                        id = R.drawable.perfume_test_1
-                    ),
-                    title = "Test Title",
-                    body = "Test Body",
-                    author = "Test Author",
-                    authorImage = painterResource(
-                        id = R.drawable.ad_banner_2
-                    ),
-                    hit = 6554,
-                    recommend = 32
-                )
-
-                Review(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 4.dp
-                        ),
-                    score = 4.32f,
-                    perfumeName = "TestPerfume",
-                    image = painterResource(
-                        id = R.drawable.perfume_test_1
-                    ),
-                    title = "Test Title",
-                    body = "Test Body",
-                    author = "Test Author",
-                    authorImage = painterResource(
-                        id = R.drawable.ad_banner_2
-                    ),
-                    hit = 6554,
-                    recommend = 32
-                )
-
-                Review(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 4.dp
-                        ),
-                    score = 4.32f,
-                    perfumeName = "TestPerfume",
-                    image = painterResource(
-                        id = R.drawable.perfume_test_1
-                    ),
-                    title = "Test Title",
-                    body = "Test Body",
-                    author = "Test Author",
-                    authorImage = painterResource(
-                        id = R.drawable.ad_banner_2
-                    ),
-                    hit = 6554,
-                    recommend = 32
-                )
+//                Review(
+//                    modifier = Modifier
+//                        .padding(
+//                            vertical = 4.dp
+//                        ),
+//                    score = 4.32f,
+//                    perfumeName = "TestPerfume",
+//                    image = painterResource(
+//                        id = R.drawable.perfume_test_1
+//                    ),
+//                    title = "Test Title",
+//                    body = "Test Body",
+//                    author = "Test Author",
+//                    authorImage = painterResource(
+//                        id = R.drawable.ad_banner_2
+//                    ),
+//                    hit = 6554,
+//                    recommend = 32
+//                )
+//
+//                Review(
+//                    modifier = Modifier
+//                        .padding(
+//                            vertical = 4.dp
+//                        ),
+//                    score = 4.32f,
+//                    perfumeName = "TestPerfume",
+//                    image = painterResource(
+//                        id = R.drawable.perfume_test_1
+//                    ),
+//                    title = "Test Title",
+//                    body = "Test Body",
+//                    author = "Test Author",
+//                    authorImage = painterResource(
+//                        id = R.drawable.ad_banner_2
+//                    ),
+//                    hit = 6554,
+//                    recommend = 32
+//                )
+//
+//                Review(
+//                    modifier = Modifier
+//                        .padding(
+//                            vertical = 4.dp
+//                        ),
+//                    score = 4.32f,
+//                    perfumeName = "TestPerfume",
+//                    image = painterResource(
+//                        id = R.drawable.perfume_test_1
+//                    ),
+//                    title = "Test Title",
+//                    body = "Test Body",
+//                    author = "Test Author",
+//                    authorImage = painterResource(
+//                        id = R.drawable.ad_banner_2
+//                    ),
+//                    hit = 6554,
+//                    recommend = 32
+//                )
 
                 RoundedCornerButton(
                     modifier = Modifier
