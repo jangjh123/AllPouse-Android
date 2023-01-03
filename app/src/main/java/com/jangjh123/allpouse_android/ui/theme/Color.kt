@@ -33,8 +33,8 @@ fun contentBackground() =
 @Composable
 fun mainTextColor() =
     onDarkModeOrNot(
-        darkModeColor = Color(0xFFEFEFEF),
-        lightModeColor = Color(0xFF010101)
+        darkModeColor = Color(0xFFE0E0E0),
+        lightModeColor = Color(0xFF2A2A2A)
     )
 
 @Composable
