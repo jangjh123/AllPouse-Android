@@ -1,5 +1,9 @@
 package com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail
 
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -33,13 +37,24 @@ import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import kotlinx.coroutines.launch
 
+class PerfumeDetailActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            AllPouseAndroidTheme {
+                PerfumeDetailActivityContent()
+            }
+        }
+    }
+}
+
 sealed class ContentState {
     object InformationContent : ContentState()
     object ReviewContent : ContentState()
 }
 
 @Composable
-fun PerfumeDetail() {
+fun PerfumeDetailActivityContent() {
     val scrollState = rememberScrollState()
     val nameSpaceHeightState = remember { mutableStateOf(0) }
     val contentState = remember { mutableStateOf<ContentState>(InformationContent) }

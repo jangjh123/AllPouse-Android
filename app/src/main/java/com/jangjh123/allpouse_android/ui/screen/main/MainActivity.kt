@@ -1,5 +1,6 @@
 package com.jangjh123.allpouse_android.ui.screen.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,6 +36,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
+import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.PerfumeDetailActivity
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.board.BoardScreen
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
@@ -51,176 +53,182 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
 
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AllPouseAndroidTheme {
-                MainActivityContent()
-            }
-        }
-    }
-}
+                val navController = rememberAnimatedNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentScreen = navBackStackEntry?.destination
 
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-private fun MainActivityContent() {
-    val navController = rememberAnimatedNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = navBackStackEntry?.destination
+                Scaffold(
+                    topBar = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp)
+                                .background(
+                                    color = Color.Black
+                                )
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(18.dp)
+                                    .size(24.dp)
+                                    .align(Alignment.TopStart),
+                                painter = painterResource(
+                                    id = R.drawable.ic_notification
+                                ),
+                                contentDescription = "notice",
+                                tint = Color.White
+                            )
 
-    Scaffold(
-        topBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
-                    .background(
-                        color = Color.Black
-                    )
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(18.dp)
-                        .size(24.dp)
-                        .align(Alignment.TopStart),
-                    painter = painterResource(
-                        id = R.drawable.ic_notification
-                    ),
-                    contentDescription = "notice",
-                    tint = Color.White
-                )
+                            Text(
+                                modifier = Modifier.align(Alignment.Center),
+                                text = stringResource(
+                                    id = R.string.app
+                                ),
+                                color = Color.White,
+                                style = TextStyle(
+                                    platformStyle = PlatformTextStyle(
+                                        includeFontPadding = false
+                                    )
+                                ),
+                                fontFamily = cinzelExtraBold,
+                                fontSize = 24.sp,
+                                letterSpacing = (-1).sp
+                            )
 
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = stringResource(
-                        id = R.string.app
-                    ),
-                    color = Color.White,
-                    style = TextStyle(
-                        platformStyle = PlatformTextStyle(
-                            includeFontPadding = false
-                        )
-                    ),
-                    fontFamily = cinzelExtraBold,
-                    fontSize = 24.sp,
-                    letterSpacing = (-1).sp
-                )
+                            Icon(
+                                modifier = Modifier
+                                    .padding(18.dp)
+                                    .size(24.dp)
+                                    .align(Alignment.TopEnd)
+                                    .clickableWithoutRipple {
+                                        navController.navigate(Search.route) {
+                                            launchSingleTop = true
+                                            restoreState = true
+                                        }
+                                    },
+                                painter = painterResource(
+                                    id = R.drawable.ic_search
+                                ),
+                                contentDescription = "search",
+                                tint = Color.White
+                            )
+                        }
+                    },
+                    bottomBar = {
+                        BottomNavigation(
+                            modifier = Modifier
+                                .height(60.dp)
+                                .clip(
+                                    shape = RoundedCornerShape(
+                                        topStart = 12.dp,
+                                        topEnd = 12.dp
+                                    )
+                                ),
+                            backgroundColor = Color.Black
+                        ) {
+                            CustomBottomNavigationItem(
+                                screenName = stringResource(
+                                    id = R.string.home
+                                ),
+                                currentScreen = currentScreen,
+                                navController = navController,
+                                screen = Home,
+                                icon = painterResource(
+                                    id = R.drawable.ic_home
+                                )
+                            )
 
-                Icon(
-                    modifier = Modifier
-                        .padding(18.dp)
-                        .size(24.dp)
-                        .align(Alignment.TopEnd)
-                        .clickableWithoutRipple {
-                            navController.navigate(Search.route) {
-                                launchSingleTop = true
-                                restoreState = true
-                            }
+                            CustomBottomNavigationItem(
+                                screenName = stringResource(
+                                    id = R.string.perfume
+                                ),
+                                currentScreen = currentScreen,
+                                navController = navController,
+                                screen = PerfumeLookAround,
+                                icon = painterResource(
+                                    id = R.drawable.ic_perfume
+                                )
+                            )
+
+                            CustomBottomNavigationItem(
+                                screenName = stringResource(
+                                    id = R.string.board
+                                ),
+                                currentScreen = currentScreen,
+                                navController = navController,
+                                screen = Boards,
+                                icon = painterResource(
+                                    id = R.drawable.ic_board
+                                )
+                            )
+
+                            CustomBottomNavigationItem(
+                                screenName = stringResource(
+                                    id = R.string.my_info
+                                ),
+                                currentScreen = currentScreen,
+                                navController = navController,
+                                screen = MyInfo,
+                                icon = painterResource(
+                                    id = R.drawable.ic_my_info
+                                )
+                            )
+                        }
+                    }
+                ) { scaffoldPadding ->
+                    AnimatedNavHost(
+                        modifier = Modifier.padding(scaffoldPadding),
+                        navController = navController,
+                        startDestination = Home.route,
+                        enterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentScope.SlideDirection.Left,
+                                animationSpec = tween(300)
+                            )
                         },
-                    painter = painterResource(
-                        id = R.drawable.ic_search
-                    ),
-                    contentDescription = "search",
-                    tint = Color.White
-                )
+                        exitTransition = {
+                            slideOutOfContainer(
+                                AnimatedContentScope.SlideDirection.Left,
+                                animationSpec = tween(300)
+                            )
+                        },
+                        popEnterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentScope.SlideDirection.Right,
+                                animationSpec = tween(300)
+                            )
+                        },
+                        popExitTransition = {
+                            slideOutOfContainer(
+                                AnimatedContentScope.SlideDirection.Right,
+                                animationSpec = tween(300)
+                            )
+                        }
+                    ) {
+                        composable(Home.route) {
+                            HomeScreen(
+                                onClickPerfume = {
+                                    startActivity(
+                                        Intent(
+                                            this@MainActivity,
+                                            PerfumeDetailActivity::class.java
+                                        )
+                                    )
+                                }
+                            )
+                        }
+                        composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
+                        composable(Boards.route) { BoardScreen() }
+                        composable(MyInfo.route) { MyInfoScreen() }
+                        composable(Search.route) { SearchScreen(navController) }
+                    }
+                }
             }
-        },
-        bottomBar = {
-            BottomNavigation(
-                modifier = Modifier
-                    .height(60.dp)
-                    .clip(
-                        shape = RoundedCornerShape(
-                            topStart = 12.dp,
-                            topEnd = 12.dp
-                        )
-                    ),
-                backgroundColor = Color.Black
-            ) {
-                CustomBottomNavigationItem(
-                    screenName = stringResource(
-                        id = R.string.home
-                    ),
-                    currentScreen = currentScreen,
-                    navController = navController,
-                    screen = Home,
-                    icon = painterResource(
-                        id = R.drawable.ic_home
-                    )
-                )
-
-                CustomBottomNavigationItem(
-                    screenName = stringResource(
-                        id = R.string.perfume
-                    ),
-                    currentScreen = currentScreen,
-                    navController = navController,
-                    screen = PerfumeLookAround,
-                    icon = painterResource(
-                        id = R.drawable.ic_perfume
-                    )
-                )
-
-                CustomBottomNavigationItem(
-                    screenName = stringResource(
-                        id = R.string.board
-                    ),
-                    currentScreen = currentScreen,
-                    navController = navController,
-                    screen = Boards,
-                    icon = painterResource(
-                        id = R.drawable.ic_board
-                    )
-                )
-
-                CustomBottomNavigationItem(
-                    screenName = stringResource(
-                        id = R.string.my_info
-                    ),
-                    currentScreen = currentScreen,
-                    navController = navController,
-                    screen = MyInfo,
-                    icon = painterResource(
-                        id = R.drawable.ic_my_info
-                    )
-                )
-            }
-        }
-    ) { scaffoldPadding ->
-        AnimatedNavHost(
-            modifier = Modifier.padding(scaffoldPadding),
-            navController = navController,
-            startDestination = Home.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(300)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(300)
-                )
-            },
-            popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(300)
-                )
-            },
-            popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(300)
-                )
-            }
-        ) {
-            composable(Home.route) { HomeScreen() }
-            composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
-            composable(Boards.route) { BoardScreen() }
-            composable(MyInfo.route) { MyInfoScreen() }
-            composable(Search.route) { SearchScreen(navController) }
         }
     }
 }

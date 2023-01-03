@@ -392,6 +392,7 @@ fun Perfume(
     brandName: String,
     imagePath: String,
     keywordCount: Int,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -402,7 +403,10 @@ fun Perfume(
             .height(220.dp)
             .background(
                 color = subBackground()
-            ),
+            )
+            .clickableWithoutRipple {
+                onClick()
+            },
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         AsyncImage(
@@ -953,7 +957,8 @@ fun Brand(
                     .align(Center),
                 model = brandImage,
                 contentDescription = "brandLogoImage",
-                contentScale = ContentScale.Inside)
+                contentScale = ContentScale.Inside
+            )
         }
 
         Column(
@@ -1303,7 +1308,8 @@ fun RetryBlock(
                 .size(24.dp)
                 .align(CenterHorizontally),
             painter = painterResource(
-                id = R.drawable.ic_error),
+                id = R.drawable.ic_error
+            ),
             contentDescription = "no_result_icon",
             tint = subTextColor()
         )
@@ -1315,7 +1321,8 @@ fun RetryBlock(
                     top = 8.dp
                 ),
             text = stringResource(
-                id = R.string.error_occurred),
+                id = R.string.error_occurred
+            ),
             fontColor = subTextColor(),
             fontSize = 12.sp
         )
@@ -1330,7 +1337,8 @@ fun RetryBlock(
                 }
                 .align(CenterHorizontally),
             text = stringResource(
-                id = R.string.retry),
+                id = R.string.retry
+            ),
             fontColor = mainColor()
         )
     }
@@ -1364,7 +1372,8 @@ inline fun <reified VM : ViewModel> composableActivityViewModel(
 @Composable
 private fun Preview() {
     RetryBlock(
-        modifier = Modifier) {
+        modifier = Modifier
+    ) {
 
     }
 }

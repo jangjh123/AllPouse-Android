@@ -79,7 +79,9 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onClickPerfume: (Int) -> Unit
+) {
     val adPagerState = rememberPagerState()
     val viewModel = composableActivityViewModel<MainViewModel>()
 
@@ -284,7 +286,9 @@ fun HomeScreen() {
                                         brandName = perfume.brandName,
                                         imagePath = perfume.imagePath?.get(0) ?: "",
                                         keywordCount = perfume.id
-                                    )
+                                    ) {
+                                        onClickPerfume(perfume.id)
+                                    }
                                 }
 
                                 item {
@@ -324,7 +328,8 @@ fun HomeScreen() {
                         is UiState.OnFailure -> {
                             RetryBlock(
                                 modifier = Modifier
-                                    .align(Center)) {
+                                    .align(Center)
+                            ) {
                                 viewModel.getHomeScreenData(
                                     data = NoParameterRequiredData.RecommendedPerfumeList
                                 )
@@ -399,7 +404,8 @@ fun HomeScreen() {
                                         modifier = Modifier,
                                         board = post.board,
                                         postName = post.title,
-                                        like = post.hitCount)
+                                        like = post.hitCount
+                                    )
                                 }
                             }
 
@@ -418,7 +424,8 @@ fun HomeScreen() {
                     is UiState.OnFailure -> {
                         RetryBlock(
                             modifier = Modifier
-                                .align(Center)) {
+                                .align(Center)
+                        ) {
                             viewModel.getHomeScreenData(
                                 data = NoParameterRequiredData.BestPostList
                             )
@@ -614,7 +621,8 @@ fun HomeScreen() {
                                             brandName = brand.name,
                                             brandImage = it,
                                             brandPerfumeCount = brand.id,
-                                            brandHit = brand.id) {
+                                            brandHit = brand.id
+                                        ) {
                                         }
                                     }
                                 }
@@ -633,8 +641,10 @@ fun HomeScreen() {
                         }
                     }
                     is UiState.OnFailure -> {
-                        RetryBlock(modifier = Modifier
-                            .align(Center)) {
+                        RetryBlock(
+                            modifier = Modifier
+                                .align(Center)
+                        ) {
                             viewModel.getHomeScreenData(
                                 data = NoParameterRequiredData.PopularBrandList
                             )
@@ -798,5 +808,4 @@ fun PopularPerfume(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    HomeScreen()
 }
