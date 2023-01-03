@@ -259,10 +259,10 @@ fun HomeScreen() {
                 ) {
                     val recommendedPerfumeListState =
                         viewModel.recommendedPerfumeListState.collectAsState(
-                            initial = UiState.Loading
+                            initial = UiState.OnLoading
                         )
                     when (recommendedPerfumeListState.value) {
-                        is UiState.Loading -> {
+                        is UiState.OnLoading -> {
                             Loading(
                                 modifier = Modifier
                                     .align(Center)
@@ -378,11 +378,11 @@ fun HomeScreen() {
             ) {
 
                 val bestPostListState = viewModel.bestPostListState.collectAsState(
-                    initial = UiState.Loading
+                    initial = UiState.OnLoading
                 )
 
                 when (bestPostListState.value) {
-                    is UiState.Loading -> {
+                    is UiState.OnLoading -> {
                         Loading(
                             modifier = Modifier
                                 .align(Center)
@@ -591,11 +591,11 @@ fun HomeScreen() {
                     )
             ) {
                 val popularBrandListState = viewModel.popularBrandListState.collectAsState(
-                    initial = UiState.Loading
+                    initial = UiState.OnLoading
                 )
 
                 when (popularBrandListState.value) {
-                    is UiState.Loading -> {
+                    is UiState.OnLoading -> {
                         Loading(
                             modifier = Modifier
                                 .align(Center)

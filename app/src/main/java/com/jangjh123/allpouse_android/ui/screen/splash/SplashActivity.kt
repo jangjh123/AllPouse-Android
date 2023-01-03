@@ -65,7 +65,7 @@ class SplashActivity : ComponentActivity() {
 //                delay(1000L)
 //                viewModel.signInState.collectLatest { state ->
 //                    when (state) {
-//                        is UiState.Loading -> {
+//                        is UiState.OnLoading -> {
 //
 //                        }
 //                        is UiState.OnSuccess -> {

@@ -216,7 +216,7 @@ class LoginActivity : ComponentActivity() {
                         collectScope {
                             viewModel.signUpState.collectLatest { state ->
                                 when (state) {
-                                    is UiState.Loading -> {
+                                    is UiState.OnLoading -> {
 
                                     }
                                     is UiState.OnSuccess -> {

@@ -2,7 +2,6 @@ package com.jangjh123.allpouse_android.ui.screen.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jangjh123.allpouse_android.data.model.UiState
 import com.jangjh123.allpouse_android.data.repository.login.LoginRepository
 import com.jangjh123.allpouse_android.ui.component.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,9 +12,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: LoginRepository
+    private val repository: LoginRepository,
 ) : ViewModel() {
-    private val _signUpState = MutableStateFlow<UiState>(UiState.Loading)
+    private val _signUpState = MutableStateFlow<UiState>(UiState.OnLoading)
     val signUpState: StateFlow<UiState>
         get() = _signUpState
 
@@ -25,7 +24,7 @@ class LoginViewModel @Inject constructor(
         permission: String,
         age: Int,
         gender: String,
-        loginType: String
+        loginType: String,
     ) {
         viewModelScope.launch {
             repository.sendSignUp(
