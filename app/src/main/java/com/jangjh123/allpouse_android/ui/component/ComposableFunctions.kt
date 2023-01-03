@@ -11,10 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -1025,7 +1022,7 @@ fun PostWithBoardName(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .height(40.dp)
             .clip(
                 shape = RoundedCornerShape(12.dp)
             )
@@ -1042,7 +1039,8 @@ fun PostWithBoardName(
                     )
                     .padding(
                         vertical = 8.dp
-                    ),
+                    )
+                    .align(CenterVertically),
                 text = board,
                 fontSize = 10.sp,
                 fontColor = mainColor()
@@ -1336,6 +1334,16 @@ fun RetryBlock(
             fontColor = mainColor()
         )
     }
+}
+
+@Composable
+fun Loading(
+    modifier: Modifier,
+) {
+    CircularProgressIndicator(
+        modifier = modifier,
+        color = mainColor()
+    )
 }
 
 @Composable

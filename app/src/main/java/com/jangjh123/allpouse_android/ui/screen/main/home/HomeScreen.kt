@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +32,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.data.model.Perfume
+import com.jangjh123.allpouse_android.data.model.PostWithBoardName
 import com.jangjh123.allpouse_android.data.remote.NoParameterRequiredData
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
@@ -255,9 +255,6 @@ fun HomeScreen() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(220.dp)
-                        .background(
-                            color = background()
-                        )
                 ) {
                     val recommendedPerfumeListState =
                         viewModel.recommendedPerfumeListState.collectAsState(
@@ -265,10 +262,9 @@ fun HomeScreen() {
                         )
                     when (recommendedPerfumeListState.value) {
                         is UiState.Loading -> {
-                            CircularProgressIndicator(
+                            Loading(
                                 modifier = Modifier
-                                    .align(Center),
-                                color = mainColor()
+                                    .align(Center)
                             )
                         }
                         is UiState.OnSuccess -> {
@@ -331,7 +327,9 @@ fun HomeScreen() {
                             RetryBlock(
                                 modifier = Modifier
                                     .align(Center)) {
-                                viewModel.getHomeScreenData(NoParameterRequiredData.RecommendedPerfumeList)
+                                viewModel.getHomeScreenData(
+                                    data = NoParameterRequiredData.RecommendedPerfumeList
+                                )
                             }
                         }
                     }
@@ -341,6 +339,7 @@ fun HomeScreen() {
             Spacer(
                 modifier = Modifier.height(12.dp)
             )
+
             APAppendedText(
                 modifier = Modifier.padding(
                     horizontal = 12.dp, vertical = 16.dp
@@ -372,44 +371,63 @@ fun HomeScreen() {
                 }, fontSize = 20.sp, fontType = FontType.Bold
             )
 
-            PostWithBoardName(
-                modifier = Modifier.padding(
-                    horizontal = 12.dp
-                ), "조향사게시판", postName = "첫 번째 테스트 포스트", like = 33
-            )
-            PostWithBoardName(
-                modifier = Modifier.padding(
-                    horizontal = 12.dp
-                ), "조향사게시판", postName = "두 번째 테스트 포스트", like = 31
-            )
-            PostWithBoardName(
-                modifier = Modifier.padding(
-                    horizontal = 12.dp
-                ), "자유게시판", postName = "세 번째 테스트 포스트", like = 22
-            )
-            PostWithBoardName(
-                modifier = Modifier.padding(
-                    horizontal = 12.dp
-                ), "자유게시판", postName = "네 번째 테스트 포스트", like = 19
-            )
-            PostWithBoardName(
-                modifier = Modifier.padding(
-                    horizontal = 12.dp
-                ), "조향사게시판", postName = "다섯 번째 테스트 포스트", like = 15
-            )
-
-            RoundedCornerButton(
+            Box(
                 modifier = Modifier
-                    .padding(12.dp)
                     .fillMaxWidth()
-                    .height(50.dp),
-                text = stringResource(
-                    id = R.string.go_for_more_posts
-                )
             ) {
 
-            }
+                val bestPostListState = viewModel.bestPostListState.collectAsState(
+                    initial = UiState.Loading
+                )
 
+                when (bestPostListState.value) {
+                    is UiState.Loading -> {
+                        Loading(
+                            modifier = Modifier
+                                .align(Center)
+                        )
+                    }
+                    is UiState.OnSuccess -> {
+                        Column(
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = 12.dp
+                                ),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            repeat(4) { index ->
+                                (((bestPostListState.value as UiState.OnSuccess).data as List<*>)[index] as PostWithBoardName).also { post ->
+                                    PostWithBoardName(
+                                        modifier = Modifier,
+                                        board = post.board,
+                                        postName = post.title,
+                                        like = post.hitCount)
+                                }
+                            }
+
+                            RoundedCornerButton(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                                text = stringResource(
+                                    id = R.string.go_for_more_posts
+                                )
+                            ) {
+
+                            }
+                        }
+                    }
+                    is UiState.OnFailure -> {
+                        RetryBlock(
+                            modifier = Modifier
+                                .align(Center)) {
+                            viewModel.getHomeScreenData(
+                                data = NoParameterRequiredData.BestPostList
+                            )
+                        }
+                    }
+                }
+            }
 
             Spacer(
                 modifier = Modifier.height(12.dp)

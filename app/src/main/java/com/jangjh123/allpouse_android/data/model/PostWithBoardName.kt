@@ -2,7 +2,7 @@ package com.jangjh123.allpouse_android.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Post(
+data class PostWithBoardName(
     val id: Int,
     @SerializedName(value = "type")
     val board: String,

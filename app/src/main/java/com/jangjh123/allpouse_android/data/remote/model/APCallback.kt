@@ -14,6 +14,7 @@ abstract class APCallback<T> : Callback<T> {
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
         Log.d("ResponseCode", response.code().toString())
+        Log.d("ResponseBody", response.body().toString())
         if (response.body() != null) {
             onSuccess(response.body()!!)
         } else {
