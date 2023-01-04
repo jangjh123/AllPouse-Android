@@ -1,5 +1,7 @@
 package com.jangjh123.allpouse_android.ui.screen.main.home
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -36,6 +38,7 @@ import com.jangjh123.allpouse_android.data.model.Perfume
 import com.jangjh123.allpouse_android.data.model.PostWithBoardName
 import com.jangjh123.allpouse_android.data.remote.NoParameterRequiredData
 import com.jangjh123.allpouse_android.ui.component.*
+import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.PerfumeDetailActivity
 import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
@@ -80,7 +83,7 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen(
-    onClickPerfume: (Int) -> Unit
+    context: Context,
 ) {
     val adPagerState = rememberPagerState()
     val viewModel = composableActivityViewModel<MainViewModel>()
@@ -287,7 +290,11 @@ fun HomeScreen(
                                         imagePath = perfume.imagePath?.get(0) ?: "",
                                         keywordCount = perfume.id
                                     ) {
-                                        onClickPerfume(perfume.id)
+                                        context.startActivity(
+                                            Intent(
+                                                context,
+                                                PerfumeDetailActivity::class.java)
+                                        )
                                     }
                                 }
 

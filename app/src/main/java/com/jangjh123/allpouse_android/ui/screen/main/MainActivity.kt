@@ -212,14 +212,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Home.route) {
                             HomeScreen(
-                                onClickPerfume = {
-                                    startActivity(
-                                        Intent(
-                                            this@MainActivity,
-                                            PerfumeDetailActivity::class.java
-                                        )
-                                    )
-                                }
+                                context = this@MainActivity
                             )
                         }
                         composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
