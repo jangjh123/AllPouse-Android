@@ -88,10 +88,12 @@ fun HomeScreen(
     val adPagerState = rememberPagerState()
     val viewModel = composableActivityViewModel<MainViewModel>()
 
-    with(viewModel) {
-        getHomeScreenData(NoParameterRequiredData.RecommendedPerfumeList)
-        getHomeScreenData(NoParameterRequiredData.BestPostList)
-        getHomeScreenData(NoParameterRequiredData.PopularBrandList)
+    LaunchedEffect(null) {
+        with(viewModel) {
+            getHomeScreenData(NoParameterRequiredData.RecommendedPerfumeList)
+            getHomeScreenData(NoParameterRequiredData.BestPostList)
+            getHomeScreenData(NoParameterRequiredData.PopularBrandList)
+        }
     }
 
     LazyColumn(
