@@ -1,6 +1,5 @@
 package com.jangjh123.allpouse_android.ui.screen.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,7 +35,6 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
-import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.PerfumeDetailActivity
 import com.jangjh123.allpouse_android.ui.screen.main.Screen.*
 import com.jangjh123.allpouse_android.ui.screen.main.board.BoardScreen
 import com.jangjh123.allpouse_android.ui.screen.main.home.HomeScreen
@@ -210,11 +208,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) {
-                        composable(Home.route) {
-                            HomeScreen(
-                                context = this@MainActivity
-                            )
-                        }
+                        composable(Home.route) { HomeScreen() }
                         composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
                         composable(Boards.route) { BoardScreen() }
                         composable(MyInfo.route) { MyInfoScreen() }
@@ -232,7 +226,7 @@ private fun RowScope.CustomBottomNavigationItem(
     currentScreen: NavDestination?,
     navController: NavController,
     screen: Screen,
-    icon: Painter
+    icon: Painter,
 ) {
     currentScreen?.hierarchy?.let {
         BottomNavigationItem(

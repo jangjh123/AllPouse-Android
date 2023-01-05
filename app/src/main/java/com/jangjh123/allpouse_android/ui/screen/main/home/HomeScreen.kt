@@ -1,6 +1,5 @@
 package com.jangjh123.allpouse_android.ui.screen.main.home
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -82,10 +82,9 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HomeScreen(
-    context: Context,
-) {
+fun HomeScreen() {
     val adPagerState = rememberPagerState()
+    val context = LocalContext.current
     val viewModel = composableActivityViewModel<MainViewModel>()
 
     LaunchedEffect(null) {
