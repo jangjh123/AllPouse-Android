@@ -1,7 +1,6 @@
 package com.jangjh123.allpouse_android.ui.screen.detail.review_detail
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -34,10 +33,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
-import com.jangjh123.allpouse_android.ui.screen.main.home.dummyAds
 import com.jangjh123.allpouse_android.ui.theme.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -308,33 +304,33 @@ fun ReviewDetailScreen() {
 //            }
 //        }
 
-        HorizontalPager(
-            modifier = Modifier
-                .padding(
-                    top = 36.dp
-                )
-                .fillMaxWidth()
-                .height(200.dp),
-            state = pagerState,
-            count = dummyAds.size
-        ) { index ->
-            val item = dummyAds[index]
-            Image(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 24.dp
-                    )
-                    .clip(
-                        shape = RoundedCornerShape(24.dp)
-                    )
-                    .fillMaxSize(),
-                painter = painterResource(
-                    id = item
-                ),
-                contentDescription = "reviewImage",
-                contentScale = ContentScale.Crop
-            )
-        }
+//        HorizontalPager(
+//            modifier = Modifier
+//                .padding(
+//                    top = 36.dp
+//                )
+//                .fillMaxWidth()
+//                .height(200.dp),
+//            state = pagerState,
+//            count = dummyAds.size
+//        ) { index ->
+//            val item = dummyAds[index]
+//            Image(
+//                modifier = Modifier
+//                    .padding(
+//                        horizontal = 24.dp
+//                    )
+//                    .clip(
+//                        shape = RoundedCornerShape(24.dp)
+//                    )
+//                    .fillMaxSize(),
+//                painter = painterResource(
+//                    id = item
+//                ),
+//                contentDescription = "reviewImage",
+//                contentScale = ContentScale.Crop
+//            )
+//        }
 
         HorizontalPagerIndicator(
             modifier = Modifier

@@ -31,7 +31,6 @@ import com.jangjh123.allpouse_android.ui.component.DummyComment.DummyReviewComme
 import com.jangjh123.allpouse_android.ui.component.FontType
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import com.jangjh123.allpouse_android.ui.screen.detail.review_detail.dummyReviewComments
-import com.jangjh123.allpouse_android.ui.screen.main.home.dummyAds
 import com.jangjh123.allpouse_android.ui.screen.main.my_info.my_history.DummyHistoryPeriod.*
 import com.jangjh123.allpouse_android.ui.screen.main.my_info.my_history.DummyHistoryType.*
 import com.jangjh123.allpouse_android.ui.theme.*
@@ -177,10 +176,10 @@ fun MyHistoryScreen(
         items(
             when (type) {
                 MyLike -> {
-                    dummyAds
+                    dummyReviewComments
                 }
                 MyReview -> {
-                    dummyAds
+                    dummyReviewComments
                 }
                 MyComment -> {
                     dummyReviewComments

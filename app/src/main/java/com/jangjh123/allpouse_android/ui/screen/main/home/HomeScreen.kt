@@ -12,7 +12,6 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -45,14 +44,6 @@ import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.delay
-
-val dummyAds = listOf(
-    R.drawable.ad_banner_2,
-    R.drawable.ad_banner_1,
-    R.drawable.ad_banner_0,
-    R.drawable.ad_banner_1,
-    R.drawable.ad_banner_2
-)
 
 val dummyTasteKeyword = listOf(
     "남성적인", "고급스러운", "시크한", "오래 가는", "대용량"
@@ -134,7 +125,6 @@ fun HomeScreen(
                         is UiState.OnSuccess -> {
                             val adBannerList =
                                 (adBannerListState.value as UiState.OnSuccess).data as List<*>
-                            val adPagerScope = rememberCoroutineScope()
                             HorizontalPager(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -200,7 +190,7 @@ fun HomeScreen(
                         horizontal = 12.dp, vertical = 16.dp
                     ), text = stringResource(
                         id = R.string.taste_keyword
-                    ), fontSize = 20.sp, fontType = FontType.Bold
+                    ), fontSize = 18.sp, fontType = FontType.Bold
                 )
 
                 LazyRow(
@@ -251,7 +241,7 @@ fun HomeScreen(
                 }
 
                 Spacer(
-                    modifier = Modifier.height(12.dp)
+                    modifier = Modifier.height(36.dp)
                 )
 
                 APAppendedText(
@@ -277,7 +267,7 @@ fun HomeScreen(
                                 )
                             )
                         }
-                    }, fontSize = 20.sp, fontType = FontType.Bold
+                    }, fontSize = 18.sp, fontType = FontType.Bold
                 )
 
                 Box(
@@ -377,7 +367,7 @@ fun HomeScreen(
             }
 
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(36.dp)
             )
 
             APAppendedText(
@@ -408,7 +398,7 @@ fun HomeScreen(
                             )
                         )
                     }
-                }, fontSize = 20.sp, fontType = FontType.Bold
+                }, fontSize = 18.sp, fontType = FontType.Bold
             )
 
             Box(
@@ -475,7 +465,7 @@ fun HomeScreen(
             }
 
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(36.dp)
             )
 
             APText(
@@ -483,7 +473,7 @@ fun HomeScreen(
                     horizontal = 12.dp, vertical = 16.dp
                 ),
                 text = stringResource(R.string.age_gender_best, 20, "남성"),
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontType = FontType.Bold
             )
 
@@ -615,7 +605,7 @@ fun HomeScreen(
             }
 
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(36.dp)
             )
 
             APText(
@@ -623,16 +613,13 @@ fun HomeScreen(
                     horizontal = 12.dp, vertical = 16.dp
                 ),
                 text = stringResource(id = R.string.popular_brands),
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontType = FontType.Bold
             )
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(
-                        min = 200.dp
-                    )
             ) {
                 val popularBrandListState = viewModel.popularBrandListState.collectAsState(
                     initial = UiState.OnLoading
@@ -696,7 +683,7 @@ fun HomeScreen(
             }
 
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(36.dp)
             )
 
             APText(
@@ -704,7 +691,7 @@ fun HomeScreen(
                     horizontal = 12.dp, vertical = 16.dp
                 ), text = stringResource(
                     id = R.string.popular_perfumes
-                ), fontSize = 20.sp, fontType = FontType.Bold
+                ), fontSize = 18.sp, fontType = FontType.Bold
             )
 
             Row(
