@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -55,7 +56,9 @@ class PerfumeDetailActivity : ComponentActivity() {
 
         setContent {
             AllPouseAndroidTheme {
-                PerfumeDetailActivityContent()
+                ActivityFrame(this@PerfumeDetailActivity) {
+                    PerfumeDetailActivityContent()
+                }
             }
         }
     }
@@ -235,6 +238,7 @@ fun PerfumeDetailActivityContent(
                 Column(
                     modifier = Modifier
                         .alpha(newNameSpaceAlphaState.value)
+                        .shadow(4.dp)
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .background(
@@ -245,6 +249,7 @@ fun PerfumeDetailActivityContent(
                                 scrollState.scrollTo(0)
                             }
                         }
+
                 ) {
                     Spacer(
                         modifier = Modifier

@@ -1,5 +1,7 @@
 package com.jangjh123.allpouse_android.ui.component
 
+import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,6 +49,52 @@ sealed class FontType {
     object Light : FontType()
     object Medium : FontType()
     object Bold : FontType()
+}
+
+@Composable
+fun ActivityFrame(
+    context: Context,
+    block: @Composable () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .background(
+                    color = Color.Black
+                )
+        ) {
+            BackButton(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(24.dp)
+            ) {
+                (context as ComponentActivity).finish()
+            }
+
+            Text(
+                modifier = Modifier.align(Center),
+                text = stringResource(
+                    id = R.string.app
+                ),
+                color = Color.White,
+                style = TextStyle(
+                    platformStyle = PlatformTextStyle(
+                        includeFontPadding = false
+                    )
+                ),
+                fontFamily = cinzelExtraBold,
+                fontSize = 24.sp,
+                letterSpacing = (-1).sp
+            )
+        }
+
+        block()
+    }
 }
 
 @Composable
@@ -1286,7 +1334,7 @@ fun BackButton(
             id = R.drawable.ic_arrow_back
         ),
         contentDescription = "goBack",
-        tint = mainTextColor()
+        tint = Color.White
     )
 }
 

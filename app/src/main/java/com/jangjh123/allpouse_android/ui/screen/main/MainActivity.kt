@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Icon(
                                 modifier = Modifier
-                                    .padding(18.dp)
+                                    .padding(16.dp)
                                     .size(24.dp)
                                     .align(Alignment.TopStart),
                                 painter = painterResource(
@@ -100,7 +100,7 @@ class MainActivity : ComponentActivity() {
 
                             Icon(
                                 modifier = Modifier
-                                    .padding(18.dp)
+                                    .padding(16.dp)
                                     .size(24.dp)
                                     .align(Alignment.TopEnd)
                                     .clickableWithoutRipple {
