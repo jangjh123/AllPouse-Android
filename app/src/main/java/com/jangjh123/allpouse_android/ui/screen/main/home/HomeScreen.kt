@@ -271,6 +271,9 @@ fun HomeScreen(
                             )
                         }
                         is UiState.OnSuccess -> {
+                            val recommendedPerfumeList =
+                                (recommendedPerfumeListState.value as UiState.OnSuccess).data as List<*>
+
                             LazyRow(
                                 modifier = Modifier
                                     .background(
@@ -281,7 +284,7 @@ fun HomeScreen(
                                     horizontal = 12.dp
                                 )
                             ) {
-                                items((recommendedPerfumeListState.value as UiState.OnSuccess).data as List<*>) { perfume ->
+                                items(recommendedPerfumeList) { perfume ->
                                     perfume as Perfume
                                     Perfume(
                                         modifier = Modifier,
@@ -398,6 +401,9 @@ fun HomeScreen(
                         )
                     }
                     is UiState.OnSuccess -> {
+                        val bestPostList =
+                            (bestPostListState.value as UiState.OnSuccess).data as List<*>
+
                         Column(
                             modifier = Modifier
                                 .padding(
@@ -406,14 +412,14 @@ fun HomeScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             repeat(4) { index ->
-                                (((bestPostListState.value as UiState.OnSuccess).data as List<*>)[index] as PostWithBoardName).also { post ->
+                                ((bestPostList[index] as PostWithBoardName).also { post ->
                                     PostWithBoardName(
                                         modifier = Modifier,
                                         board = post.board,
                                         postName = post.title,
                                         like = post.hitCount
                                     )
-                                }
+                                })
                             }
 
                             RoundedCornerButton(
@@ -613,6 +619,8 @@ fun HomeScreen(
                         )
                     }
                     is UiState.OnSuccess -> {
+                        val popularBrandList =
+                            (popularBrandListState.value as UiState.OnSuccess).data as List<*>
                         Column(
                             modifier = Modifier
                                 .padding(
@@ -621,7 +629,7 @@ fun HomeScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             repeat(3) { index ->
-                                (((popularBrandListState.value as UiState.OnSuccess).data as List<*>)[index] as Brand).also { brand ->
+                                ((popularBrandList[index] as Brand).also { brand ->
                                     brand.imagePath?.get(0)?.let {
                                         Brand(
                                             modifier = Modifier,
@@ -632,7 +640,7 @@ fun HomeScreen(
                                         ) {
                                         }
                                     }
-                                }
+                                })
                             }
 
                             RoundedCornerButton(
