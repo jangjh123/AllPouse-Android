@@ -1,6 +1,7 @@
 package com.jangjh123.allpouse_android.ui.screen.main
 
 import androidx.lifecycle.ViewModel
+import com.jangjh123.allpouse_android.data.model.AdBanner
 import com.jangjh123.allpouse_android.data.model.Brand
 import com.jangjh123.allpouse_android.data.model.Perfume
 import com.jangjh123.allpouse_android.data.model.PostWithBoardName
@@ -43,21 +44,27 @@ class MainViewModel @Inject constructor(
     fun getHomeScreenData(
         data: NoParameterRequiredData,
     ) {
-        getNoParameterRequiredData(when (data) {
-            is NoParameterRequiredData.RecommendedPerfumeList -> {
-                _recommendedPerfumeListState
-            }
-            is NoParameterRequiredData.BestPostList -> {
-                _bestPostListState
-            }
-            is NoParameterRequiredData.PopularBrandList -> {
-                _popularBrandListState
-            }
-            else -> {
-                _recommendedPerfumeListState
-                // not working, will be changed
-            }
-        }, data)
+        getNoParameterRequiredData(
+            state = when (data) {
+                is NoParameterRequiredData.AdBannerList -> {
+                    _adBannerListState
+                }
+                is NoParameterRequiredData.RecommendedPerfumeList -> {
+                    _recommendedPerfumeListState
+                }
+                is NoParameterRequiredData.BestPostList -> {
+                    _bestPostListState
+                }
+                is NoParameterRequiredData.PopularBrandList -> {
+                    _popularBrandListState
+                }
+                else -> {
+                    _recommendedPerfumeListState
+                    // not working, will be changed
+                }
+            },
+            data = data
+        )
     }
 
     private fun getNoParameterRequiredData(
@@ -67,6 +74,9 @@ class MainViewModel @Inject constructor(
         state.value = UiState.OnLoading
         repository.getData(
             url = when (data) {
+                is NoParameterRequiredData.AdBannerList -> {
+                    "api/v1/banner"
+                }
                 is NoParameterRequiredData.UserTasteKeywordList -> {
                     ""
                 }
@@ -84,6 +94,9 @@ class MainViewModel @Inject constructor(
                 }
             },
             typeKey = when (data) {
+                is NoParameterRequiredData.AdBannerList -> {
+                    AdBanner::class.java
+                }
                 is NoParameterRequiredData.UserTasteKeywordList -> {
                     String::class.java
                     // todo : will be changed

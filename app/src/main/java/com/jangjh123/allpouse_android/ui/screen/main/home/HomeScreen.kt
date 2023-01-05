@@ -29,10 +29,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.data.model.AdBanner
 import com.jangjh123.allpouse_android.data.model.Brand
 import com.jangjh123.allpouse_android.data.model.Perfume
 import com.jangjh123.allpouse_android.data.model.PostWithBoardName
@@ -43,7 +45,6 @@ import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 val dummyAds = listOf(
     R.drawable.ad_banner_2,
@@ -90,6 +91,7 @@ fun HomeScreen(
 
     LaunchedEffect(null) {
         with(viewModel) {
+            getHomeScreenData(NoParameterRequiredData.AdBannerList)
             getHomeScreenData(NoParameterRequiredData.RecommendedPerfumeList)
             getHomeScreenData(NoParameterRequiredData.BestPostList)
             getHomeScreenData(NoParameterRequiredData.PopularBrandList)
@@ -115,57 +117,79 @@ fun HomeScreen(
                 val calculatedHeight = (screenWidth / 16F) * 9F
 
                 Box(
-                    modifier = Modifier.wrapContentSize()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(calculatedHeight)
                 ) {
-                    val adPagerScope = rememberCoroutineScope()
-                    HorizontalPager(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(calculatedHeight),
-                        state = adPagerState,
-                        count = dummyAds.size
-                    ) { idx ->
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            painter = painterResource(
-                                id = dummyAds[idx]
-                            ),
-                            contentDescription = "adBannerImage",
-                            contentScale = ContentScale.FillHeight
-                        )
-                    }
-
-
-                    Box(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .clip(
-                                shape = RoundedCornerShape(20.dp)
+                    val adBannerListState = viewModel.adBannerListState.collectAsState(
+                        initial = UiState.OnLoading
+                    )
+                    when (adBannerListState.value) {
+                        is UiState.OnLoading -> {
+                            Loading(
+                                modifier = Modifier
+                                    .align(Center)
                             )
-                            .width(48.dp)
-                            .height(24.dp)
-                            .background(
-                                color = darkFilter()
-                            )
-                            .align(Alignment.BottomEnd)
-                    ) {
-                        APText(
-                            modifier = Modifier.align(Center),
-                            text = "${adPagerState.currentPage + 1} / ${adPagerState.pageCount}",
-                            fontColor = Color.White,
-                            fontSize = 12.sp
-                        )
-                    }
+                        }
+                        is UiState.OnSuccess -> {
+                            val adBannerList =
+                                (adBannerListState.value as UiState.OnSuccess).data as List<*>
+                            val adPagerScope = rememberCoroutineScope()
+                            HorizontalPager(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(calculatedHeight),
+                                state = adPagerState,
+                                count = adBannerList.size
+                            ) { idx ->
+                                AsyncImage(
+                                    modifier = Modifier.fillMaxSize(),
+                                    model = (adBannerList[idx] as AdBanner).image,
+                                    contentDescription = "adBannerImage",
+                                    contentScale = ContentScale.FillHeight
+                                )
+                            }
 
-                    LaunchedEffect(null) {
-                        adPagerScope.launch {
-                            while (true) {
-                                delay(3000L)
-                                if (adPagerState.currentPage == dummyAds.lastIndex) {
-                                    adPagerState.animateScrollToPage(0)
-                                } else {
-                                    adPagerState.animateScrollToPage(adPagerState.currentPage + 1)
+                            Box(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .clip(
+                                        shape = RoundedCornerShape(20.dp)
+                                    )
+                                    .width(48.dp)
+                                    .height(24.dp)
+                                    .background(
+                                        color = darkFilter()
+                                    )
+                                    .align(Alignment.BottomEnd)
+                            ) {
+                                APText(
+                                    modifier = Modifier.align(Center),
+                                    text = "${adPagerState.currentPage + 1} / ${adPagerState.pageCount}",
+                                    fontColor = Color.White,
+                                    fontSize = 12.sp
+                                )
+                            }
+
+                            LaunchedEffect(null) {
+                                while (true) {
+                                    delay(3000L)
+                                    if (adPagerState.currentPage == adBannerList.lastIndex) {
+                                        adPagerState.animateScrollToPage(0)
+                                    } else {
+                                        adPagerState.animateScrollToPage(adPagerState.currentPage + 1)
+                                    }
                                 }
+                            }
+                        }
+                        is UiState.OnFailure -> {
+                            RetryBlock(
+                                modifier = Modifier
+                                    .align(Center)
+                            ) {
+                                viewModel.getHomeScreenData(
+                                    data = NoParameterRequiredData.AdBannerList
+                                )
                             }
                         }
                     }
@@ -298,7 +322,8 @@ fun HomeScreen(
                                         context.startActivity(
                                             Intent(
                                                 context,
-                                                PerfumeDetailActivity::class.java)
+                                                PerfumeDetailActivity::class.java
+                                            )
                                         )
                                     }
                                 }
