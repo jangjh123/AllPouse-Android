@@ -208,7 +208,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) {
-                        composable(Home.route) { HomeScreen() }
+                        composable(Home.route) { HomeScreen(viewModel) }
                         composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
                         composable(Boards.route) { BoardScreen() }
                         composable(MyInfo.route) { MyInfoScreen() }

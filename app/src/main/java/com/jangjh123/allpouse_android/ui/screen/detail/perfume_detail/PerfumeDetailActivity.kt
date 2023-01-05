@@ -30,6 +30,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.data.model.PerfumeDetail
 import com.jangjh123.allpouse_android.data.model.PerfumeInfo
@@ -37,12 +38,10 @@ import com.jangjh123.allpouse_android.data.model.Review
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.InformationContent
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.ReviewContent
-import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -56,9 +55,7 @@ class PerfumeDetailActivity : ComponentActivity() {
 
         setContent {
             AllPouseAndroidTheme {
-                PerfumeDetailActivityContent(
-                    viewModel = viewModel
-                )
+                PerfumeDetailActivityContent()
             }
         }
     }
@@ -71,7 +68,7 @@ sealed class ContentState {
 
 @Composable
 fun PerfumeDetailActivityContent(
-    viewModel: PerfumeDetailViewModel
+    viewModel: PerfumeDetailViewModel = viewModel(),
 ) {
     val scrollState = rememberScrollState()
     val nameSpaceHeightState = remember { mutableStateOf(0) }
@@ -291,7 +288,7 @@ fun PerfumeDetailActivityContent(
 
 @Composable
 private fun PerfumeDetailInformationContent(
-    perfumeInfo: PerfumeInfo? // todo will be changed
+    perfumeInfo: PerfumeInfo?, // todo will be changed
 ) {
     Column(
         modifier = Modifier
@@ -309,7 +306,7 @@ private fun PerfumeDetailInformationContent(
 private fun PerfumeDetailReviewsContent(
     highRecommendReviews: List<Review>?,
     perfumerReviews: List<Review>?,
-    userReviews: List<Review>?
+    userReviews: List<Review>?,
 ) {
     Column(
         modifier = Modifier
@@ -597,7 +594,7 @@ private fun ContentButton(
     modifier: Modifier,
     content: String,
     contentState: MutableState<ContentState>,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val textColorState =
         animateColorAsState(
