@@ -82,10 +82,11 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel : MainViewModel
+) {
     val adPagerState = rememberPagerState()
     val context = LocalContext.current
-    val viewModel = composableActivityViewModel<MainViewModel>()
 
     LaunchedEffect(null) {
         with(viewModel) {

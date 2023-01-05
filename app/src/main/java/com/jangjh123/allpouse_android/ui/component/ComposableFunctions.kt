@@ -1,6 +1,5 @@
 package com.jangjh123.allpouse_android.ui.component
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,7 +28,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
@@ -39,9 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.screen.main.board.DummyPost
@@ -392,7 +387,7 @@ fun Perfume(
     brandName: String,
     imagePath: String,
     keywordCount: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -1353,20 +1348,6 @@ fun Loading(
         color = mainColor()
     )
 }
-
-@Composable
-fun getActivity() = LocalContext.current as ComponentActivity
-
-@Composable
-inline fun <reified VM : ViewModel> composableActivityViewModel(
-    key: String? = null,
-    factory: ViewModelProvider.Factory? = null,
-): VM = viewModel(
-    VM::class.java,
-    getActivity(),
-    key,
-    factory
-)
 
 @Preview(showBackground = true)
 @Composable

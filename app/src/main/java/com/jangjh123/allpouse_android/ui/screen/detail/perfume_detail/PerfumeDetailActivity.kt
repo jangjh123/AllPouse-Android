@@ -37,6 +37,7 @@ import com.jangjh123.allpouse_android.data.model.Review
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.InformationContent
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.ReviewContent
+import com.jangjh123.allpouse_android.ui.screen.main.MainViewModel
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
@@ -56,10 +57,7 @@ class PerfumeDetailActivity : ComponentActivity() {
         setContent {
             AllPouseAndroidTheme {
                 PerfumeDetailActivityContent(
-                    perfumeDetailDataState = viewModel.perfumeDetailDataState,
-                    onClickRetry = {
-                        viewModel.getPerfumeDetailScreenData(8)
-                    }
+                    viewModel = viewModel
                 )
             }
         }
@@ -73,8 +71,7 @@ sealed class ContentState {
 
 @Composable
 fun PerfumeDetailActivityContent(
-    perfumeDetailDataState: StateFlow<UiState>,
-    onClickRetry: () -> Unit
+    viewModel: PerfumeDetailViewModel
 ) {
     val scrollState = rememberScrollState()
     val nameSpaceHeightState = remember { mutableStateOf(0) }
@@ -90,7 +87,7 @@ fun PerfumeDetailActivityContent(
             else 0f
         )
     val scope = rememberCoroutineScope()
-    val perfumeDetailData = perfumeDetailDataState.collectAsState().value
+    val perfumeDetailData = viewModel.perfumeDetailDataState.collectAsState().value
 
     Box(
         modifier = Modifier
@@ -285,7 +282,7 @@ fun PerfumeDetailActivityContent(
                     modifier = Modifier
                         .align(Center)
                 ) {
-                    onClickRetry()
+                    viewModel.getPerfumeDetailScreenData(8)
                 }
             }
         }

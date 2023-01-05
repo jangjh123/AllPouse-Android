@@ -19,6 +19,7 @@ class PerfumeDetailViewModel @Inject constructor(
     fun getPerfumeDetailScreenData(
         perfumeId: Int
     ) {
+        _perfumeDetailDataState.value = UiState.OnLoading
         repository.getPerfumeDetailData(
             perfumeId = perfumeId,
             onSuccess = { response ->
