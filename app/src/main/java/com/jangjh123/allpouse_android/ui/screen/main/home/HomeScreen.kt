@@ -28,6 +28,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemsIndexed
 import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -76,6 +79,7 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
+    paging: LazyPagingItems<Perfume>,
 ) {
     val adPagerState = rememberPagerState()
     val context = LocalContext.current
@@ -96,6 +100,8 @@ fun HomeScreen(
                 color = background()
             )
     ) {
+
+
         item {
             Column(
                 modifier = Modifier
@@ -789,7 +795,32 @@ fun HomeScreen(
                 modifier = Modifier.height(36.dp)
             )
         }
+
+        when (paging.loadState.refresh) {
+            is LoadState.Loading -> {
+
+            }
+            is LoadState.Error -> {
+
+            }
+            else -> {
+
+            }
+        }
+        itemsIndexed(paging) { index, perfume ->
+            perfume?.let {
+                com.jangjh123.allpouse_android.ui.component.Perfume(modifier = Modifier,
+                    perfumeName = perfume.perfumeName,
+                    brandName = perfume.brandName,
+                    imagePath = perfume.imagePath?.get(0) ?: "",
+                    keywordCount = 1) {
+
+                }
+
+            }
+        }
     }
+
 
     // todo : paging
 }
