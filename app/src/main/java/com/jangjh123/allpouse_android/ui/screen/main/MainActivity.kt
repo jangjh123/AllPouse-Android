@@ -209,7 +209,12 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) {
-                        composable(Home.route) { HomeScreen(viewModel, viewModel.getRisingPerfumeList().flow.collectAsLazyPagingItems()) }
+                        composable(Home.route) {
+                            HomeScreen(
+                                viewModel = viewModel,
+                                risingPerfumePagingItems = viewModel.getRisingPerfumeList().flow.collectAsLazyPagingItems()
+                            )
+                        }
                         composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
                         composable(Boards.route) { BoardScreen() }
                         composable(MyInfo.route) { MyInfoScreen() }

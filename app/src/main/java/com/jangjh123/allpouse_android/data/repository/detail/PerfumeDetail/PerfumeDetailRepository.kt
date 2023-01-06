@@ -26,25 +26,25 @@ class PerfumeDetailRepository(
                             ResponseState.OnSuccess(
                                 data = PerfumeDetail(
                                     perfumeInfo = parseToType(
-                                        PerfumeInfo::class.java,
-                                        perfumeDetail.get("infoDto").asJsonObject
+                                        type = PerfumeInfo::class.java,
+                                        jsonObject = perfumeDetail.get("infoDto").asJsonObject
                                     ),
                                     perfumerReviews = perfumeDetail.get("perfumerReviews").asJsonArray.map { review ->
                                         parseToType(
-                                            Review::class.java,
-                                            review.asJsonObject
+                                            type = Review::class.java,
+                                            jsonObject = review.asJsonObject
                                         )
                                     },
                                     userReviews = perfumeDetail.get("userReviews").asJsonArray.map { review ->
                                         parseToType(
-                                            Review::class.java,
-                                            review.asJsonObject
+                                            type = Review::class.java,
+                                            jsonObject = review.asJsonObject
                                         )
                                     },
                                     highRecommendReviews = perfumeDetail.get("highRecommendReviews").asJsonArray.map { review ->
                                         parseToType(
-                                            Review::class.java,
-                                            review.asJsonObject
+                                            type = Review::class.java,
+                                            jsonObject = review.asJsonObject
                                         )
                                     }
                                 )

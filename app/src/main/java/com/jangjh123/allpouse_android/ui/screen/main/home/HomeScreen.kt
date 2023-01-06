@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.itemsIndexed
+import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -79,7 +79,7 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
-    paging: LazyPagingItems<Perfume>,
+    risingPerfumePagingItems: LazyPagingItems<Perfume>,
 ) {
     val adPagerState = rememberPagerState()
     val context = LocalContext.current
@@ -100,8 +100,6 @@ fun HomeScreen(
                 color = background()
             )
     ) {
-
-
         item {
             Column(
                 modifier = Modifier
@@ -796,33 +794,43 @@ fun HomeScreen(
             )
         }
 
-        when (paging.loadState.refresh) {
+        when (risingPerfumePagingItems.loadState.refresh) {
             is LoadState.Loading -> {
-
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                    ) {
+                        Loading(
+                            modifier = Modifier
+                                .align(Center)
+                        )
+                    }
+                }
             }
             is LoadState.Error -> {
-
-            }
-            else -> {
-
-            }
-        }
-        itemsIndexed(paging) { index, perfume ->
-            perfume?.let {
-                com.jangjh123.allpouse_android.ui.component.Perfume(modifier = Modifier,
-                    perfumeName = perfume.perfumeName,
-                    brandName = perfume.brandName,
-                    imagePath = perfume.imagePath?.get(0) ?: "",
-                    keywordCount = 1) {
+                item {
 
                 }
+            }
+            else -> {
+                items(risingPerfumePagingItems) { perfume ->
+                    perfume?.let {
+                        Perfume(
+                            modifier = Modifier,
+                            perfumeName = perfume.perfumeName,
+                            brandName = perfume.brandName,
+                            imagePath = perfume.imagePath?.get(0) ?: "",
+                            keywordCount = 1
+                        ) {
 
+                        }
+                    }
+                }
             }
         }
     }
-
-
-    // todo : paging
 }
 
 

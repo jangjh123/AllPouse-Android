@@ -22,7 +22,7 @@ class MainRepository(
                         ResponseState.OnSuccess(
                             data = data.get("dataList").asJsonArray.map { data ->
                                 parseToType(
-                                    typeKey,
+                                    type = typeKey,
                                     jsonObject = data as JsonObject
                                 )
                             })

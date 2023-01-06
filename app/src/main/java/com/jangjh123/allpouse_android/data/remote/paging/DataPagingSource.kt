@@ -1,5 +1,6 @@
 package com.jangjh123.allpouse_android.data.remote.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.jangjh123.allpouse_android.data.model.Perfume
@@ -21,11 +22,12 @@ class DataPagingSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Perfume> {
         val page = params.key ?: 0
+
         return try {
             val data = networkHelper.client()
                 .fetchPagedPerfumeList(
                     page = page,
-                    size = 4
+                    size = 16
                 ).get("pages").asJsonObject.get("content").asJsonArray.map { perfume ->
                     parseToType(
                         type = Perfume::class.java,
@@ -33,16 +35,19 @@ class DataPagingSource @Inject constructor(
                     )
                 }
 
-            val nextKey = if (data.isEmpty()) null else page + 1
+            Log.d("PagingResult", "Page No.$page")
+            Log.d("PagingResult", "Items $data")
 
             LoadResult.Page(
                 data = data,
-                prevKey = if (page == 0) 0 else page + 1,
-                nextKey = nextKey!!
+                prevKey = if (page == 0) null else page - 1,
+                nextKey = page + 1
             )
         } catch (e: IOException) {
+            Log.d("PagingException", "IOException : $e")
             return LoadResult.Error(e)
         } catch (e: HttpException) {
+            Log.d("PagingException", "HttpException : $e")
             return LoadResult.Error(e)
         }
     }

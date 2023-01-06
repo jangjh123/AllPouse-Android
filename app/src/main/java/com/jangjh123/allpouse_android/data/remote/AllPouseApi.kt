@@ -26,7 +26,7 @@ interface AllPouseApi {
         @Url url: String,
     ): Call<JsonObject>
 
-    @GET("rising-perfume?")
+    @GET("api/v1/rising-perfume?")
     suspend fun fetchPagedPerfumeList(
         @Query("page") page: Int,
         @Query("size") size: Int,
