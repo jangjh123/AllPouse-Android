@@ -1,11 +1,14 @@
 package com.jangjh123.allpouse_android.ui.screen.main
 
 import androidx.lifecycle.ViewModel
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.jangjh123.allpouse_android.data.model.AdBanner
 import com.jangjh123.allpouse_android.data.model.Brand
 import com.jangjh123.allpouse_android.data.model.Perfume
 import com.jangjh123.allpouse_android.data.model.PostWithBoardName
 import com.jangjh123.allpouse_android.data.remote.NoParameterRequiredData
+import com.jangjh123.allpouse_android.data.remote.paging.DataPagingSource
 import com.jangjh123.allpouse_android.data.repository.main.MainRepository
 import com.jangjh123.allpouse_android.ui.component.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: MainRepository,
+    private val pagingSource: DataPagingSource,
 ) : ViewModel() {
     private val _adBannerListState = MutableStateFlow<UiState>(UiState.OnLoading)
     val adBannerListState: StateFlow<UiState>
@@ -127,4 +131,15 @@ class MainViewModel @Inject constructor(
             }
         )
     }
+
+    fun getRisingPerfumeList() =
+        Pager(
+            config = PagingConfig(
+                pageSize = 16,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                pagingSource
+            }
+        )
 }

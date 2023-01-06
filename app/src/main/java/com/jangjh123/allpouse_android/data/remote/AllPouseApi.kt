@@ -8,7 +8,7 @@ interface AllPouseApi {
     @POST("sign-api/sign-in?")
     fun signIn(
         @Query("socialId") socialId: String,
-        @Query("loginType") loginType: String
+        @Query("loginType") loginType: String,
     ): Call<JsonObject>
 
     @POST("sign-api/sign-up?")
@@ -18,13 +18,20 @@ interface AllPouseApi {
         @Query("permission") permission: String,
         @Query("age") age: Int,
         @Query("gender") gender: String,
-        @Query("loginType") loginType: String
+        @Query("loginType") loginType: String,
     ): Call<JsonObject>
 
     @GET
     fun fetchDataByUrl(
-        @Url url: String
+        @Url url: String,
     ): Call<JsonObject>
+
+    @GET("api/v1/rising-perfume?")
+    suspend fun fetchPagedPerfumeList(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("sort") sort: String = "ASC",
+    ) : JsonObject
 
     @GET("api/v1/perfume/{perfumeId}")
     fun fetchPerfumeDetail(

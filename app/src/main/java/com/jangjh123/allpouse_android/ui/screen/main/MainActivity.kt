@@ -30,6 +30,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -208,7 +209,12 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) {
-                        composable(Home.route) { HomeScreen(viewModel) }
+                        composable(Home.route) {
+                            HomeScreen(
+                                viewModel = viewModel,
+                                risingPerfumePagingItems = viewModel.getRisingPerfumeList().flow.collectAsLazyPagingItems()
+                            )
+                        }
                         composable(PerfumeLookAround.route) { PerfumeLookAroundScreen() }
                         composable(Boards.route) { BoardScreen() }
                         composable(MyInfo.route) { MyInfoScreen() }

@@ -7,13 +7,13 @@ import com.jangjh123.allpouse_android.data.remote.model.ResponseState
 import com.jangjh123.allpouse_android.data.remote.parseToType
 
 class MainRepository(
-    private val networkHelper: NetworkHelper
+    private val networkHelper: NetworkHelper,
 ) {
     fun <T> getData(
         url: String,
         typeKey: Class<T>,
         onSuccess: (ResponseState.OnSuccess) -> Unit,
-        onFailure: (ResponseState.OnFailure) -> Unit
+        onFailure: (ResponseState.OnFailure) -> Unit,
     ) {
         networkHelper.client().fetchDataByUrl(url)
             .enqueue(object : APCallback<JsonObject>() {
@@ -22,7 +22,7 @@ class MainRepository(
                         ResponseState.OnSuccess(
                             data = data.get("dataList").asJsonArray.map { data ->
                                 parseToType(
-                                    typeKey,
+                                    type = typeKey,
                                     jsonObject = data as JsonObject
                                 )
                             })

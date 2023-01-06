@@ -1,6 +1,7 @@
 package com.jangjh123.allpouse_android.ui.screen.main.home
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -76,6 +80,7 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
+    risingPerfumePagingItems: LazyPagingItems<Perfume>
 ) {
     val adPagerState = rememberPagerState()
     val context = LocalContext.current
@@ -86,6 +91,7 @@ fun HomeScreen(
             getHomeScreenData(NoParameterRequiredData.RecommendedPerfumeList)
             getHomeScreenData(NoParameterRequiredData.BestPostList)
             getHomeScreenData(NoParameterRequiredData.PopularBrandList)
+//            getRisingPerfumeList()
         }
     }
 
@@ -681,158 +687,94 @@ fun HomeScreen(
                     }
                 }
             }
+        }
 
-            Spacer(
-                modifier = Modifier.height(36.dp)
-            )
+        when (risingPerfumePagingItems.loadState.refresh) {
+            is LoadState.Loading -> {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                    ) {
+                        Loading(
+                            modifier = Modifier
+                                .align(Center)
+                        )
+                    }
+                }
+            }
+            is LoadState.Error -> {
 
-            APText(
-                modifier = Modifier.padding(
-                    horizontal = 12.dp, vertical = 16.dp
-                ), text = stringResource(
-                    id = R.string.popular_perfumes
-                ), fontSize = 18.sp, fontType = FontType.Bold
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 12.dp
+            }
+            else -> {
+                item {
+                    Spacer(
+                        modifier = Modifier.height(36.dp)
                     )
-            ) {
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_0,
-                    perfumeName = "TestPerfume0",
-                    brandName = "Samsung"
-                )
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_1,
-                    perfumeName = "TestPerfume1",
-                    brandName = "Google"
-                )
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_2,
-                    perfumeName = "TestPerfume2",
-                    brandName = "Nokia"
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 12.dp
+
+                    APText(
+                        modifier = Modifier.padding(
+                            horizontal = 12.dp, vertical = 16.dp
+                        ), text = stringResource(
+                            id = R.string.popular_perfumes
+                        ), fontSize = 18.sp, fontType = FontType.Bold
                     )
-            ) {
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_0,
-                    perfumeName = "TestPerfume0",
-                    brandName = "Samsung"
-                )
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_1,
-                    perfumeName = "TestPerfume1",
-                    brandName = "Google"
-                )
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_2,
-                    perfumeName = "TestPerfume2",
-                    brandName = "Nokia"
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 12.dp
-                    )
-            ) {
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_0,
-                    perfumeName = "TestPerfume0",
-                    brandName = "Samsung"
-                )
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_1,
-                    perfumeName = "TestPerfume1",
-                    brandName = "Google"
-                )
-                PopularPerfume(
-                    modifier = Modifier.weight(1f),
-                    image = R.drawable.perfume_test_2,
-                    perfumeName = "TestPerfume2",
-                    brandName = "Nokia"
-                )
-            }
+                }
 
-            RoundedCornerButton(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .fillMaxWidth()
-                    .height(50.dp),
-                text = stringResource(
-                    id = R.string.go_for_more_perfumes
+                items(risingPerfumePagingItems) { perfume ->
+                    perfume?.let {
+                        Perfume(
+                            modifier = Modifier,
+                            perfumeName = perfume.perfumeName,
+                            brandName = perfume.brandName,
+                            imagePath = perfume.imagePath?.get(0) ?: "",
+                            keywordCount = 1
+                        ) {
+
+                        }
+                    }
+                }
+            }
+        }
+
+        if (risingPerfumePagingItems.loadState.append is LoadState.Error) {
+            if ((risingPerfumePagingItems.loadState.append as LoadState.Error).error.message!!.contains(
+                    "500"
                 )
             ) {
+                item {
+                    RoundedCornerButton(
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        text = stringResource(
+                            id = R.string.go_for_more_perfumes
+                        )
+                    ) {
 
+                    }
+                }
+            } else {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        RetryBlock(
+                            modifier = Modifier
+                                .align(Center)
+                        ) {
+                            risingPerfumePagingItems.retry()
+                        }
+                    }
+                }
             }
-
-            Spacer(
-                modifier = Modifier.height(36.dp)
-            )
         }
     }
-
-    // todo : paging
 }
-
-
-@Composable
-fun PopularPerfume(
-    modifier: Modifier,
-    image: Int,
-    perfumeName: String,
-    brandName: String,
-) {
-    Column(
-        modifier = modifier.fillMaxSize()
-    ) {
-        Image(
-            modifier = Modifier
-                .size(100.dp)
-                .clip(
-                    shape = RoundedCornerShape(12.dp)
-                )
-                .background(contentBackground())
-                .padding(10.dp), painter = painterResource(
-                id = image
-            ), contentDescription = "perfumeImage", contentScale = ContentScale.FillBounds
-        )
-        APText(
-            modifier = Modifier.padding(
-                top = 4.dp, start = 8.dp, end = 8.dp
-            ), text = perfumeName, fontColor = mainTextColor(), fontSize = 12.sp
-        )
-        APText(
-            modifier = Modifier
-                .padding(
-                    horizontal = 8.dp
-                )
-                .padding(
-                    bottom = 8.dp
-                ), text = brandName, fontColor = subTextColor(), fontSize = 10.sp
-        )
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable
