@@ -40,8 +40,8 @@ class DataPagingSource @Inject constructor(
 
             LoadResult.Page(
                 data = data,
-                prevKey = if (page == 0) null else page - 1,
-                nextKey = page + 1
+                prevKey = null,
+                nextKey = if (data.isEmpty()) null else page + 1
             )
         } catch (e: IOException) {
             Log.d("PagingException", "IOException : $e")
