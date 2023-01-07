@@ -432,7 +432,7 @@ fun ReviewDetailScreen() {
         )
 
         dummyReviewComments.forEach {
-            Comment(
+            CommentComposable(
                 modifier = Modifier
                     .padding(
                         horizontal = 24.dp

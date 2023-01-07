@@ -135,7 +135,7 @@ class MainViewModel @Inject constructor(
     fun getRisingPerfumeList() =
         Pager(
             config = PagingConfig(
-                pageSize = 16,
+                pageSize = 1,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {

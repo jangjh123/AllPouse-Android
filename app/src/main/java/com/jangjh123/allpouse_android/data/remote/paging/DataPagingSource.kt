@@ -11,32 +11,34 @@ import java.io.IOException
 import javax.inject.Inject
 
 class DataPagingSource @Inject constructor(
-    private val networkHelper: NetworkHelper,
-) : PagingSource<Int, Perfume>() {
-    override fun getRefreshKey(state: PagingState<Int, Perfume>): Int? {
+    private val networkHelper: NetworkHelper
+) : PagingSource<Int, List<Perfume>>() {
+    override fun getRefreshKey(state: PagingState<Int, List<Perfume>>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Perfume> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, List<Perfume>> {
         val page = params.key ?: 0
 
         return try {
-            val data = networkHelper.client()
+            val perfumes = networkHelper.client()
                 .fetchPagedPerfumeList(
                     page = page,
-                    size = 16
+                    size = 8
                 ).get("pages").asJsonObject.get("content").asJsonArray.map { perfume ->
                     parseToType(
                         type = Perfume::class.java,
-                        perfume.asJsonObject
+                        jsonObject = perfume.asJsonObject
                     )
                 }
 
             Log.d("PagingResult", "Page No.$page")
-            Log.d("PagingResult", "Items $data")
+            Log.d("PagingResult", "Items $perfumes")
+
+            val data = listOf(perfumes)
 
             LoadResult.Page(
                 data = data,

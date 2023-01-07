@@ -299,7 +299,7 @@ fun PostDetailScreen(
         }
 
         items(dummyPostComment) { comment ->
-            Comment(
+            CommentComposable(
                 modifier = Modifier
                     .padding(
                         horizontal = 12.dp,

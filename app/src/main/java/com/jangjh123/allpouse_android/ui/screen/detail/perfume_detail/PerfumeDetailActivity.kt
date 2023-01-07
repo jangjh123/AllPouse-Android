@@ -407,7 +407,7 @@ private fun PerfumeDetailReviewsContent(
         ) {
             highRecommendReviews.let { reviews ->
                 reviews?.forEach { review ->
-                    Review(
+                    ReviewComposable(
                         modifier = Modifier,
                         score = 4.32f,
                         perfumeName = review.perfumeName,
@@ -471,7 +471,7 @@ private fun PerfumeDetailReviewsContent(
         ) {
             perfumerReviews.let { reviews ->
                 reviews?.forEach { review ->
-                    Review(
+                    ReviewComposable(
                         modifier = Modifier,
                         score = 4.32f,
                         perfumeName = review.perfumeName,
@@ -552,7 +552,7 @@ private fun PerfumeDetailReviewsContent(
         ) {
             userReviews.let { reviews ->
                 reviews?.forEach { review ->
-                    Review(
+                    ReviewComposable(
                         modifier = Modifier,
                         score = 4.32f,
                         perfumeName = review.perfumeName,

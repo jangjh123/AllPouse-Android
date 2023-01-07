@@ -1,7 +1,6 @@
 package com.jangjh123.allpouse_android.ui.screen.main.home
 
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -33,6 +32,9 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
+import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.SizeMode
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -80,7 +82,7 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
-    risingPerfumePagingItems: LazyPagingItems<Perfume>
+    risingPerfumePagingItems: LazyPagingItems<List<Perfume>>
 ) {
     val adPagerState = rememberPagerState()
     val context = LocalContext.current
@@ -308,7 +310,7 @@ fun HomeScreen(
                             ) {
                                 items(recommendedPerfumeList) { perfume ->
                                     perfume as Perfume
-                                    Perfume(
+                                    RecommendedPerfume(
                                         modifier = Modifier,
                                         perfumeName = perfume.perfumeName,
                                         brandName = perfume.brandName,
@@ -651,7 +653,7 @@ fun HomeScreen(
                             repeat(3) { index ->
                                 ((popularBrandList[index] as Brand).also { brand ->
                                     brand.imagePath?.get(0)?.let {
-                                        Brand(
+                                        BrandComposable(
                                             modifier = Modifier,
                                             brandName = brand.name,
                                             brandImage = it,
@@ -710,28 +712,34 @@ fun HomeScreen(
             else -> {
                 item {
                     Spacer(
-                        modifier = Modifier.height(36.dp)
+                        modifier = Modifier
+                            .height(36.dp)
                     )
 
                     APText(
                         modifier = Modifier.padding(
-                            horizontal = 12.dp, vertical = 16.dp
-                        ), text = stringResource(
-                            id = R.string.popular_perfumes
-                        ), fontSize = 18.sp, fontType = FontType.Bold
+                            horizontal = 12.dp,
+                            vertical = 16.dp
+                        ),
+                        text = stringResource(
+                            id = R.string.rising_perfumes
+                        ),
+                        fontSize = 18.sp,
+                        fontType = FontType.Bold
                     )
                 }
 
-                items(risingPerfumePagingItems) { perfume ->
-                    perfume?.let {
-                        Perfume(
-                            modifier = Modifier,
-                            perfumeName = perfume.perfumeName,
-                            brandName = perfume.brandName,
-                            imagePath = perfume.imagePath?.get(0) ?: "",
-                            keywordCount = 1
-                        ) {
-
+                items(risingPerfumePagingItems) { perfumes ->
+                    FlowRow(
+                        modifier = Modifier,
+                        mainAxisSize = SizeMode.Expand,
+                        mainAxisAlignment = FlowMainAxisAlignment.SpaceEvenly
+                    ) {
+                        perfumes?.forEach { perfume ->
+                            PerfumeComposable(
+                                modifier = Modifier,
+                                perfume = perfume
+                            )
                         }
                     }
                 }

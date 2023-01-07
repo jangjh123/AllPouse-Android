@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.Post
+import com.jangjh123.allpouse_android.ui.component.PostComposable
 import com.jangjh123.allpouse_android.ui.component.RoundedCornerButton
 import com.jangjh123.allpouse_android.ui.theme.mainColor
 import com.jangjh123.allpouse_android.ui.theme.subTextColor
@@ -73,7 +73,7 @@ fun BoardScreen() {
                 .fillMaxSize()
         ) {
             items(dummyPosts) { post ->
-                Post(
+                PostComposable(
                     modifier = Modifier
                         .padding(
                             vertical = 4.dp

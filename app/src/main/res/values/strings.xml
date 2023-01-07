@@ -61,12 +61,14 @@
 
     <!--    HomeScreen-->
     <string name="perfumes_recommended">님을 위한 향수</string>
-    <string name="popular_perfumes">요즘 뜨는 향수</string>
+    <string name="rising_perfumes">요즘 뜨는 향수</string>
     <string name="popular_brands">주목받는 브랜드</string>
     <string name="age_gender_best">%d대 %s 인기 향수</string>
     <string name="go_for_more_posts">더 많은 게시물 보기</string>
     <string name="go_for_more_brands">더 많은 브랜드 보기</string>
     <string name="go_for_more_perfumes">더 많은 향수 보기</string>
+    <string name="perfume_detail">향수 상세 정보</string>
+    <string name="search_this_perfume">해당 향수 검색</string>
     <!--    HomeScreen-->
 
     <!--    SearchScreen-->

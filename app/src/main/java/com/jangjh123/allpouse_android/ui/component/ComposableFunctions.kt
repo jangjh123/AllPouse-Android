@@ -41,7 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.jangjh123.allpouse_android.R
+import com.jangjh123.allpouse_android.data.model.Perfume
 import com.jangjh123.allpouse_android.ui.screen.main.board.DummyPost
+import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
 
@@ -429,7 +431,7 @@ fun CloseIcon(
 }
 
 @Composable
-fun Perfume(
+fun RecommendedPerfume(
     modifier: Modifier,
     perfumeName: String,
     brandName: String,
@@ -528,7 +530,68 @@ fun Perfume(
 }
 
 @Composable
-fun Review(
+fun PerfumeComposable(
+    modifier: Modifier,
+    perfume: Perfume
+) {
+    Box(
+        modifier = modifier
+            .padding(
+                vertical = 6.dp
+            )
+            .width(SCREEN_WIDTH_DP / 2 - 18.dp)
+            .clip(
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(
+                color = subBackground()
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Center)
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .clip(
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .size((SCREEN_WIDTH_DP / 2) - 42.dp)
+                    .background(
+                        color = contentBackground()
+                    ),
+                model = perfume.imagePath?.get(0),
+                contentDescription = "perfumeImage"
+            )
+
+            APText(
+                modifier = Modifier
+                    .padding(
+                        top = 4.dp,
+                        start = 4.dp
+                    ),
+                text = perfume.brandName,
+                fontSize = 10.sp,
+                fontColor = subTextColor(),
+                lines = 1
+            )
+            APText(
+                modifier = Modifier
+                    .padding(
+                        start = 4.dp
+                    ),
+                text = perfume.perfumeName,
+                fontSize = 12.sp,
+                fontColor = mainTextColor(),
+                lines = 1
+            )
+        }
+    }
+}
+
+@Composable
+fun ReviewComposable(
     modifier: Modifier,
     score: Float,
     perfumeName: String,
@@ -736,7 +799,7 @@ sealed class DummyComment {
 
 
 @Composable
-fun Comment(
+fun CommentComposable(
     modifier: Modifier,
     comment: DummyComment,
 ) {
@@ -811,7 +874,7 @@ fun Comment(
 
                 if (comment.commentsInComment.isNotEmpty()) {
                     comment.commentsInComment.forEach {
-                        Comment(
+                        CommentComposable(
                             modifier = Modifier
                                 .padding(
                                     start = 60.dp
@@ -957,7 +1020,7 @@ fun Keyword(
 }
 
 @Composable
-fun Brand(
+fun BrandComposable(
     modifier: Modifier,
     brandName: String,
     brandImage: String,
@@ -1161,7 +1224,7 @@ fun PostWithBoardName(
 }
 
 @Composable
-fun Post(
+fun PostComposable(
     modifier: Modifier,
     post: DummyPost,
 ) {
@@ -1400,9 +1463,5 @@ fun Loading(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    RetryBlock(
-        modifier = Modifier
-    ) {
-
-    }
+    PerfumeComposable(Modifier, Perfume(0, "테스트 브랜드", 1, null, "테스트 향수"))
 }
