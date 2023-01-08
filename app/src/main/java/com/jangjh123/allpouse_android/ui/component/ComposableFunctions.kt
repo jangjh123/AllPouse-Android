@@ -678,7 +678,7 @@ fun ReviewComposable(
                         ),
                     model = image,
                     contentDescription = "reviewImage",
-                    contentScale = ContentScale.FillBounds
+                    contentScale = ContentScale.Crop
                 )
 
                 Box(

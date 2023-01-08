@@ -1,6 +1,8 @@
 package com.jangjh123.allpouse_android.data.remote
 
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -31,10 +33,19 @@ interface AllPouseApi {
         @Query("page") page: Int,
         @Query("size") size: Int,
         @Query("sort") sort: String = "ASC",
-    ) : JsonObject
+    ): JsonObject
 
     @GET("api/v1/perfume/{perfumeId}")
     fun fetchPerfumeDetail(
         @Path("perfumeId") perfumeId: Int,
+    ): Call<JsonObject>
+
+    @Multipart
+    @POST("api/v1/review")
+    fun postReview(
+        @Part image0: MultipartBody.Part? = null,
+        @Part image1: MultipartBody.Part? = null,
+        @Part image2: MultipartBody.Part? = null,
+        @Part("saveReviewDto") review: RequestBody
     ): Call<JsonObject>
 }

@@ -45,12 +45,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class PerfumeDetailActivity : ComponentActivity() {
     private val viewModel: PerfumeDetailViewModel by viewModels()
+    private var perfumeId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val perfumeId = intent.getIntExtra("perfumeId", 0)
-        viewModel.getPerfumeDetailScreenData(perfumeId)
+        perfumeId = intent.getIntExtra("perfumeId", 0)
 
         setContent {
             AllPouseAndroidTheme {
@@ -244,6 +243,11 @@ class PerfumeDetailActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getPerfumeDetailScreenData(perfumeId)
     }
 }
 

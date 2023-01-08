@@ -4,6 +4,7 @@ import android.Manifest.permission.CAMERA
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.viewModels
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -34,6 +36,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class WriteReviewActivity : GetImageBaseActivity() {
+    private val viewModel: WriteReviewViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,7 +53,12 @@ class WriteReviewActivity : GetImageBaseActivity() {
                 val image1State = remember { mutableStateOf<ImageBitmap?>(null) }
                 val image2State = remember { mutableStateOf<ImageBitmap?>(null) }
                 val bodyTextFieldState = remember { mutableStateOf("") }
+                val sendReviewState = remember { mutableStateOf(false) }
+
                 val selectImageSourceDialogState = remember { mutableStateOf(false) }
+                val setReviewErrorDialogState = remember { mutableStateOf(false) }
+                val postReviewSuccessDialogState = remember { mutableStateOf(false) }
+                val postReviewFailureDialogState = remember { mutableStateOf(false) }
 
                 ActivityFrame(this@WriteReviewActivity) {
                     Box(
@@ -194,7 +203,27 @@ class WriteReviewActivity : GetImageBaseActivity() {
                                 ),
                                 fontSize = 16.sp
                             ) {
-
+                                if (titleTextFieldState.value.isNotEmpty()
+                                    && bodyTextFieldState.value.isNotEmpty()
+                                ) {
+                                    viewModel.setReviewToPost(
+                                        image0 =
+                                        if (image0State.value != null) image0State.value
+                                        else null,
+                                        image1 =
+                                        if (image1State.value != null) image1State.value
+                                        else null,
+                                        image2 =
+                                        if (image2State.value != null) image2State.value
+                                        else null,
+                                        title = titleTextFieldState.value,
+                                        content = bodyTextFieldState.value,
+                                        perfumeId = perfumeId
+                                    )
+                                    sendReviewState.value = true
+                                } else {
+                                    setReviewErrorDialogState.value = true
+                                }
                             }
                         }
 
@@ -209,7 +238,7 @@ class WriteReviewActivity : GetImageBaseActivity() {
                         ) {
                             Row(
                                 modifier = Modifier
-                                    .align(Alignment.Center)
+                                    .align(Center)
                             ) {
                                 APText(
                                     text = perfumeName ?: "",
@@ -248,6 +277,67 @@ class WriteReviewActivity : GetImageBaseActivity() {
                                     }
                                 )
                             }
+                        }
+                        if (sendReviewState.value) {
+                            when (viewModel.sendReviewState.collectAsState().value) {
+                                is UiState.OnLoading -> {
+                                    Loading(
+                                        modifier = Modifier
+                                            .align(Center)
+                                    )
+                                }
+                                is UiState.OnSuccess -> {
+                                    postReviewSuccessDialogState.value = true
+                                    sendReviewState.value = false
+                                }
+                                is UiState.OnFailure -> {
+                                    postReviewFailureDialogState.value = true
+                                    sendReviewState.value = false
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (setReviewErrorDialogState.value) {
+                    Dialog(
+                        onDismissRequest = {
+                            setReviewErrorDialogState.value = false
+                        }
+                    ) {
+                        NoticeDialog(
+                            text = "리뷰 제목과 내용을 모두 입력해 주세요."
+                        ) {
+                            setReviewErrorDialogState.value = false
+                        }
+                    }
+                }
+
+                if (postReviewSuccessDialogState.value) {
+                    Dialog(
+                        onDismissRequest = {
+                            postReviewSuccessDialogState.value = false
+                        }
+                    ) {
+                        NoticeDialog(
+                            text = "리뷰를 등록했습니다."
+                        ) {
+                            postReviewSuccessDialogState.value = false
+                            finish()
+                        }
+                    }
+                }
+
+                if (postReviewFailureDialogState.value) {
+                    Dialog(
+                        onDismissRequest = {
+                            postReviewFailureDialogState.value = false
+                        }
+                    ) {
+                        NoticeDialog(
+                            text = "리뷰를 등록할 수 없습니다."
+                        ) {
+                            postReviewFailureDialogState.value = false
                         }
                     }
                 }
@@ -353,7 +443,7 @@ private fun ReviewImagePlaceHolder(
         } else {
             Column(
                 modifier = Modifier
-                    .align(Alignment.Center)
+                    .align(Center)
             ) {
                 Icon(
                     modifier = Modifier
