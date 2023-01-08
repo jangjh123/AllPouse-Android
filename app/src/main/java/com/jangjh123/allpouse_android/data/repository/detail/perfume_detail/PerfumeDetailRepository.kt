@@ -1,4 +1,4 @@
-package com.jangjh123.allpouse_android.data.repository.detail.PerfumeDetail
+package com.jangjh123.allpouse_android.data.repository.detail.perfume_detail
 
 import com.google.gson.JsonObject
 import com.jangjh123.allpouse_android.data.model.PerfumeDetail

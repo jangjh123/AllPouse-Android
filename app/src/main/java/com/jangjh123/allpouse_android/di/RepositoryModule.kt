@@ -3,7 +3,8 @@ package com.jangjh123.allpouse_android.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.jangjh123.allpouse_android.data.remote.NetworkHelper
-import com.jangjh123.allpouse_android.data.repository.detail.PerfumeDetail.PerfumeDetailRepository
+import com.jangjh123.allpouse_android.data.repository.detail.perfume_detail.PerfumeDetailRepository
+import com.jangjh123.allpouse_android.data.repository.detail.perfume_detail.write_review.WriteReviewRepository
 import com.jangjh123.allpouse_android.data.repository.login.LoginRepository
 import com.jangjh123.allpouse_android.data.repository.main.MainRepository
 import com.jangjh123.allpouse_android.data.repository.splash.SplashRepository
@@ -41,4 +42,10 @@ object RepositoryModule {
     fun providePerfumeDetailRepository(
         networkHelper: NetworkHelper
     ) = PerfumeDetailRepository(networkHelper)
+
+    @ViewModelScoped
+    @Provides
+    fun provideWriteReviewRepository(
+        networkHelper: NetworkHelper
+    ) = WriteReviewRepository(networkHelper)
 }

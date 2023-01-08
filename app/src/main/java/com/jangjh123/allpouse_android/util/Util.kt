@@ -10,19 +10,25 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import coil.ImageLoader
 import coil.request.ImageRequest
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.FileOutputStream
 
 fun Modifier.addFocusCleaner(
     focusManager: FocusManager,
@@ -89,5 +95,29 @@ fun getImageBitmapFromUrl(
                 onSuccess(result.toBitmap().asImageBitmap())
             }
             .build()
+    )
+}
+
+fun convertBitmapToWebpFile(
+    bitmap: ImageBitmap
+): File {
+    val webpFile = File.createTempFile(
+        "IMG_",
+        ".webp"
+    )
+    val fileOutputStream = FileOutputStream(webpFile)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        bitmap.asAndroidBitmap().compress(Bitmap.CompressFormat.WEBP_LOSSY, 50, fileOutputStream)
+        fileOutputStream.close()
+    }
+
+    return webpFile
+}
+
+fun getImageBodyForMultiPart(key: String, file: File): MultipartBody.Part {
+    return MultipartBody.Part.createFormData(
+        name = key,
+        filename = file.name,
+        body = file.asRequestBody("image/*".toMediaType())
     )
 }

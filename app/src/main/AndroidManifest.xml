@@ -20,6 +20,11 @@
         android:theme="@style/Theme.AllPouseAndroid"
         tools:targetApi="31">
         <activity
+            android:name="com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.write_review.WriteReviewActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AllPouseAndroid"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name="com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.PerfumeDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.AllPouseAndroid" />
