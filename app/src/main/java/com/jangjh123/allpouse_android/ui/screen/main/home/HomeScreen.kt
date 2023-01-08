@@ -321,7 +321,9 @@ fun HomeScreen(
                                             Intent(
                                                 context,
                                                 PerfumeDetailActivity::class.java
-                                            )
+                                            ).apply {
+                                                this.putExtra("perfumeId", perfume.id)
+                                            }
                                         )
                                     }
                                 }

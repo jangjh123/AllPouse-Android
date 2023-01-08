@@ -18,5 +18,5 @@ data class PerfumeInfo(
     val content: String,
     @SerializedName(value = "hitCnt")
     val hitCount: Int,
-    val path: String
+    val path: List<String>? = null
 )
