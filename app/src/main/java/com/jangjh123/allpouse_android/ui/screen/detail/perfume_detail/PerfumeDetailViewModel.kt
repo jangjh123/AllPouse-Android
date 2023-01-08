@@ -1,7 +1,7 @@
 package com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail
 
 import androidx.lifecycle.ViewModel
-import com.jangjh123.allpouse_android.data.repository.detail.PerfumeDetail.PerfumeDetailRepository
+import com.jangjh123.allpouse_android.data.repository.detail.perfume_detail.PerfumeDetailRepository
 import com.jangjh123.allpouse_android.ui.component.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

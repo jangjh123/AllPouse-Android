@@ -1,6 +1,7 @@
 package com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +35,7 @@ import com.jangjh123.allpouse_android.data.model.PerfumeDetail
 import com.jangjh123.allpouse_android.data.model.PerfumeInfo
 import com.jangjh123.allpouse_android.data.model.Review
 import com.jangjh123.allpouse_android.ui.component.*
+import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.write_review.WriteReviewActivity
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
@@ -171,7 +173,15 @@ class PerfumeDetailActivity : ComponentActivity() {
                                             perfumerReviews = perfumerReviews,
                                             userReviews = userReviews,
                                             onClickWriteReview = {
-
+                                                startActivity(
+                                                    Intent(
+                                                        this@PerfumeDetailActivity,
+                                                        WriteReviewActivity::class.java
+                                                    ).apply {
+                                                        this.putExtra("perfumeId", perfumeId)
+                                                        this.putExtra("perfumeName", perfumeInfo.perfumeName)
+                                                    }
+                                                )
                                             }
                                         )
                                     }
@@ -328,7 +338,7 @@ private fun PerfumeDetailReviewsContent(
                     )
                 }
             },
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontType = FontType.Bold
         )
 
@@ -392,7 +402,7 @@ private fun PerfumeDetailReviewsContent(
                     )
                 }
             },
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontType = FontType.Bold
         )
 
@@ -473,7 +483,7 @@ private fun PerfumeDetailReviewsContent(
                     )
                 }
             },
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontType = FontType.Bold
         )
 
