@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -34,11 +32,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.data.model.PerfumeDetail
-import com.jangjh123.allpouse_android.data.model.PerfumeInfo
 import com.jangjh123.allpouse_android.data.model.Review
 import com.jangjh123.allpouse_android.ui.component.*
-import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.InformationContent
-import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.ContentState.ReviewContent
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.theme.*
 import com.jangjh123.allpouse_android.util.clickableWithoutRipple
@@ -64,18 +59,12 @@ class PerfumeDetailActivity : ComponentActivity() {
     }
 }
 
-sealed class ContentState {
-    object InformationContent : ContentState()
-    object ReviewContent : ContentState()
-}
-
 @Composable
 fun PerfumeDetailActivityContent(
     viewModel: PerfumeDetailViewModel = viewModel(),
 ) {
     val scrollState = rememberScrollState()
     val nameSpaceHeightState = remember { mutableStateOf(0) }
-    val contentState = remember { mutableStateOf<ContentState>(InformationContent) }
     var newNameSpaceShowingOffset = 0
     with(LocalDensity.current) {
         newNameSpaceShowingOffset += nameSpaceHeightState.value + (SCREEN_HEIGHT_DP * 0.3f).roundToPx()
@@ -184,54 +173,11 @@ fun PerfumeDetailActivityContent(
                             )
                     ) {
 
-                        Row(
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .align(CenterHorizontally)
-                                .padding(24.dp)
-                        ) {
-                            ContentButton(
-                                modifier = Modifier
-                                    .weight(0.5f),
-                                content = stringResource(
-                                    id = R.string.perfume_information
-                                ),
-                                contentState = contentState
-                            ) {
-                                contentState.value = InformationContent
-                            }
-
-                            Spacer(
-                                modifier = Modifier
-                                    .width(12.dp)
-                            )
-
-                            ContentButton(
-                                modifier = Modifier
-                                    .weight(0.5f),
-                                content = stringResource(
-                                    id = R.string.perfume_review
-                                ),
-                                contentState = contentState
-                            ) {
-                                contentState.value = ReviewContent
-                            }
-                        }
-
-                        when (contentState.value) {
-                            InformationContent -> {
-                                PerfumeDetailInformationContent(
-                                    perfumeInfo = perfumeInfo
-                                )
-                            }
-                            ReviewContent -> {
-                                PerfumeDetailReviewsContent(
-                                    highRecommendReviews = highRecommendReviews,
-                                    perfumerReviews = perfumerReviews,
-                                    userReviews = userReviews
-                                )
-                            }
-                        }
+                        PerfumeDetailReviewsContent(
+                            highRecommendReviews = highRecommendReviews,
+                            perfumerReviews = perfumerReviews,
+                            userReviews = userReviews
+                        )
                     }
                 }
 
@@ -288,22 +234,6 @@ fun PerfumeDetailActivityContent(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun PerfumeDetailInformationContent(
-    perfumeInfo: PerfumeInfo?, // todo will be changed
-) {
-    Column(
-        modifier = Modifier
-            .padding(
-                horizontal = 12.dp
-            )
-            .fillMaxWidth()
-            .wrapContentHeight()
-    ) {
-        // todo : 데이터 입력 후 구현
     }
 }
 
@@ -591,54 +521,6 @@ private fun PerfumeDetailReviewsContent(
             modifier = Modifier
                 .height(36.dp)
         )
-    }
-}
-
-@Composable
-private fun ContentButton(
-    modifier: Modifier,
-    content: String,
-    contentState: MutableState<ContentState>,
-    onClick: () -> Unit,
-) {
-    val textColorState =
-        animateColorAsState(
-            targetValue =
-            if (contentState.value == InformationContent && content ==
-                stringResource(
-                    id = R.string.perfume_information
-                )
-            ) Color.White
-            else if (contentState.value == ReviewContent && content ==
-                stringResource(
-                    id = R.string.perfume_review
-                )
-            ) Color.White
-            else mainTextColor()
-        )
-    val buttonColorState = animateColorAsState(
-        targetValue =
-        if (contentState.value == InformationContent && content ==
-            stringResource(
-                id = R.string.perfume_information
-            )
-        ) mainColor()
-        else if (contentState.value == ReviewContent && content ==
-            stringResource(
-                id = R.string.perfume_review
-            )
-        ) mainColor()
-        else contentBackground()
-    )
-
-    RoundedCornerButton(
-        modifier = modifier
-            .height(40.dp),
-        text = content,
-        backgroundColor = buttonColorState.value,
-        fontColor = textColorState.value
-    ) {
-        onClick()
     }
 }
 
