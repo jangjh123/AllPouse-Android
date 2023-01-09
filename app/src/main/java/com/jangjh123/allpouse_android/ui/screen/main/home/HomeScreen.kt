@@ -82,7 +82,7 @@ var PERFUME_ITEM_HEIGHT = 0.dp
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
-    risingPerfumePagingItems: LazyPagingItems<List<Perfume>>
+    risingPerfumePagingItems: LazyPagingItems<List<Perfume>>,
 ) {
     val adPagerState = rememberPagerState()
     val context = LocalContext.current

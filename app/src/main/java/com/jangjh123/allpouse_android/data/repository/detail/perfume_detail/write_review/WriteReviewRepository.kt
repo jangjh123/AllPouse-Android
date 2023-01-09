@@ -6,12 +6,12 @@ import com.jangjh123.allpouse_android.data.remote.NetworkHelper
 import com.jangjh123.allpouse_android.data.remote.model.APCallback
 import com.jangjh123.allpouse_android.data.remote.model.ResponseState
 import com.jangjh123.allpouse_android.util.convertBitmapToWebpFile
-import com.jangjh123.allpouse_android.util.getImageBodyForMultiPart
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
+import com.jangjh123.allpouse_android.util.createImageMultipartBody
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class WriteReviewRepository(
-    private val networkHelper: NetworkHelper
+    private val networkHelper: NetworkHelper,
 ) {
     fun sendReview(
         image0: ImageBitmap?,
@@ -21,35 +21,34 @@ class WriteReviewRepository(
         content: String,
         perfumeId: Int,
         onSuccess: (ResponseState.OnSuccess) -> Unit,
-        onFailure: (ResponseState.OnFailure) -> Unit
+        onFailure: (ResponseState.OnFailure) -> Unit,
     ) {
         networkHelper.client()
             .postReview(
                 image0 =
-                if (image0 != null) getImageBodyForMultiPart(
+                if (image0 != null) createImageMultipartBody(
                     "photo",
                     convertBitmapToWebpFile(image0)
                 )
                 else null,
                 image1 =
-                if (image1 != null) getImageBodyForMultiPart(
+                if (image1 != null) createImageMultipartBody(
                     "photo",
                     convertBitmapToWebpFile(image1)
                 )
                 else null,
                 image2 =
-                if (image2 != null) getImageBodyForMultiPart(
+                if (image2 != null) createImageMultipartBody(
                     "photo",
                     convertBitmapToWebpFile(image2)
                 )
                 else null,
-                review = RequestBody.create(
-                    "application/json".toMediaTypeOrNull(),
-                    JsonObject().apply {
-                        addProperty("subject", title)
-                        addProperty("content", content)
-                        addProperty("perfumeId", perfumeId)
-                    }.toString()
+                review = JsonObject().apply {
+                    addProperty("subject", title)
+                    addProperty("content", content)
+                    addProperty("perfumeId", perfumeId)
+                }.toString().toRequestBody(
+                    contentType = "application/json".toMediaType()
                 )
             ).enqueue(object : APCallback<JsonObject>() {
                 override fun onSuccess(data: JsonObject) {

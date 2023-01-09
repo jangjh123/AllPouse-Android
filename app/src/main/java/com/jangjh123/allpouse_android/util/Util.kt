@@ -114,7 +114,7 @@ fun convertBitmapToWebpFile(
     return webpFile
 }
 
-fun getImageBodyForMultiPart(key: String, file: File): MultipartBody.Part {
+fun createImageMultipartBody(key: String, file: File): MultipartBody.Part {
     return MultipartBody.Part.createFormData(
         name = key,
         filename = file.name,
