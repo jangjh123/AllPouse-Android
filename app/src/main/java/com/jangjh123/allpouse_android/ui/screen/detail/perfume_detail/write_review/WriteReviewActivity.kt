@@ -23,8 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.base.GetImageBaseActivity
@@ -261,23 +259,6 @@ class WriteReviewActivity : GetImageBaseActivity() {
                             }
                         }
 
-                        if (selectImageSourceDialogState.value) {
-                            Dialog(
-                                onDismissRequest = {
-                                    selectImageSourceDialogState.value = false
-                                }) {
-                                SelectImageSourceDialog(
-                                    onClickCamera = {
-                                        cameraPermission.launch(CAMERA)
-                                        selectImageSourceDialogState.value = false
-                                    },
-                                    onClickGallery = {
-                                        galleryLauncher.launch(PickVisualMediaRequest())
-                                        selectImageSourceDialogState.value = false
-                                    }
-                                )
-                            }
-                        }
                         if (sendReviewState.value) {
                             when (viewModel.sendReviewState.collectAsState().value) {
                                 is UiState.OnLoading -> {
@@ -299,113 +280,54 @@ class WriteReviewActivity : GetImageBaseActivity() {
                     }
                 }
 
-                if (setReviewErrorDialogState.value) {
-                    Dialog(
-                        onDismissRequest = {
-                            setReviewErrorDialogState.value = false
-                        }
-                    ) {
-                        NoticeDialog(
-                            text = "리뷰 제목과 내용을 모두 입력해 주세요."
-                        ) {
-                            setReviewErrorDialogState.value = false
-                        }
-                    }
-                }
+                SelectImageSourceDialog(
+                    state = selectImageSourceDialogState,
+                    onClickCamera = {
+                        cameraPermission.launch(CAMERA)
+                        selectImageSourceDialogState.value = false
+                    },
+                    onClickGallery = {
+                        galleryLauncher.launch(PickVisualMediaRequest())
+                        selectImageSourceDialogState.value = false
+                    })
 
-                if (postReviewSuccessDialogState.value) {
-                    Dialog(
-                        onDismissRequest = {
-                            postReviewSuccessDialogState.value = false
-                        }
-                    ) {
-                        NoticeDialog(
-                            text = "리뷰를 등록했습니다."
-                        ) {
-                            postReviewSuccessDialogState.value = false
-                            finish()
-                        }
-                    }
-                }
+                NoticeDialog(
+                    state = setReviewErrorDialogState,
+                    text = "리뷰 제목과 내용을 모두 입력해 주세요.")
 
-                if (postReviewFailureDialogState.value) {
-                    Dialog(
-                        onDismissRequest = {
-                            postReviewFailureDialogState.value = false
-                        }
-                    ) {
-                        NoticeDialog(
-                            text = "리뷰를 등록할 수 없습니다."
-                        ) {
-                            postReviewFailureDialogState.value = false
-                        }
+                NoticeDialog(
+                    state = postReviewSuccessDialogState,
+                    text = "리뷰를 등록했습니다.",
+                    onClickConfirm = {
+                        finish()
                     }
-                }
+                )
+
+                NoticeDialog(
+                    state = postReviewFailureDialogState,
+                    text = "리뷰를 등록할 수 없습니ㅏㄷ.")
             }
 
             needCameraPermissionDialogState = remember { mutableStateOf(false) }
             needGalleryPermissionDialogState = remember { mutableStateOf(false) }
             imageLoadErrorDialogState = remember { mutableStateOf(false) }
 
-            if (needCameraPermissionDialogState.value) {
-                Dialog(
-                    onDismissRequest = {
-                        needCameraPermissionDialogState.value = false
-                    },
-                    properties = DialogProperties(
-                        dismissOnBackPress = true,
-                        dismissOnClickOutside = true
-                    )
-                ) {
-                    NoticeDialog(
-                        text = stringResource(
-                            id = R.string.need_permission, "카메라"
-                        )
-                    ) {
-                        needCameraPermissionDialogState.value = false
-                    }
-                }
-            }
+            NoticeDialog(
+                state = needCameraPermissionDialogState,
+                text = stringResource(
+                    id = R.string.need_permission, "카메라")
+            )
 
-            if (needGalleryPermissionDialogState.value) {
-                Dialog(
-                    onDismissRequest = {
-                        needGalleryPermissionDialogState.value = false
-                    },
-                    properties = DialogProperties(
-                        dismissOnBackPress = true,
-                        dismissOnClickOutside = true
-                    )
-                ) {
-                    NoticeDialog(
-                        text = stringResource(
-                            id = R.string.need_permission, "갤러리"
-                        )
-                    ) {
-                        needGalleryPermissionDialogState.value = false
-                    }
-                }
-            }
+            NoticeDialog(
+                state = needGalleryPermissionDialogState,
+                text = stringResource(
+                    id = R.string.need_permission, "갤러리")
+            )
 
-            if (imageLoadErrorDialogState.value) {
-                Dialog(
-                    onDismissRequest = {
-                        imageLoadErrorDialogState.value = false
-                    },
-                    properties = DialogProperties(
-                        dismissOnBackPress = true,
-                        dismissOnClickOutside = true
-                    )
-                ) {
-                    NoticeDialog(
-                        text = stringResource(
-                            id = R.string.image_load_error
-                        )
-                    ) {
-                        finish()
-                    }
-                }
-            }
+            NoticeDialog(
+                state = imageLoadErrorDialogState,
+                text = stringResource(
+                    id = R.string.image_load_error))
         }
     }
 }
@@ -414,7 +336,7 @@ class WriteReviewActivity : GetImageBaseActivity() {
 private fun ReviewImagePlaceHolder(
     modifier: Modifier,
     bitmap: MutableState<ImageBitmap?>,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Box(
         modifier

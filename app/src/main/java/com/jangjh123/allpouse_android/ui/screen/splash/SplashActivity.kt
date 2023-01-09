@@ -27,21 +27,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.lifecycleScope
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.UiState
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.NoticeDialog
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
-import com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 var SCREEN_HEIGHT_DP = 705.dp
 var SCREEN_WIDTH_DP = 360.dp
@@ -49,7 +41,7 @@ var SCREEN_WIDTH_DP = 360.dp
 @AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
-    private val noticeDialogState = mutableStateOf(false)
+    private val networkErrorDialogState = mutableStateOf(false)
 
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +50,7 @@ class SplashActivity : ComponentActivity() {
         // todo : onNewVersionExist
 
         if (!isNetworkEnabled()) {
-            noticeDialogState.value = true
+            networkErrorDialogState.value = true
         } else {
 //            viewModel.signIn()
 //            lifecycleScope.launch {
@@ -69,12 +61,12 @@ class SplashActivity : ComponentActivity() {
 //
 //                        }
 //                        is UiState.OnSuccess -> {
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    MainActivity::class.java
-                                )
-                            )
+            startActivity(
+                Intent(
+                    this@SplashActivity,
+                    MainActivity::class.java
+                )
+            )
 //                        }
 //                        is UiState.OnFailure -> {
 //                            startActivity(
@@ -95,27 +87,16 @@ class SplashActivity : ComponentActivity() {
                 SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
                 SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
 
-                if (noticeDialogState.value) {
-                    Dialog(
-                        onDismissRequest = {
-                            noticeDialogState.value = false
-                        },
-                        properties = DialogProperties(
-                            dismissOnBackPress = false,
-                            dismissOnClickOutside = false
-                        )
-                    ) {
-                        NoticeDialog(
-                            text = stringResource(
-                                id = R.string.network_disabled
-                            ),
-                            buttonText = stringResource(
-                                id = R.string.quit
-                            )
-                        ) {
-                            finish()
-                        }
-                    }
+                NoticeDialog(
+                    state = networkErrorDialogState,
+                    text = stringResource(
+                        id = R.string.network_disabled
+                    ),
+                    buttonText = stringResource(
+                        id = R.string.quit
+                    )
+                ) {
+                    finish()
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -17,129 +18,163 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.theme.contentBackground
 import com.jangjh123.allpouse_android.ui.theme.subBackground
 import com.jangjh123.allpouse_android.ui.theme.subTextColor
 
 @Composable
-fun SelectImageSourceDialog(
-    onClickCamera: () -> Unit,
-    onClickGallery: () -> Unit
+fun APDialog(
+    state: MutableState<Boolean>,
+    isCancelable: Boolean? = true,
+    onDismissRequest: (() -> Unit)? = null,
+    block: @Composable () -> Unit,
 ) {
-    DefaultDialog(
-        modifier = Modifier
-            .width(300.dp)
-            .height(150.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .clip(
-                    shape = RoundedCornerShape(12.dp)
-                )
+    if (state.value) {
+        Dialog(
+            onDismissRequest = {
+                state.value = false
+                onDismissRequest?.invoke()
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = isCancelable == true,
+                dismissOnClickOutside = isCancelable == true
+            )
         ) {
-            Row(
+            block()
+        }
+    }
+}
+
+@Composable
+fun SelectImageSourceDialog(
+    state: MutableState<Boolean>,
+    isCancelable: Boolean? = true,
+    onDismissRequest: (() -> Unit)? = null,
+    onClickCamera: () -> Unit,
+    onClickGallery: () -> Unit,
+) {
+    APDialog(
+        state = state,
+        isCancelable = isCancelable,
+        onDismissRequest = onDismissRequest
+    ) {
+        DefaultDialog(
+            modifier = Modifier
+                .width(300.dp)
+                .height(150.dp)
+        ) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
+                    .clip(
+                        shape = RoundedCornerShape(12.dp)
+                    )
             ) {
-                Box(
+                Row(
                     modifier = Modifier
-                        .padding(
-                            vertical = 12.dp
-                        )
-                        .padding(
-                            start = 12.dp,
-                            end = 6.dp
-                        )
-                        .clip(
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .fillMaxHeight()
-                        .weight(0.5f)
-                        .background(
-                            color = contentBackground()
-                        )
-                        .clickable {
-                            onClickCamera()
-                        }
+                        .fillMaxWidth()
+                        .height(150.dp)
                 ) {
-                    Column(
+                    Box(
                         modifier = Modifier
-                            .align(Center)
+                            .padding(
+                                vertical = 12.dp
+                            )
+                            .padding(
+                                start = 12.dp,
+                                end = 6.dp
+                            )
+                            .clip(
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .fillMaxHeight()
+                            .weight(0.5f)
+                            .background(
+                                color = contentBackground()
+                            )
+                            .clickable {
+                                onClickCamera()
+                            }
                     ) {
-                        Icon(
+                        Column(
                             modifier = Modifier
-                                .size(32.dp)
-                                .align(CenterHorizontally),
-                            painter = painterResource(
-                                id = R.drawable.ic_camera
-                            ),
-                            contentDescription = "cameraIcon",
-                            tint = subTextColor()
-                        )
+                                .align(Center)
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .align(CenterHorizontally),
+                                painter = painterResource(
+                                    id = R.drawable.ic_camera
+                                ),
+                                contentDescription = "cameraIcon",
+                                tint = subTextColor()
+                            )
 
-                        APText(
-                            modifier = Modifier
-                                .padding(
-                                    top = 8.dp
-                                )
-                                .fillMaxWidth(),
-                            text = stringResource(
-                                id = R.string.take_a_picture
-                            ),
-                            fontSize = 12.sp
-                        )
+                            APText(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 8.dp
+                                    )
+                                    .fillMaxWidth(),
+                                text = stringResource(
+                                    id = R.string.take_a_picture
+                                ),
+                                fontSize = 12.sp
+                            )
+                        }
                     }
-                }
 
-                Box(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 12.dp
-                        )
-                        .padding(
-                            start = 6.dp,
-                            end = 12.dp
-                        )
-                        .clip(
-                            shape = RoundedCornerShape(12.dp)
-                        )
-                        .fillMaxHeight()
-                        .weight(0.5f)
-                        .background(
-                            color = contentBackground()
-                        )
-                        .clickable {
-                            onClickGallery()
-                        }
-                ) {
-                    Column(
+                    Box(
                         modifier = Modifier
-                            .align(Center)
+                            .padding(
+                                vertical = 12.dp
+                            )
+                            .padding(
+                                start = 6.dp,
+                                end = 12.dp
+                            )
+                            .clip(
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .fillMaxHeight()
+                            .weight(0.5f)
+                            .background(
+                                color = contentBackground()
+                            )
+                            .clickable {
+                                onClickGallery()
+                            }
                     ) {
-                        Icon(
+                        Column(
                             modifier = Modifier
-                                .size(32.dp)
-                                .align(CenterHorizontally),
-                            painter = painterResource(
-                                id = R.drawable.ic_gallery
-                            ),
-                            contentDescription = "galleryIcon",
-                            tint = subTextColor()
-                        )
+                                .align(Center)
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .align(CenterHorizontally),
+                                painter = painterResource(
+                                    id = R.drawable.ic_gallery
+                                ),
+                                contentDescription = "galleryIcon",
+                                tint = subTextColor()
+                            )
 
-                        APText(
-                            modifier = Modifier
-                                .padding(
-                                    top = 8.dp
-                                )
-                                .fillMaxWidth(),
-                            text = stringResource(
-                                id = R.string.get_image_from_gallery
-                            ),
-                            fontSize = 12.sp
-                        )
+                            APText(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 8.dp
+                                    )
+                                    .fillMaxWidth(),
+                                text = stringResource(
+                                    id = R.string.get_image_from_gallery
+                                ),
+                                fontSize = 12.sp
+                            )
+                        }
                     }
                 }
             }
@@ -149,52 +184,62 @@ fun SelectImageSourceDialog(
 
 @Composable
 fun NoticeDialog(
+    state: MutableState<Boolean>,
+    isCancelable: Boolean? = true,
+    onDismissRequest: (() -> Unit)? = null,
     text: String,
     buttonText: String? = null,
-    onClickConfirm: () -> Unit
+    onClickConfirm: (() -> Unit)? = null,
 ) {
-    DefaultDialog(
-        modifier = Modifier
-            .width(300.dp)
-            .height(150.dp)
+    APDialog(
+        state = state,
+        isCancelable = isCancelable,
+        onDismissRequest = onDismissRequest
     ) {
-        Column(
+        DefaultDialog(
             modifier = Modifier
-                .fillMaxSize()
+                .width(300.dp)
+                .height(150.dp)
         ) {
-            Box(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
+                    .fillMaxSize()
             ) {
-                APText(
+                Box(
                     modifier = Modifier
-                        .align(Center),
-                    text = text
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(
-                        color = contentBackground()
+                        .fillMaxWidth()
+                        .height(100.dp)
+                ) {
+                    APText(
+                        modifier = Modifier
+                            .align(Center),
+                        text = text
                     )
-                    .clickable {
-                        onClickConfirm()
-                    }
-            ) {
-                APText(
+                }
+
+                Box(
                     modifier = Modifier
-                        .align(Center),
-                    text = buttonText.let {
-                        it
-                    } ?: stringResource(
-                        id = R.string.confirm
-                    ),
-                    textAlign = TextAlign.Center
-                )
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .background(
+                            color = contentBackground()
+                        )
+                        .clickable {
+                            state.value = false
+                            onClickConfirm?.invoke()
+                        }
+                ) {
+                    APText(
+                        modifier = Modifier
+                            .align(Center),
+                        text = buttonText.let {
+                            it
+                        } ?: stringResource(
+                            id = R.string.confirm
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
@@ -203,7 +248,7 @@ fun NoticeDialog(
 @Composable
 private fun DefaultDialog(
     modifier: Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Card(
         modifier = modifier,

@@ -41,10 +41,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.jangjh123.allpouse_android.R
-import com.jangjh123.allpouse_android.ui.component.*
+import com.jangjh123.allpouse_android.ui.component.APText
+import com.jangjh123.allpouse_android.ui.component.NoticeDialog
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_WIDTH_DP
 import com.jangjh123.allpouse_android.ui.theme.*
@@ -98,47 +97,26 @@ class ImageCropActivity : ComponentActivity() {
                     finish()
                 }
 
-                if (needPermissionDialogState.value) {
-                    Dialog(
-                        onDismissRequest = {
-                            needPermissionDialogState.value = false
-                        },
-                        properties = DialogProperties(
-                            dismissOnBackPress = true,
-                            dismissOnClickOutside = true
-                        )
-                    ) {
-                        NoticeDialog(
-                            text = stringResource(
-                                id = R.string.need_permission,
-                                if (imageSource == "camera") "카메라"
-                                else "저장소"
-                            )
-                        ) {
-                            finish()
-                        }
-                    }
-                }
 
-                if (imageLoadErrorDialogState.value) {
-                    Dialog(
-                        onDismissRequest = {
-                            imageLoadErrorDialogState.value = false
-                        },
-                        properties = DialogProperties(
-                            dismissOnBackPress = true,
-                            dismissOnClickOutside = true
-                        )
-                    ) {
-                        NoticeDialog(
-                            text = stringResource(
-                                id = R.string.image_load_error
-                            )
-                        ) {
-                            finish()
-                        }
+                NoticeDialog(
+                    state = needPermissionDialogState,
+                    text = stringResource(
+                        id = R.string.need_permission,
+                        if (imageSource == "camera") "카메라"
+                        else "저장소"),
+                    onClickConfirm = {
+                        finish()
                     }
-                }
+                )
+
+                NoticeDialog(
+                    state = imageLoadErrorDialogState,
+                    text = stringResource(
+                        id = R.string.image_load_error),
+                    onClickConfirm = {
+                        finish()
+                    }
+                )
             }
         }
     }
@@ -193,7 +171,7 @@ class ImageCropActivity : ComponentActivity() {
 private fun ImageCropActivityContent(
     imageState: MutableState<ImageBitmap>,
     croppedImageState: MutableState<ImageBitmap>,
-    onClickUseImage: () -> Unit
+    onClickUseImage: () -> Unit,
 ) {
     val imageWidthState = remember { mutableStateOf(0.dp) }
     val imageHeightState = remember { mutableStateOf(0.dp) }
