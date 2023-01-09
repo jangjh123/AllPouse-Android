@@ -96,6 +96,7 @@ fun SelectImageSourceDialog(
                             )
                             .clickable {
                                 onClickCamera()
+                                state.value = false
                             }
                     ) {
                         Column(
@@ -146,6 +147,7 @@ fun SelectImageSourceDialog(
                             )
                             .clickable {
                                 onClickGallery()
+                                state.value = false
                             }
                     ) {
                         Column(

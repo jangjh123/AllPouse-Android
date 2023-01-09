@@ -305,12 +305,8 @@ class WriteReviewActivity : GetImageBaseActivity() {
 
                 NoticeDialog(
                     state = postReviewFailureDialogState,
-                    text = "리뷰를 등록할 수 없습니ㅏㄷ.")
+                    text = "리뷰를 등록할 수 없습니다.")
             }
-
-            needCameraPermissionDialogState = remember { mutableStateOf(false) }
-            needGalleryPermissionDialogState = remember { mutableStateOf(false) }
-            imageLoadErrorDialogState = remember { mutableStateOf(false) }
 
             NoticeDialog(
                 state = needCameraPermissionDialogState,
@@ -327,7 +323,8 @@ class WriteReviewActivity : GetImageBaseActivity() {
             NoticeDialog(
                 state = imageLoadErrorDialogState,
                 text = stringResource(
-                    id = R.string.image_load_error))
+                    id = R.string.image_load_error)
+            )
         }
     }
 }

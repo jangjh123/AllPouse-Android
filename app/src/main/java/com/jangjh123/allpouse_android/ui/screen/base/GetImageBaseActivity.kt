@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.jangjh123.allpouse_android.util.convertUriToBitmap
@@ -25,9 +26,9 @@ open class GetImageBaseActivity : ComponentActivity() {
     lateinit var imageState: MutableState<ImageBitmap?>
     private var photoUri: Uri? = null
 
-    lateinit var needCameraPermissionDialogState: MutableState<Boolean>
-    lateinit var needGalleryPermissionDialogState: MutableState<Boolean>
-    lateinit var imageLoadErrorDialogState: MutableState<Boolean>
+    val needCameraPermissionDialogState = mutableStateOf(false)
+    val needGalleryPermissionDialogState = mutableStateOf(false)
+    val imageLoadErrorDialogState = mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
