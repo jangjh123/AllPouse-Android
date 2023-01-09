@@ -52,7 +52,8 @@ class OnBoardingActivity : ComponentActivity() {
                 OnBoardingActivityContent(
                     onClickStart = {
                         startActivity(Intent(this@OnBoardingActivity, LoginActivity::class.java))
-                    })
+                    }
+                )
             }
         }
     }

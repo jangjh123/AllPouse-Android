@@ -31,7 +31,6 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.NoticeDialog
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
-import com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,20 +61,20 @@ class SplashActivity : ComponentActivity() {
 //
 //                        }
 //                        is UiState.OnSuccess -> {
-//            startActivity(
-//                Intent(
-//                    this@SplashActivity,
-//                    MainActivity::class.java
-//                )
-//            )
+            startActivity(
+                Intent(
+                    this@SplashActivity,
+                    MainActivity::class.java
+                )
+            )
 //                        }
 //                        is UiState.OnFailure -> {
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    OnBoardingActivity::class.java
-                                )
-                            )
+//                            startActivity(
+//                                Intent(
+//                                    this@SplashActivity,
+//                                    OnBoardingActivity::class.java
+//                                )
+//                            )
 //                        }
 //                    }
 //                }
@@ -84,9 +83,59 @@ class SplashActivity : ComponentActivity() {
 
         setContent {
             AllPouseAndroidTheme {
-                SplashActivityContent()
                 SCREEN_WIDTH_DP = LocalConfiguration.current.screenWidthDp.dp
                 SCREEN_HEIGHT_DP = LocalConfiguration.current.screenHeightDp.dp
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Color.Black
+                        )
+                ) {
+                    Column(
+                        Modifier
+                            .wrapContentSize()
+                            .align(Center)
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .size(120.dp)
+                                .align(CenterHorizontally),
+                            painter = painterResource(
+                                id = R.drawable.main_icon
+                            ),
+                            contentDescription = "mainIcon",
+                            contentScale = ContentScale.FillBounds
+                        )
+
+                        Text(
+                            modifier = Modifier
+                                .align(CenterHorizontally),
+                            text = stringResource(
+                                id = R.string.app
+                            ),
+                            color = Color.White,
+                            style = TextStyle(
+                                platformStyle = PlatformTextStyle(
+                                    includeFontPadding = false
+                                )
+                            ),
+                            fontFamily = cinzelExtraBold,
+                            fontSize = 24.sp,
+
+                            )
+                        APText(
+                            modifier = Modifier
+                                .align(CenterHorizontally),
+                            text = stringResource(
+                                id = R.string.desc_app
+                            ),
+                            fontColor = Color.White,
+                            fontSize = 12.sp
+                        )
+                    }
+                }
 
                 NoticeDialog(
                     state = networkErrorDialogState,
@@ -118,66 +167,9 @@ class SplashActivity : ComponentActivity() {
 }
 
 
-@Composable
-private fun SplashActivityContent() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Color.Black
-            )
-    ) {
-        Column(
-            Modifier
-                .wrapContentSize()
-                .align(Center)
-        ) {
-            Image(
-                modifier = Modifier
-                    .size(120.dp)
-                    .align(CenterHorizontally),
-                painter = painterResource(
-                    id = R.drawable.main_icon
-                ),
-                contentDescription = "mainIcon",
-                contentScale = ContentScale.FillBounds
-            )
-
-            Text(
-                modifier = Modifier
-                    .align(CenterHorizontally),
-                text = stringResource(
-                    id = R.string.app
-                ),
-                color = Color.White,
-                style = TextStyle(
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
-                ),
-                fontFamily = cinzelExtraBold,
-                fontSize = 24.sp,
-
-                )
-            APText(
-                modifier = Modifier
-                    .align(CenterHorizontally),
-                text = stringResource(
-                    id = R.string.desc_app
-                ),
-                fontColor = Color.White,
-                fontSize = 12.sp
-            )
-        }
-
-    }
-}
-
-
 @Preview(showBackground = true)
 @Composable
 private fun DefaultPreview() {
     AllPouseAndroidTheme {
-        SplashActivityContent()
     }
 }

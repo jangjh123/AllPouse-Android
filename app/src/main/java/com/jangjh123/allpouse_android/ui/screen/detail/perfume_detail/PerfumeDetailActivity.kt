@@ -32,8 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.data.model.PerfumeDetail
-import com.jangjh123.allpouse_android.data.model.PerfumeInfo
-import com.jangjh123.allpouse_android.data.model.Review
 import com.jangjh123.allpouse_android.ui.component.*
 import com.jangjh123.allpouse_android.ui.screen.detail.perfume_detail.write_review.WriteReviewActivity
 import com.jangjh123.allpouse_android.ui.screen.splash.SCREEN_HEIGHT_DP
@@ -166,23 +164,311 @@ class PerfumeDetailActivity : ComponentActivity() {
                                             )
                                     ) {
 
-                                        PerfumeDetailReviewsContent(
-                                            perfumeInfo = perfumeInfo,
-                                            highRecommendReviews = highRecommendReviews,
-                                            perfumerReviews = perfumerReviews,
-                                            userReviews = userReviews,
-                                            onClickWriteReview = {
+//                                        PerfumeDetailReviewsContent(
+//                                            perfumeInfo = perfumeInfo,
+//                                            highRecommendReviews = highRecommendReviews,
+//                                            perfumerReviews = perfumerReviews,
+//                                            userReviews = userReviews,
+//                                            onClickWriteReview = {
+//                                                startActivity(
+//                                                    Intent(
+//                                                        this@PerfumeDetailActivity,
+//                                                        WriteReviewActivity::class.java
+//                                                    ).apply {
+//                                                        this.putExtra("perfumeId", perfumeId)
+//                                                        this.putExtra("perfumeName", perfumeInfo.perfumeName)
+//                                                    }
+//                                                )
+//                                            }
+//                                        )
+                                        Column(
+                                            modifier = Modifier
+                                                .padding(
+                                                    horizontal = 12.dp
+                                                )
+                                                .fillMaxWidth()
+                                                .wrapContentHeight()
+                                        ) {
+                                            Column(
+                                                modifier = Modifier
+                                                    .padding(60.dp)
+                                                    .align(CenterHorizontally)
+                                            ) {
+                                                APText(
+                                                    modifier = Modifier
+                                                        .align(CenterHorizontally),
+                                                    text = "4.32",
+                                                    fontType = FontType.Bold,
+                                                    fontSize = 48.sp,
+                                                    fontColor = mainColor()
+                                                )
+
+                                                APText(
+                                                    modifier = Modifier
+                                                        .align(CenterHorizontally),
+                                                    text = stringResource(
+                                                        id = R.string.review_count,
+                                                        28
+                                                    ),
+                                                    fontSize = 12.sp,
+                                                    fontColor = subTextColor()
+                                                )
+                                            }
+
+                                            GradientIconButton(
+                                                modifier = Modifier
+                                                    .padding(12.dp)
+                                                    .fillMaxWidth()
+                                                    .height(50.dp),
+                                                icon = painterResource(R.drawable.ic_write),
+                                                text = stringResource(
+                                                    id = R.string.write_review
+                                                ),
+                                                fontSize = 16.sp
+                                            ) {
                                                 startActivity(
                                                     Intent(
                                                         this@PerfumeDetailActivity,
                                                         WriteReviewActivity::class.java
                                                     ).apply {
                                                         this.putExtra("perfumeId", perfumeId)
-                                                        this.putExtra("perfumeName", perfumeInfo.perfumeName)
+                                                        this.putExtra("perfumeName",
+                                                            perfumeInfo.perfumeName)
                                                     }
                                                 )
                                             }
-                                        )
+
+                                            Spacer(
+                                                modifier = Modifier
+                                                    .height(24.dp)
+                                            )
+
+                                            APAppendedText(
+                                                modifier = Modifier
+                                                    .padding(
+                                                        vertical = 12.dp
+                                                    ),
+                                                annotatedString = buildAnnotatedString {
+                                                    withStyle(
+                                                        style = SpanStyle(
+                                                            color = mainTextColor()
+                                                        )
+                                                    ) {
+                                                        append(
+                                                            stringResource(
+                                                                id = R.string.best
+                                                            )
+                                                        )
+                                                    }
+                                                    withStyle(
+                                                        style = SpanStyle(
+                                                            color = subTextColor()
+                                                        )
+                                                    ) {
+                                                        append(" ")
+                                                        append(
+                                                            stringResource(
+                                                                id = R.string.review
+                                                            )
+                                                        )
+                                                    }
+                                                },
+                                                fontSize = 18.sp,
+                                                fontType = FontType.Bold
+                                            )
+
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth(),
+                                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            ) {
+                                                highRecommendReviews.let { reviews ->
+                                                    reviews.forEach { review ->
+                                                        ReviewComposable(
+                                                            modifier = Modifier,
+                                                            score = 4.32f,
+                                                            perfumeName = review.perfumeName,
+                                                            image = review.images?.get(0) ?: "",
+                                                            title = review.reviewTitle,
+                                                            body = review.content,
+                                                            author = review.userName,
+                                                            authorImage = painterResource(
+                                                                id = R.drawable.ad_banner_2
+                                                            ),
+                                                            hit = review.hitCount,
+                                                            recommend = review.recommendCount
+                                                        )
+                                                    }
+                                                }
+                                            }
+
+                                            Spacer(
+                                                modifier = Modifier
+                                                    .height(24.dp)
+                                            )
+
+                                            APAppendedText(
+                                                modifier = Modifier
+                                                    .padding(
+                                                        vertical = 12.dp
+                                                    ),
+                                                annotatedString = buildAnnotatedString {
+                                                    withStyle(
+                                                        style = SpanStyle(
+                                                            color = mainTextColor()
+                                                        )
+                                                    ) {
+                                                        append(
+                                                            stringResource(
+                                                                id = R.string.perfumer
+                                                            )
+                                                        )
+                                                    }
+                                                    withStyle(
+                                                        style = SpanStyle(
+                                                            color = subTextColor()
+                                                        )
+                                                    ) {
+                                                        append(" ")
+                                                        append(
+                                                            stringResource(
+                                                                id = R.string.review
+                                                            )
+                                                        )
+                                                    }
+                                                },
+                                                fontSize = 18.sp,
+                                                fontType = FontType.Bold
+                                            )
+
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth(),
+                                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            ) {
+                                                perfumerReviews.let { reviews ->
+                                                    reviews.forEach { review ->
+                                                        ReviewComposable(
+                                                            modifier = Modifier,
+                                                            score = 4.32f,
+                                                            perfumeName = review.perfumeName,
+                                                            image = review.images?.get(0) ?: "",
+                                                            title = review.reviewTitle,
+                                                            body = review.content,
+                                                            author = review.userName,
+                                                            authorImage = painterResource(
+                                                                id = R.drawable.ad_banner_2
+                                                            ),
+                                                            hit = review.hitCount,
+                                                            recommend = review.recommendCount
+                                                        )
+                                                    }
+                                                }
+                                            }
+
+                                            RoundedCornerButton(
+                                                modifier = Modifier
+                                                    .padding(
+                                                        horizontal = 12.dp
+                                                    )
+                                                    .padding(
+                                                        top = 20.dp
+                                                    )
+                                                    .fillMaxWidth()
+                                                    .height(50.dp),
+                                                text = stringResource(
+                                                    id = R.string.go_for_more_perfumer_reviews
+                                                )
+                                            ) {
+
+                                            }
+
+                                            Spacer(
+                                                modifier = Modifier
+                                                    .height(36.dp)
+                                            )
+
+                                            APAppendedText(
+                                                modifier = Modifier
+                                                    .padding(
+                                                        vertical = 12.dp
+                                                    ),
+                                                annotatedString = buildAnnotatedString {
+                                                    withStyle(
+                                                        style = SpanStyle(
+                                                            color = mainTextColor()
+                                                        )
+                                                    ) {
+                                                        append(
+                                                            stringResource(
+                                                                id = R.string.normal
+                                                            )
+                                                        )
+                                                    }
+                                                    withStyle(
+                                                        style = SpanStyle(
+                                                            color = subTextColor()
+                                                        )
+                                                    ) {
+                                                        append(" ")
+                                                        append(
+                                                            stringResource(
+                                                                id = R.string.review
+                                                            )
+                                                        )
+                                                    }
+                                                },
+                                                fontSize = 18.sp,
+                                                fontType = FontType.Bold
+                                            )
+
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth(),
+                                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            ) {
+                                                userReviews.let { reviews ->
+                                                    reviews.forEach { review ->
+                                                        ReviewComposable(
+                                                            modifier = Modifier,
+                                                            score = 4.32f,
+                                                            perfumeName = review.perfumeName,
+                                                            image = review.images?.get(0) ?: "",
+                                                            title = review.reviewTitle,
+                                                            body = review.content,
+                                                            author = review.userName,
+                                                            authorImage = painterResource(
+                                                                id = R.drawable.ad_banner_2
+                                                            ),
+                                                            hit = review.hitCount,
+                                                            recommend = review.recommendCount
+                                                        )
+                                                    }
+                                                }
+                                            }
+
+                                            RoundedCornerButton(
+                                                modifier = Modifier
+                                                    .padding(
+                                                        horizontal = 12.dp
+                                                    )
+                                                    .padding(
+                                                        top = 20.dp
+                                                    )
+                                                    .fillMaxWidth()
+                                                    .height(50.dp),
+                                                text = stringResource(
+                                                    id = R.string.go_for_more_normal_reviews
+                                                )
+                                            ) {
+
+                                            }
+
+                                            Spacer(
+                                                modifier = Modifier
+                                                    .height(36.dp)
+                                            )
+                                        }
                                     }
                                 }
 
@@ -248,295 +534,6 @@ class PerfumeDetailActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.getPerfumeDetailScreenData(perfumeId)
-    }
-}
-
-@Composable
-private fun PerfumeDetailReviewsContent(
-    perfumeInfo: PerfumeInfo?,
-    highRecommendReviews: List<Review>?,
-    perfumerReviews: List<Review>?,
-    userReviews: List<Review>?,
-    onClickWriteReview: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .padding(
-                horizontal = 12.dp
-            )
-            .fillMaxWidth()
-            .wrapContentHeight()
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(60.dp)
-                .align(CenterHorizontally)
-        ) {
-            APText(
-                modifier = Modifier
-                    .align(CenterHorizontally),
-                text = "4.32",
-                fontType = FontType.Bold,
-                fontSize = 48.sp,
-                fontColor = mainColor()
-            )
-
-            APText(
-                modifier = Modifier
-                    .align(CenterHorizontally),
-                text = stringResource(
-                    id = R.string.review_count,
-                    28
-                ),
-                fontSize = 12.sp,
-                fontColor = subTextColor()
-            )
-        }
-
-        GradientIconButton(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth()
-                .height(50.dp),
-            icon = painterResource(R.drawable.ic_write),
-            text = stringResource(
-                id = R.string.write_review
-            ),
-            fontSize = 16.sp
-        ) {
-            onClickWriteReview()
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(24.dp)
-        )
-
-        APAppendedText(
-            modifier = Modifier
-                .padding(
-                    vertical = 12.dp
-                ),
-            annotatedString = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = mainTextColor()
-                    )
-                ) {
-                    append(
-                        stringResource(
-                            id = R.string.best
-                        )
-                    )
-                }
-                withStyle(
-                    style = SpanStyle(
-                        color = subTextColor()
-                    )
-                ) {
-                    append(" ")
-                    append(
-                        stringResource(
-                            id = R.string.review
-                        )
-                    )
-                }
-            },
-            fontSize = 18.sp,
-            fontType = FontType.Bold
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            highRecommendReviews.let { reviews ->
-                reviews?.forEach { review ->
-                    ReviewComposable(
-                        modifier = Modifier,
-                        score = 4.32f,
-                        perfumeName = review.perfumeName,
-                        image = review.images?.get(0) ?: "",
-                        title = review.reviewTitle,
-                        body = review.content,
-                        author = review.userName,
-                        authorImage = painterResource(
-                            id = R.drawable.ad_banner_2
-                        ),
-                        hit = review.hitCount,
-                        recommend = review.recommendCount
-                    )
-                }
-            }
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(24.dp)
-        )
-
-        APAppendedText(
-            modifier = Modifier
-                .padding(
-                    vertical = 12.dp
-                ),
-            annotatedString = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = mainTextColor()
-                    )
-                ) {
-                    append(
-                        stringResource(
-                            id = R.string.perfumer
-                        )
-                    )
-                }
-                withStyle(
-                    style = SpanStyle(
-                        color = subTextColor()
-                    )
-                ) {
-                    append(" ")
-                    append(
-                        stringResource(
-                            id = R.string.review
-                        )
-                    )
-                }
-            },
-            fontSize = 18.sp,
-            fontType = FontType.Bold
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            perfumerReviews.let { reviews ->
-                reviews?.forEach { review ->
-                    ReviewComposable(
-                        modifier = Modifier,
-                        score = 4.32f,
-                        perfumeName = review.perfumeName,
-                        image = review.images?.get(0) ?: "",
-                        title = review.reviewTitle,
-                        body = review.content,
-                        author = review.userName,
-                        authorImage = painterResource(
-                            id = R.drawable.ad_banner_2
-                        ),
-                        hit = review.hitCount,
-                        recommend = review.recommendCount
-                    )
-                }
-            }
-        }
-
-        RoundedCornerButton(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp
-                )
-                .padding(
-                    top = 20.dp
-                )
-                .fillMaxWidth()
-                .height(50.dp),
-            text = stringResource(
-                id = R.string.go_for_more_perfumer_reviews
-            )
-        ) {
-
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(36.dp)
-        )
-
-        APAppendedText(
-            modifier = Modifier
-                .padding(
-                    vertical = 12.dp
-                ),
-            annotatedString = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = mainTextColor()
-                    )
-                ) {
-                    append(
-                        stringResource(
-                            id = R.string.normal
-                        )
-                    )
-                }
-                withStyle(
-                    style = SpanStyle(
-                        color = subTextColor()
-                    )
-                ) {
-                    append(" ")
-                    append(
-                        stringResource(
-                            id = R.string.review
-                        )
-                    )
-                }
-            },
-            fontSize = 18.sp,
-            fontType = FontType.Bold
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            userReviews.let { reviews ->
-                reviews?.forEach { review ->
-                    ReviewComposable(
-                        modifier = Modifier,
-                        score = 4.32f,
-                        perfumeName = review.perfumeName,
-                        image = review.images?.get(0) ?: "",
-                        title = review.reviewTitle,
-                        body = review.content,
-                        author = review.userName,
-                        authorImage = painterResource(
-                            id = R.drawable.ad_banner_2
-                        ),
-                        hit = review.hitCount,
-                        recommend = review.recommendCount
-                    )
-                }
-            }
-        }
-
-        RoundedCornerButton(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp
-                )
-                .padding(
-                    top = 20.dp
-                )
-                .fillMaxWidth()
-                .height(50.dp),
-            text = stringResource(
-                id = R.string.go_for_more_normal_reviews
-            )
-        ) {
-
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(36.dp)
-        )
     }
 }
 
