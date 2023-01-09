@@ -56,7 +56,7 @@ sealed class FontType {
 @Composable
 fun ActivityFrame(
     context: Context,
-    block: @Composable () -> Unit
+    block: @Composable () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -294,6 +294,7 @@ fun APTextField(
     modifier: Modifier,
     textFieldState: MutableState<String>,
     onValueChanged: (String) -> Unit,
+    placeholder: (@Composable () -> Unit)? = null,
     focusManager: FocusManager,
     keyboardOptions: KeyboardOptions? = null,
     singleLine: Boolean? = null,
@@ -303,6 +304,7 @@ fun APTextField(
             modifier = modifier,
             value = textFieldState.value,
             onValueChange = { onValueChanged(it) },
+            placeholder = placeholder,
             keyboardActions = KeyboardActions(
                 onDone = { focusManager.clearFocus() }),
             keyboardOptions = keyboardOptions.let {
@@ -532,7 +534,7 @@ fun RecommendedPerfume(
 @Composable
 fun PerfumeComposable(
     modifier: Modifier,
-    perfume: Perfume
+    perfume: Perfume,
 ) {
     Box(
         modifier = modifier

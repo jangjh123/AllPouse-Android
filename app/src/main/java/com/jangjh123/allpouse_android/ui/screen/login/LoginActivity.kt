@@ -201,7 +201,7 @@ class LoginActivity : ComponentActivity() {
                                             top = 20.dp
                                         ),
                                     text = stringResource(
-                                        id = R.string.age
+                                        id = R.string.birth
                                     ),
                                     fontType = FontType.Bold,
                                     fontSize = 20.sp
@@ -215,6 +215,13 @@ class LoginActivity : ComponentActivity() {
                                         .fillMaxWidth(),
                                     textFieldState = ageState,
                                     onValueChanged = { ageState.value = it },
+                                    placeholder = {
+                                        APText(
+                                            text = "ex) 20040101",
+                                            fontColor = subTextColor(),
+                                            fontSize = 12.sp
+                                        )
+                                    },
                                     focusManager = focusManager,
                                     keyboardOptions = KeyboardOptions.Default.copy(
                                         keyboardType = KeyboardType.Number
@@ -292,9 +299,9 @@ class LoginActivity : ComponentActivity() {
                                         } else if (genderState.value == None) {
                                             invalidDataDialogState.value = true
                                             invalidDataDialogTextState.value = "성별을 선택해 주세요."
-                                        } else if (ageState.value.isEmpty() || ageState.value.toInt() > 99) {
+                                        } else if (ageState.value.isEmpty() || ageState.value.length != 8) {
                                             invalidDataDialogState.value = true
-                                            invalidDataDialogTextState.value = "나이를 입력해 주세요."
+                                            invalidDataDialogTextState.value = "생년월일을 올바르게 입력해 주세요."
                                         } else {
                                             viewModel.signUp(
                                                 socialId = socialId,

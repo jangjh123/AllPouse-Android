@@ -31,6 +31,7 @@ import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.component.APText
 import com.jangjh123.allpouse_android.ui.component.NoticeDialog
 import com.jangjh123.allpouse_android.ui.screen.main.MainActivity
+import com.jangjh123.allpouse_android.ui.screen.on_boarding.OnBoardingActivity
 import com.jangjh123.allpouse_android.ui.theme.AllPouseAndroidTheme
 import com.jangjh123.allpouse_android.ui.theme.cinzelExtraBold
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,20 +62,20 @@ class SplashActivity : ComponentActivity() {
 //
 //                        }
 //                        is UiState.OnSuccess -> {
-            startActivity(
-                Intent(
-                    this@SplashActivity,
-                    MainActivity::class.java
-                )
-            )
+//            startActivity(
+//                Intent(
+//                    this@SplashActivity,
+//                    MainActivity::class.java
+//                )
+//            )
 //                        }
 //                        is UiState.OnFailure -> {
-//                            startActivity(
-//                                Intent(
-//                                    this@SplashActivity,
-//                                    OnBoardingActivity::class.java
-//                                )
-//                            )
+                            startActivity(
+                                Intent(
+                                    this@SplashActivity,
+                                    OnBoardingActivity::class.java
+                                )
+                            )
 //                        }
 //                    }
 //                }
