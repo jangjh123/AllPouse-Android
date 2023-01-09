@@ -66,6 +66,15 @@ class LoginActivity : ComponentActivity() {
     private lateinit var googleAccountState: MutableStateFlow<GoogleSignInAccount?>
     private lateinit var profileImageLauncher: ActivityResultLauncher<Intent>
     private lateinit var imageState: MutableState<ImageBitmap>
+    private val isDigit: (String) -> Boolean = { input: String ->
+        var isPossible = true
+        input.forEach { number ->
+            if (!number.isDigit()) {
+                isPossible = false
+            }
+        }
+        isPossible
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -293,50 +302,55 @@ class LoginActivity : ComponentActivity() {
                                     ),
                                     fontSize = 18.sp,
                                     onClickButton = {
-                                        if (nicknameState.value.isEmpty()) {
-                                            invalidDataDialogState.value = true
-                                            invalidDataDialogTextState.value = "닉네임을 입력해 주세요."
-                                        } else if (genderState.value == None) {
-                                            invalidDataDialogState.value = true
-                                            invalidDataDialogTextState.value = "성별을 선택해 주세요."
-                                        } else if (ageState.value.isEmpty() || ageState.value.length != 8) {
-                                            invalidDataDialogState.value = true
-                                            invalidDataDialogTextState.value = "생년월일을 올바르게 입력해 주세요."
-                                        } else {
-                                            viewModel.signUp(
-                                                socialId = socialId,
-                                                userName = nicknameState.value,
-                                                permission = "ROLE_USER",
-                                                age = ageState.value,
-                                                gender = when (genderState.value) {
-                                                    Man -> {
-                                                        "Man"
-                                                    }
-                                                    else -> {
-                                                        "Woman"
-                                                    }
-                                                },
-                                                loginType = loginType
-                                            )
-
-                                            collectScope {
-                                                viewModel.signUpState.collectLatest { state ->
-                                                    when (state) {
-                                                        is UiState.OnLoading -> {
-
+                                        if (buttonAlphaState.value != 0.3f) {
+                                            if (nicknameState.value.isEmpty()) {
+                                                invalidDataDialogState.value = true
+                                                invalidDataDialogTextState.value = "닉네임을 입력해 주세요."
+                                            } else if (genderState.value == None) {
+                                                invalidDataDialogState.value = true
+                                                invalidDataDialogTextState.value = "성별을 선택해 주세요."
+                                            } else if (ageState.value.isEmpty()
+                                                || ageState.value.length != 8
+                                                || !isDigit(ageState.value)) {
+                                                invalidDataDialogState.value = true
+                                                invalidDataDialogTextState.value =
+                                                    "생년월일을 올바르게 입력해 주세요."
+                                            } else {
+                                                viewModel.signUp(
+                                                    socialId = socialId,
+                                                    userName = nicknameState.value,
+                                                    permission = "ROLE_USER",
+                                                    age = ageState.value,
+                                                    gender = when (genderState.value) {
+                                                        Man -> {
+                                                            "Man"
                                                         }
-                                                        is UiState.OnSuccess -> {
-                                                            startActivity(
-                                                                Intent(
-                                                                    this@LoginActivity,
-                                                                    MainActivity::class.java
+                                                        else -> {
+                                                            "Woman"
+                                                        }
+                                                    },
+                                                    loginType = loginType
+                                                )
+
+                                                collectScope {
+                                                    viewModel.signUpState.collectLatest { state ->
+                                                        when (state) {
+                                                            is UiState.OnLoading -> {
+
+                                                            }
+                                                            is UiState.OnSuccess -> {
+                                                                startActivity(
+                                                                    Intent(
+                                                                        this@LoginActivity,
+                                                                        MainActivity::class.java
+                                                                    )
                                                                 )
-                                                            )
-                                                        }
-                                                        is UiState.OnFailure -> {
-                                                            signUpErrorTextState.value =
-                                                                state.errorMessage.toString()
-                                                            signUpErrorDialogState.value = true
+                                                            }
+                                                            is UiState.OnFailure -> {
+                                                                signUpErrorTextState.value =
+                                                                    state.errorMessage.toString()
+                                                                signUpErrorDialogState.value = true
+                                                            }
                                                         }
                                                     }
                                                 }
