@@ -307,7 +307,7 @@ class LoginActivity : ComponentActivity() {
                                                 socialId = socialId,
                                                 userName = nicknameState.value,
                                                 permission = "ROLE_USER",
-                                                age = ageState.value.toInt(),
+                                                age = ageState.value,
                                                 gender = when (genderState.value) {
                                                     Man -> {
                                                         "Man"

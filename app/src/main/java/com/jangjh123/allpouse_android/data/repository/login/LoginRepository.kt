@@ -19,7 +19,7 @@ class LoginRepository(
         socialId: String,
         userName: String,
         permission: String,
-        age: Int,
+        age: String,
         gender: String,
         loginType: String,
         onSuccess: (ResponseState.OnSuccess) -> Unit,
@@ -30,7 +30,7 @@ class LoginRepository(
                 socialId = socialId,
                 userName = userName,
                 permission = permission,
-                age = age,
+                age = age.toInt(),
                 gender = gender,
                 loginType = loginType
             ).enqueue(object : APCallback<JsonObject>() {

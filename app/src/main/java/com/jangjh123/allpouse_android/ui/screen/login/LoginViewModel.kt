@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(
         socialId: String,
         userName: String,
         permission: String,
-        age: Int,
+        age: String,
         gender: String,
         loginType: String,
     ) {
