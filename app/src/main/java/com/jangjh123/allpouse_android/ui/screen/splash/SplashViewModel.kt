@@ -12,7 +12,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val repository: SplashRepository
 ) : ViewModel() {
-    private val _signInState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _signInState = MutableStateFlow<UiState>(UiState.OnLoading())
     val signInState: StateFlow<UiState>
         get() = _signInState
 

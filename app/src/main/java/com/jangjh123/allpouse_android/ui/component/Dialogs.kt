@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -22,6 +23,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.jangjh123.allpouse_android.R
 import com.jangjh123.allpouse_android.ui.theme.contentBackground
+import com.jangjh123.allpouse_android.ui.theme.mainColor
 import com.jangjh123.allpouse_android.ui.theme.subBackground
 import com.jangjh123.allpouse_android.ui.theme.subTextColor
 
@@ -244,6 +246,17 @@ fun NoticeDialog(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun LoadingDialog() {
+    Dialog(onDismissRequest = {}) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(36.dp),
+            color = mainColor()
+        )
     }
 }
 

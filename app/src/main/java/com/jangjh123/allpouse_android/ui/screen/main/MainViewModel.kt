@@ -21,27 +21,27 @@ class MainViewModel @Inject constructor(
     private val repository: MainRepository,
     private val pagingSource: DataPagingSource,
 ) : ViewModel() {
-    private val _adBannerListState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _adBannerListState = MutableStateFlow<UiState>(UiState.OnLoading())
     val adBannerListState: StateFlow<UiState>
         get() = _adBannerListState
 
-    private val _userTasteKeywordListState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _userTasteKeywordListState = MutableStateFlow<UiState>(UiState.OnLoading())
     val userTasteKeywordListState: StateFlow<UiState>
         get() = _userTasteKeywordListState
 
-    private val _recommendedPerfumeListState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _recommendedPerfumeListState = MutableStateFlow<UiState>(UiState.OnLoading())
     val recommendedPerfumeListState: StateFlow<UiState>
         get() = _recommendedPerfumeListState
 
-    private val _bestPostListState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _bestPostListState = MutableStateFlow<UiState>(UiState.OnLoading())
     val bestPostListState: StateFlow<UiState>
         get() = _bestPostListState
 
-    private val _ageGenderPopularPerfumeListState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _ageGenderPopularPerfumeListState = MutableStateFlow<UiState>(UiState.OnLoading())
     val ageGenderPopularPerfumeListState: StateFlow<UiState>
         get() = _ageGenderPopularPerfumeListState
 
-    private val _popularBrandListState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _popularBrandListState = MutableStateFlow<UiState>(UiState.OnLoading())
     val popularBrandListState: StateFlow<UiState>
         get() = _popularBrandListState
 
@@ -75,7 +75,7 @@ class MainViewModel @Inject constructor(
         state: MutableStateFlow<UiState>,
         data: NoParameterRequiredData,
     ) {
-        state.value = UiState.OnLoading
+        state.value = UiState.OnLoading()
         repository.getData(
             url = when (data) {
                 is NoParameterRequiredData.AdBannerList -> {

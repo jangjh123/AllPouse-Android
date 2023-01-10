@@ -14,7 +14,7 @@ class WriteReviewViewModel @Inject constructor(
     private val repository: WriteReviewRepository
 ) : ViewModel() {
 
-    private val _sendReviewState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _sendReviewState = MutableStateFlow<UiState>(UiState.OnLoading())
     val sendReviewState: StateFlow<UiState>
         get() = _sendReviewState
 

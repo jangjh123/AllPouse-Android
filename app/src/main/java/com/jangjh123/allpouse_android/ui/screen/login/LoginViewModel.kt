@@ -14,7 +14,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val repository: LoginRepository,
 ) : ViewModel() {
-    private val _signUpState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _signUpState = MutableStateFlow<UiState>(UiState.OnLoading())
     val signUpState: StateFlow<UiState>
         get() = _signUpState
 
@@ -27,6 +27,9 @@ class LoginViewModel @Inject constructor(
         loginType: String,
     ) {
         viewModelScope.launch {
+            _signUpState.value = UiState.OnLoading(
+                isLoadingShown = true
+            )
             repository.sendSignUp(
                 socialId = socialId,
                 userName = userName,

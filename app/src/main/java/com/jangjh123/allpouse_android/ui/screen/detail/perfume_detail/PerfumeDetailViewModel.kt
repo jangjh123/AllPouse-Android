@@ -12,14 +12,14 @@ import javax.inject.Inject
 class PerfumeDetailViewModel @Inject constructor(
     private val repository: PerfumeDetailRepository
 ) : ViewModel() {
-    private val _perfumeDetailDataState = MutableStateFlow<UiState>(UiState.OnLoading)
+    private val _perfumeDetailDataState = MutableStateFlow<UiState>(UiState.OnLoading())
     val perfumeDetailDataState: StateFlow<UiState>
         get() = _perfumeDetailDataState
 
     fun getPerfumeDetailScreenData(
         perfumeId: Int
     ) {
-        _perfumeDetailDataState.value = UiState.OnLoading
+        _perfumeDetailDataState.value = UiState.OnLoading()
         repository.getPerfumeDetailData(
             perfumeId = perfumeId,
             onSuccess = { response ->

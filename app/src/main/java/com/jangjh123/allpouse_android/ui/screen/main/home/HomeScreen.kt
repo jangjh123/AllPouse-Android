@@ -120,9 +120,7 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .height(calculatedHeight)
                 ) {
-                    val adBannerListState = viewModel.adBannerListState.collectAsState(
-                        initial = UiState.OnLoading
-                    )
+                    val adBannerListState = viewModel.adBannerListState.collectAsState()
                     when (adBannerListState.value) {
                         is UiState.OnLoading -> {
                             Loading(
@@ -284,9 +282,7 @@ fun HomeScreen(
                         .height(220.dp)
                 ) {
                     val recommendedPerfumeListState =
-                        viewModel.recommendedPerfumeListState.collectAsState(
-                            initial = UiState.OnLoading
-                        )
+                        viewModel.recommendedPerfumeListState.collectAsState()
                     when (recommendedPerfumeListState.value) {
                         is UiState.OnLoading -> {
                             Loading(
@@ -416,9 +412,7 @@ fun HomeScreen(
                     .fillMaxWidth()
             ) {
 
-                val bestPostListState = viewModel.bestPostListState.collectAsState(
-                    initial = UiState.OnLoading
-                )
+                val bestPostListState = viewModel.bestPostListState.collectAsState()
 
                 when (bestPostListState.value) {
                     is UiState.OnLoading -> {
@@ -631,9 +625,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                val popularBrandListState = viewModel.popularBrandListState.collectAsState(
-                    initial = UiState.OnLoading
-                )
+                val popularBrandListState = viewModel.popularBrandListState.collectAsState()
 
                 when (popularBrandListState.value) {
                     is UiState.OnLoading -> {
